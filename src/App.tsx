@@ -1,11 +1,13 @@
-import { ProductsManager } from './components/ProductsManager'
-import './App.css'
+import Footer from './components/User/Footer'
+import { NavBar } from './components/User/NavBar'
+import Router from './routes/Router'
 
 function App() {
   return (
     <div className="App">
-      <h1>Vite + React + Toolkit + Tailwind</h1>
-      <ProductsManager />
+      <NavBar />
+      <Router />
+      <Footer />
     </div>
   )
 }

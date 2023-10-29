@@ -1,0 +1,124 @@
+.footer {
+  display: flex;
+  flex-flow: column wrap;
+  margin-top: auto;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  background-color: rgba(60, 60, 60, 0.082);
+  .footerContent {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    .contentBox {
+      display: flex;
+      flex-flow: column wrap;
+      gap: 1rem;
+      padding: 1rem;
+      margin: 1rem;
+      flex: 1;
+    }
+    .subscribeForm {
+      padding: 3rem;
+      background-color: #023535;
+      color: white;
+      border-radius: 3px;
+
+      label {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 1rem;
+        input {
+          padding: 0.5rem;
+          border: 1px solid gray;
+          width: clamp(100px, 20%, 200px);
+          flex: 1;
+          border-radius: 3px;
+        }
+        button {
+          padding: 0.5rem;
+          border-radius: 3px;
+          background-color: rgb(255, 255, 255);
+          color: rgb(0, 0, 0);
+          font-weight: bold;
+          cursor: pointer;
+          flex: 1;
+        }
+        h3 {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .websiteMap {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem;
+      flex: 1;
+      font-size: clamp(2rem, 1vw, 2rem);
+      ul {
+        list-style: none;
+        margin: 0;
+        li {
+          padding-bottom: 0.8rem;
+          a {
+            text-decoration: none;
+            color: black;
+            &:hover {
+              color: #02353592;
+            }
+          }
+        }
+      }
+    }
+    .contactsUsInfo {
+      display: flex;
+      flex-flow: column wrap;
+      flex: 1;
+      border-left: 2px solid rgba(128, 128, 128, 0.114);
+      padding-left: 3rem;
+      h3 {
+        font-weight: bold;
+      }
+
+      span {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .footerBottom {
+    display: flex;
+    flex: 2;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 3rem;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    p {
+      flex: 1;
+      width: 100%;
+    }
+    ul {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        a {
+          color: white;
+          text-decoration: none;
+
+          &:hover {
+            color: gray;
+          }
+        }
+      }
+    }
+  }
+}

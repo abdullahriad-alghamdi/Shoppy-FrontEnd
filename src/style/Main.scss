@@ -1,0 +1,103 @@
+/**============================================
+ *               user Styles
+ *=============================================**/
+@forward 'user/HomePage/navBar';
+@forward 'user/HomePage/heroSection';
+@forward 'user/HomePage/mainSection';
+@forward 'user/HomePage/filterSideBar';
+@forward 'user/HomePage/footerSection';
+
+/**============================================
+  *               Global Styles
+  *=============================================**/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.App {
+  display: flex;
+  flex-flow: column wrap;
+  min-height: 100vh;
+}
+
+.LoginRegistry-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #000000;
+  width: 50%;
+}
+
+.admin-sideBar {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: left;
+  align-items: left;
+  background-color: #f5f5f5;
+  flex: 0 1 20%;
+  padding: 2rem;
+  margin-right: auto;
+  font-size: clamp(1.5rem, 1vw, 2rem);
+
+  h3 {
+    font-size: clamp(1.5rem, 1vw, 2rem);
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 1rem 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: left;
+
+    li {
+      margin: 0.5rem 0;
+
+      a {
+        text-decoration: none;
+        color: #000000;
+
+        &:hover {
+          color: #ff0000;
+        }
+      }
+    }
+  }
+}
+.admin-dashboard {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 2rem auto;
+
+  .admin-dashboard-content {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: left;
+    width: 100%;
+    margin: 2rem auto;
+
+    button {
+      margin: 1rem 0;
+    }
+  }
+}

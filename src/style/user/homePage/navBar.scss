@@ -1,0 +1,146 @@
+@mixin navStyle {
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 3rem;
+    align-items: center;
+
+    li {
+      transition: all 0.3s ease-in-out;
+      a {
+        text-decoration: none;
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+.NavBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  background-color: #023535;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  height: 3rem;
+  gap: 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  .navLeft img {
+    width: 7rem;
+    height: 2em;
+    object-fit: cover;
+  }
+  // .navMiddle {
+  //   @include navStyle;
+  // }
+  .navRight {
+    @include navStyle;
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: transparent;
+      color: #ffffff;
+      height: 3rem;
+      gap: 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+
+      .subNav {
+        position: relative;
+        display: inline-block;
+        &:hover .subNav-content {
+          display: block;
+          border-radius: 3px;
+        }
+
+        .subNavBtn {
+          background-color: inherit;
+          border: none;
+          color: inherit;
+          padding: 0.5rem 1rem;
+          font-size: 1rem;
+          cursor: pointer;
+        }
+        .subNav-content {
+          display: none;
+          position: absolute;
+          background-color: #fefefe;
+          min-width: 10rem;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          z-index: 1;
+          a {
+            color: #000000;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            display: block;
+            &:hover {
+              background-color: #023535;
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+    ul {
+      li {
+        a {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .NavBar {
+    flex-direction: column;
+    height: auto;
+    gap: 0;
+
+    @mixin navStyle {
+      width: 100%;
+      gap: 2rem;
+      margin: 2rem 0;
+
+      ul {
+        flex-direction: column;
+        gap: 1rem;
+        li {
+          a {
+            color: #fefefe;
+          }
+        }
+      }
+    }
+
+    .navMiddle {
+      text-align: center;
+      @include navStyle;
+      ul li {
+        background-color: #fefefe;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+
+        a {
+          background-color: #fefefe;
+          color: #000000;
+        }
+      }
+    }
+
+    .navRight {
+      @include navStyle;
+    }
+  }
+}
