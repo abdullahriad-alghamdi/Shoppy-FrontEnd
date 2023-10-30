@@ -4,7 +4,7 @@ import Home from '../components/User/pages/Home'
 import NotFound from '../components/pages/NotFound'
 import Login from '../components/pages/Login'
 import Registry from '../components/User/pages/Registry'
-import ProductDetails from '../components/pages/ProductDetails'
+import ProductDetails from '../components/User/pages/ProductDetails'
 
 import UserDashboard from '../components/User/pages/UserDashboard'
 import UserProfile from '../components/User/pages/UserProfile'
@@ -27,8 +27,7 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/Registry" element={<Registry />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="product/details" element={<ProductDetails />} />
+        <Route path="product/details/:id" element={<ProductDetails />} />
 
         {/* <Route path="/dashboard" element={<AdminProtectedRouter />}> */}
         <Route path="/dashboard/admin" element={<AdminDashboard />} />

@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../../../redux/store'
 
 import AdminSideBar from './AdminSideBar'
 import { fetchCategories } from '../../../redux/slices/categories/categorySlice'
+import { Spinner } from 'react-bootstrap'
 
 function Categories() {
   const { categories, isLoading, error } = useSelector((state: RootState) => state.categories)
@@ -14,7 +15,7 @@ function Categories() {
   }, [])
 
   if (error) {
-    return <h3> {error} </h3>
+    return <h2 className="loading">{error}</h2>
   }
 
   return (
@@ -46,7 +47,9 @@ function Categories() {
           <section className="dashboard-content-container">
             <div className="dashboard-content">
               {!error && isLoading ? (
-                <h3> Loading categories...</h3>
+                <h2 className="loading">
+                  <Spinner animation="border" variant="light" />
+                </h2>
               ) : categories.length > 0 ? (
                 <table className="table table-striped table-hover table-bordered border-dark mx-auto w-75">
                   <thead className="table-dark text-center">

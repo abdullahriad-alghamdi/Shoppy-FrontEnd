@@ -19,20 +19,27 @@ export type ProductState = {
   error: null | string
   isLoading: boolean
   searchBy: number | string
+  singleProduct: Product
 }
 
 const initialState: ProductState = {
   products: [],
   error: null,
   isLoading: false,
-  searchBy: 0 || ''
+  searchBy: 0 || '',
+  singleProduct: {} as Product
 }
 
 export const fetchProducts = createAsyncThunk('Products/fetchData', async () => {
-  const response = await api.get('/mock/e-commerce/products.json')
-  const data = response.data
-  return data
+  try {
+    const response = await api.get('/mock/e-commerce/products.json')
+    const data = response.data
+    return data
+  } catch (error) {
+    throw new Error('Error: Fetching products rejected' + error)
+  }
 })
+
 export const productSlice = createSlice({
   name: 'products',
   initialState,
@@ -48,8 +55,28 @@ export const productSlice = createSlice({
       } else if (sortValue === 'price') {
         state.products.sort((a, b) => a.id - b.id)
       }
+    },
+
+    findProductById: (state, action) => {
+      const id = action.payload
+      const foundProduct = state.products.find((product) => product.id === id)
+      if (foundProduct) {
+        state.singleProduct = foundProduct
+      }
+    },
+
+    filterProducts: (state, action) => {
+      const filterValue = action.payload
+      if (filterValue === 'all') {
+        state.products = state.products
+      } else {
+        state.products = state.products.filter((product) =>
+          product.categories.includes(parseInt(filterValue))
+        )
+      }
     }
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -62,10 +89,11 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.isLoading = false
-        state.error = action.error.message || 'Error: Fetching products rejected.'
+        state.error = action.error.message || 'Error: Fetching products was rejected.'
       })
   }
 })
 
-export const { sortProducts, searchProducts } = productSlice.actions
+export const { filterProducts, findProductById, sortProducts, searchProducts } =
+  productSlice.actions
 export default productSlice.reducer

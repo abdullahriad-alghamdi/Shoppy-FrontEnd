@@ -9,16 +9,6 @@ export function NavBar() {
             <img src="/assets/logo.svg" alt="ShoppyLogo" />
           </Link>
         </div>
-        {/* <div className="navMiddle">
-          <ul>
-            <li>
-              <a href="/">What is new!</a>
-            </li>
-            <li>
-              <a href="/">Deals</a>
-            </li>
-          </ul>
-        </div> */}
         <div className="navRight">
           <ul>
             <li className="navbar">
@@ -36,7 +26,7 @@ export function NavBar() {
               </nav>
             </li>
             <li>
-              <Link to="/dashboard/user/MyCart">
+              <Link to="/dashboard/user/MyCart" className="mt-2">
                 <FaCartPlus />
                 <span>Cart</span>
               </Link>

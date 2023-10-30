@@ -8,8 +8,6 @@ import {
   sortProducts
 } from '../../../redux/slices/products/productSlice'
 
-import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 

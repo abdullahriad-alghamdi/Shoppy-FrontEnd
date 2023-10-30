@@ -3,8 +3,8 @@
  *=============================================**/
 @forward 'user/HomePage/navBar';
 @forward 'user/HomePage/heroSection';
-@forward 'user/HomePage/mainSection';
-@forward 'user/HomePage/filterSideBar';
+@forward 'user/HomePage/home';
+@forward 'user/HomePage/filterBar';
 @forward 'user/HomePage/footerSection';
 
 /**============================================
@@ -100,4 +100,19 @@ body {
       margin: 1rem 0;
     }
   }
+}
+
+.loading {
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  place-items: center;
+  place-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  font-size: 2em;
+  height: 100vh;
 }

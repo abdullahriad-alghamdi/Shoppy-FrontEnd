@@ -6,7 +6,7 @@ function Hero() {
         <button className="heroButton">Shop Now</button>
       </div>
       <div className="heroImage">
-        <img src="/assets/cartHero.jpg" alt="hero" />
+        <img src="/assets/cartHero.jpg" alt="hero" className="img-fluid" />
       </div>
     </div>
   )
