@@ -26,12 +26,11 @@
   padding: 0 1.5rem;
   background-color: #023535;
   color: #ffffff;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 2;
-  height: 3rem;
+  z-index: 1;
 
   .nav-left img {
     width: 7rem;

@@ -34,7 +34,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <section className="d-flex flex-column m-5 flex-wrap ">
+    <section className="d-flex m-5 flex-column flex-wrap">
       <ButtonGroup className="p-2 col-12">
         <button className="btn btn-dark" onClick={() => navigate(-1)}>
           Back
@@ -80,7 +80,7 @@ const ProductDetails = () => {
             <Card.Text>
               {' '}
               <span className="fw-bold">Sizes: </span>
-              {singleProduct.sizes.length > 0
+              {singleProduct.sizes && singleProduct.sizes.length > 0
                 ? singleProduct.sizes.map((size) => (
                     <span className="me-2" key={size}>
                       {size}
