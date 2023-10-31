@@ -5,8 +5,8 @@ export function NavBar() {
     <>
       <div className="nav-bar">
         <div className="nav-left">
-          <Link to="/">
-            <img src="/assets/logo.svg" alt="ShoppyLogo" />
+          <Link to="/" className="nav-logo">
+            <span className="logo">Shoppy</span>
           </Link>
         </div>
         <div className="nav-right">

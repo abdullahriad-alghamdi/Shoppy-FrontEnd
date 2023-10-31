@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
 @mixin navStyle {
   ul {
     display: flex;
@@ -23,8 +25,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
-  background-color: #023535;
+  padding: 0.5em 1.5rem;
+  background-color: #023514;
   color: #ffffff;
   position: sticky;
   top: 0;
@@ -32,14 +34,25 @@
   right: 0;
   z-index: 1;
 
-  .nav-left img {
-    width: 7rem;
-    object-fit: cover;
-    height: 100%;
+  .nav-left {
+    .nav-logo {
+      text-decoration: none;
+      .logo {
+        font-family: 'Agbalumo', cursive;
+        font-size: 2rem;
+        font-weight: 500;
+        color: #ffffff;
+      }
+    }
   }
 
   .nav-right {
     @include navStyle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
     span {
       font-size: 1.1rem;
       font-weight: 500;
