@@ -1,30 +1,22 @@
-import { MouseEvent, useEffect } from 'react'
+import { MouseEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 
-import { fetchCategories } from '../../redux/slices/categories/categorySlice'
 import { fetchProducts, filterProducts } from '../../redux/slices/products/productSlice'
 import { Button, Spinner } from 'react-bootstrap'
 
 const FilterBar = () => {
   const { categories, isLoading, error } = useSelector((state: RootState) => state.categories)
+  const [activeCategory, setActiveCategory] = useState<string | number>('all')
 
   const dispatch: AppDispatch = useDispatch()
 
   const filterHandle = (e: MouseEvent<HTMLButtonElement>, id: number | string) => {
     e.preventDefault()
-    let categoryId = id
-    dispatch(fetchProducts()).then(() => dispatch(filterProducts(categoryId)))
-    if (id === 'all') {
-      e.currentTarget.classList.add('active')
-    } else {
-      const buttons = document.querySelectorAll('button')
-      buttons.forEach((button) => {
-        button.classList.remove('active')
-      })
-      e.currentTarget.classList.add('active')
-    }
+    setActiveCategory(id)
+    dispatch(fetchProducts()).then(() => dispatch(filterProducts(id)))
   }
+
   if (isLoading) {
     return (
       <h2 className="loading">
@@ -40,7 +32,10 @@ const FilterBar = () => {
     <>
       <aside className="filter-sidebar">
         <section className="col d-flex align-items-center justify-content-center flex-wrap gap-2">
-          <Button value="all" variant="outline-dark  " onClick={(e) => filterHandle(e, 'all')}>
+          <Button
+            variant="outline-dark  "
+            className={` ${activeCategory === 'all' ? 'active' : ''}`}
+            onClick={(e) => filterHandle(e, 'all')}>
             All
           </Button>
           {categories.map((category) => (
@@ -48,7 +43,8 @@ const FilterBar = () => {
               key={category.id}
               variant="outline-dark"
               value={category.id}
-              onClick={(e) => filterHandle(e, category.id)}>
+              onClick={(e) => filterHandle(e, category.id)}
+              className={` ${activeCategory === category.id ? 'active' : ''}`}>
               {category.name}
             </Button>
           ))}

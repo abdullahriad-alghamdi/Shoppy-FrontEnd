@@ -1,27 +1,19 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../redux/store'
-import {
-  Product,
-  fetchProducts,
-  searchProducts,
-  sortProducts
-} from '../../../redux/slices/products/productSlice'
+import { Product, searchProducts, sortProducts } from '../../../redux/slices/products/productSlice'
 import { Link } from 'react-router-dom'
 
-import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
-import Rating from '@mui/material/Rating'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
+import { Rating, Stack, Pagination } from '@mui/material'
+
+import { Button, Card } from 'react-bootstrap'
 
 import Hero from '../Hero'
 import FilterBar from '../FilterBar'
-import Spinner from 'react-bootstrap/spinner'
 
 function Home() {
   const dispatch: AppDispatch = useDispatch()
-  const { products, isLoading, error, searchBy } = useSelector((state: RootState) => state.products)
+  const { products, error, searchBy } = useSelector((state: RootState) => state.products)
   const { categories } = useSelector((state: RootState) => state.categories)
 
   const getCategoryNameById = (categoryId: number) => {
