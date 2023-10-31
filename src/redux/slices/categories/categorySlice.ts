@@ -20,10 +20,14 @@ const initialState: CategoryState = {
 }
 
 export const fetchCategories = createAsyncThunk('Categories/fetchData', async () => {
-  const response = await api.get('/mock/e-commerce/categories.json')
-  const data = response.data
-  return data
+  try {
+    const { data } = await api.get('/mock/e-commerce/categories.json')
+    return data
+  } catch (error) {
+    console.error("Error: Can't fetch categories.", error)
+  }
 })
+
 export const categorySlice = createSlice({
   name: 'categories',
   initialState,
@@ -36,10 +40,16 @@ export const categorySlice = createSlice({
     },
     updateCategory: (state, action) => {
       const { id, name } = action.payload
-      const existingCategory = state.categories.find((category) => category.id === id)
-      if (existingCategory) {
-        existingCategory.name = name
-      }
+
+      const updatedCategories = state.categories.map((category) => {
+        if (category.id === id) {
+          // Create a new category object with the updated name
+          return { ...category, name }
+        }
+        return category
+      })
+
+      state.categories = updatedCategories
     }
   },
   extraReducers: (builder) => {

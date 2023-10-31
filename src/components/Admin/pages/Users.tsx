@@ -1,25 +1,13 @@
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../redux/store'
-import {
-  User,
-  deleteUser,
-  fetchUsers,
-  searchUsers,
-  sortUsers
-} from '../../../redux/slices/UsersList/userSlice'
+import { User, deleteUser, searchUsers, sortUsers } from '../../../redux/slices/UsersList/userSlice'
 
-import Pagination from '@mui/material/Pagination'
-import Stack from '@mui/material/Stack'
 import AdminSideBar from './AdminSideBar'
+import { Spinner } from 'react-bootstrap'
 
 function UsersList() {
   const dispatch: AppDispatch = useDispatch()
-  const { users, isLoading, error, searchBy } = useSelector((state: RootState) => state.Users)
-
-  useEffect(() => {
-    dispatch(fetchUsers())
-  }, [])
+  const { users, isLoading, error, searchBy } = useSelector((state: RootState) => state.users)
 
   if (error) {
     return <h3> {error} </h3>
@@ -41,7 +29,19 @@ function UsersList() {
   }
 
   const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(deleteUser(e.currentTarget.id))
+    dispatch(deleteUser(Number(e.currentTarget.id)))
+  }
+
+  if (isLoading) {
+    return (
+      <h2 className="loading">
+        <Spinner animation="grow" variant="light" />
+      </h2>
+    )
+  }
+
+  if (error) {
+    return <h2 className="loading">{error}</h2>
   }
 
   const filteredUsers = filterUsers(users)
@@ -79,9 +79,7 @@ function UsersList() {
           </section>
 
           <section>
-            {!error && isLoading ? (
-              <h3> Loading users...</h3>
-            ) : filteredUsers.length > 0 ? (
+            {filteredUsers.length > 0 ? (
               <table
                 border={1}
                 className="table table-striped table-hover table-bordered border-dark mx-auto w-75">
@@ -104,7 +102,10 @@ function UsersList() {
                       <td>{user.email}</td>
                       <td>{user.password}</td>
                       <td className="d-flex justify-content-around">
-                        <button onClick={handleDeleteUser} className="btn btn-danger">
+                        <button
+                          onClick={handleDeleteUser}
+                          className="btn btn-danger"
+                          id={`${user.id}`}>
                           Delete
                         </button>
                       </td>

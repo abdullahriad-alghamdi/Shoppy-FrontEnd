@@ -1,18 +1,11 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../redux/store'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
 
 import AdminSideBar from './AdminSideBar'
-import { fetchCategories } from '../../../redux/slices/categories/categorySlice'
 import { Spinner } from 'react-bootstrap'
 
 function Categories() {
   const { categories, isLoading, error } = useSelector((state: RootState) => state.categories)
-
-  const dispatch: AppDispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchCategories())
-  }, [])
 
   if (error) {
     return <h2 className="loading">{error}</h2>

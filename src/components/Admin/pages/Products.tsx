@@ -1,12 +1,6 @@
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../redux/store'
-import {
-  Product,
-  fetchProducts,
-  searchProducts,
-  sortProducts
-} from '../../../redux/slices/products/productSlice'
+import { Product, searchProducts, sortProducts } from '../../../redux/slices/Products/productSlice'
 
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
@@ -16,10 +10,6 @@ import AdminSideBar from './AdminSideBar'
 function Products() {
   const dispatch: AppDispatch = useDispatch()
   const { products, isLoading, error, searchBy } = useSelector((state: RootState) => state.products)
-
-  useEffect(() => {
-    dispatch(fetchProducts())
-  }, [])
 
   if (error) {
     return <h3> {error} </h3>

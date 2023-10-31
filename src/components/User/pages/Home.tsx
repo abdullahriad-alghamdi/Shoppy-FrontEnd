@@ -1,7 +1,6 @@
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../redux/store'
-import { Product, searchProducts, sortProducts } from '../../../redux/slices/products/productSlice'
+import { Product, searchProducts, sortProducts } from '../../../redux/slices/Products/productSlice'
 import { Link } from 'react-router-dom'
 
 import { Rating, Stack, Pagination } from '@mui/material'
@@ -10,6 +9,7 @@ import { Button, Card } from 'react-bootstrap'
 
 import Hero from '../Hero'
 import FilterBar from '../FilterBar'
+import { FaSearch } from 'react-icons/fa'
 
 function Home() {
   const dispatch: AppDispatch = useDispatch()
@@ -48,26 +48,35 @@ function Home() {
   return (
     <main className="overflow-auto">
       <Hero />
-      <section className="products-section container mt-5">
+      <section className="products-section container mt-5 ">
         <FilterBar />
         <section className="product-header ">
-          <form className="d-flex justify-content-between m-5">
-            <label className="search-container col-4 d-flex ">
+          <form className="mt-5 d-flex flex-wrap justify-content-lg-between justify-content-md-center justify-content-xs-center align-items-baseline gap-3">
+            <label className="d-flex justify-content-start col-lg-5 col-md-4 col-sm-12 col-xs-12">
               <input
                 value={searchBy}
                 onChange={handleSearchInputChange || ''}
-                className="search-input form-control"
+                className="form-control rounded-0"
                 id="products__searching"
                 type="text"
                 placeholder="Search..."
               />
-              <button className="search-button">Search</button>
+              <Button variant="dark" className="rounded-0" type="submit">
+                <FaSearch />
+              </Button>
             </label>
-            <label className="sort-label">
-              <span className="text">Sort by:</span>
-              <select onChange={handleSortChange}>
-                <option value="price">Price</option>
+            <label className="d-flex justify-content-start align-items-baseline col-md-4 col-sm-12 mt-md-3 mt-sm-3 ">
+              <select
+                className="form-select rounded-0 "
+                aria-label="Default select example"
+                onChange={handleSortChange}>
+                <option defaultValue="sort by" hidden>
+                  Sort by
+                </option>
                 <option value="name">Name</option>
+                <option value="priceLowToHigh">Price: Low to High</option>
+                <option value="priceHighToLow">Price: High to Low</option>
+                <option value="rating">Rating</option>
               </select>
             </label>
           </form>

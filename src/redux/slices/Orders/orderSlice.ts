@@ -24,8 +24,12 @@ const initialState: OrderState = {
 }
 
 export const fetchOrders = createAsyncThunk('orders/fetchOrders', async () => {
-  const { data } = await api.get('/mock/e-commerce/orders.json')
-  return data
+  try {
+    const { data } = await api.get('/mock/e-commerce/orders.json')
+    return data
+  } catch (error) {
+    console.error("Error: Can't fetch orders.", error)
+  }
 })
 export const orderSlice = createSlice({
   name: 'orders',

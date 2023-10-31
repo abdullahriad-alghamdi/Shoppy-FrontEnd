@@ -32,11 +32,10 @@ const initialState: ProductState = {
 
 export const fetchProducts = createAsyncThunk('Products/fetchData', async () => {
   try {
-    const response = await api.get('/mock/e-commerce/products.json')
-    const data = response.data
+    const { data } = await api.get('/mock/e-commerce/products.json')
     return data
   } catch (error) {
-    throw new Error('Error: Fetching products rejected' + error)
+    console.error("Error: Can't fetch products.", error)
   }
 })
 
@@ -50,21 +49,34 @@ export const productSlice = createSlice({
 
     sortProducts: (state, action) => {
       const sortValue = action.payload
-      if (sortValue === 'name') {
-        state.products.sort((a, b) => a.name.localeCompare(b.name))
-      } else if (sortValue === 'price') {
-        state.products.sort((a, b) => a.id - b.id)
+      switch (sortValue) {
+        case 'name':
+          state.products.sort((a, b) => a.name.localeCompare(b.name))
+          break
+        case 'priceLowToHigh':
+          state.products.sort((a, b) => a.price - b.price)
+          break
+        case 'priceHighToLow':
+          state.products.sort((a, b) => b.price - a.price)
+          break
+        case 'rating':
+          state.products.sort((a, b) => b.rating - a.rating)
+          break
+        default:
+          break
       }
     },
-
+    // single product
     findProductById: (state, action) => {
       const id = action.payload
       const foundProduct = state.products.find((product) => product.id === id)
       if (foundProduct) {
         state.singleProduct = foundProduct
+      } else {
+        state.error = `Product with id ${id} not found.`
       }
     },
-
+    // Categories filter
     filterProducts: (state, action) => {
       const filterValue = action.payload
       if (filterValue === 'all') {

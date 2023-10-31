@@ -1,14 +1,10 @@
 function Hero() {
   return (
-    <div className="heroSection">
-      <div className="heroText">
-        <p>Shoppy where you can find all your needs</p>
-        <button className="heroButton">Shop Now</button>
-      </div>
-      <div className="heroImage">
-        <img src="/assets/cartHero.jpg" alt="hero" className="img-fluid" />
-      </div>
-    </div>
+    <>
+      <section className="container-fluid w-100 p-0 m-0 hero-section">
+        <video src="/assets/hero.mp4" autoPlay loop muted className="img-fluid hero-video" />
+      </section>
+    </>
   )
 }
 

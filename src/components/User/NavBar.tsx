@@ -3,20 +3,23 @@ import { Link } from 'react-router-dom'
 export function NavBar() {
   return (
     <>
-      <div className="NavBar">
-        <div className="navLeft">
+      <div className="nav-bar">
+        <div className="nav-left">
           <Link to="/">
             <img src="/assets/logo.svg" alt="ShoppyLogo" />
           </Link>
         </div>
-        <div className="navRight">
+        <div className="nav-right">
           <ul>
-            <li className="navbar">
-              <nav className="subNav">
-                <button className="subNavBtn">
-                  <FaUser /> Account
+            <li className="small-navbar">
+              <nav className="sub-nav">
+                <button className="sub-nav__btn">
+                  <span>
+                    <FaUser />
+                    Account
+                  </span>
                 </button>
-                <nav className="subNav-content">
+                <nav className="sub-nav__content">
                   <Link to="/dashboard/user">User Dashboard</Link>
                   <Link to="/dashboard/admin">Admin Dashboard</Link>
                   <Link to="/login">Login</Link>
@@ -26,9 +29,11 @@ export function NavBar() {
               </nav>
             </li>
             <li>
-              <Link to="/dashboard/user/MyCart" className="mt-2">
-                <FaCartPlus />
-                <span>Cart</span>
+              <Link to="/dashboard/user/MyCart">
+                <span>
+                  <FaCartPlus />
+                  Cart
+                </span>
               </Link>
             </li>
           </ul>

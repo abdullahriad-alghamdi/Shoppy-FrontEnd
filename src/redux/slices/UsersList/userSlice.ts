@@ -25,10 +25,14 @@ const initialState: UserState = {
 }
 
 export const fetchUsers = createAsyncThunk('users/fetchData', async () => {
-  const response = await api.get('/mock/e-commerce/users.json')
-  const data = response.data
-  return data
+  try {
+    const { data } = await api.get('/mock/e-commerce/users.json')
+    return data
+  } catch (error) {
+    console.error("Error: Can't fetch users.", error)
+  }
 })
+
 export const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -48,8 +52,8 @@ export const userSlice = createSlice({
 
     deleteUser: (state, action) => {
       const id = action.payload
-      const index = state.users.findIndex((user) => user.id === id)
-      state.users.splice(index, 1)
+      console.log(id)
+      state.users = state.users.filter((user) => user.id !== id)
     }
   },
   extraReducers: (builder) => {

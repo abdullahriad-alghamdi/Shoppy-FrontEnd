@@ -1,17 +1,10 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../redux/store'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
 
 import AdminSideBar from './AdminSideBar'
-import { fetchOrders } from '../../../redux/slices/Orders/orderSlice'
 
 function Orders() {
-  const dispatch: AppDispatch = useDispatch()
-  const { orders, isLoading, error } = useSelector((state: RootState) => state.Orders)
-
-  useEffect(() => {
-    dispatch(fetchOrders())
-  }, [])
+  const { orders, isLoading, error } = useSelector((state: RootState) => state.orders)
 
   if (error) {
     return <h3> {error} </h3>

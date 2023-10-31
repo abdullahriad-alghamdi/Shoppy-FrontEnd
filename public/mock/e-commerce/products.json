@@ -85,7 +85,7 @@
     "variants": ["Single Serve", "Drip Coffee Maker"],
     "sizes": [],
     "price": 500,
-    "rating": 4.4
+    "rating": 3.4
   },
   {
     "id": 9,
@@ -107,7 +107,7 @@
     "variants": ["1TB", "2TB"],
     "sizes": [],
     "price": 900,
-    "rating": 4.0
+    "rating": 2.9
   },
   {
     "id": 11,
@@ -129,6 +129,6 @@
     "variants": ["Titanium"],
     "sizes": [],
     "price": 700,
-    "rating": 4.5
+    "rating": 1.5
   }
 ]
