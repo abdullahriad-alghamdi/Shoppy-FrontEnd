@@ -7,7 +7,7 @@ import App from './App'
 import './style/Main.scss'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import 'react-toastify/dist/ReactToastify.css'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
     <BrowserRouter>

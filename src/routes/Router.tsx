@@ -16,6 +16,7 @@ import Categories from '../components/Admin/pages/Categories'
 import Products from '../components/Admin/pages/Products'
 import Orders from '../components/Admin/pages/Orders'
 import UsersList from '../components/Admin/pages/Users'
+import AddNewProduct from '../components/Admin/pages/AddNewProduct'
 
 // import { AdminProtectedRouter } from './AdminProtectedRouter'
 // import UserProtectedRouter from './UserProtectedRouter'
@@ -33,6 +34,7 @@ const Router = () => {
         <Route path="/dashboard/admin" element={<AdminDashboard />} />
         <Route path="/dashboard/admin/categories" element={<Categories />} />
         <Route path="/dashboard/admin/products" element={<Products />} />
+        <Route path="/dashboard/admin/NewProduct" element={<AddNewProduct />} />
         <Route path="/dashboard/admin/users" element={<UsersList />} />
         <Route path="/dashboard/admin/orders" element={<Orders />} />
         {/* </Route> */}

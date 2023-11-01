@@ -24,19 +24,18 @@ function Categories() {
   if (error) {
     return <h2 className="loading">{error}</h2>
   }
-  if (categories.length === 0) {
-    toast.error('No Categories')
-  }
 
   const handleAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(addCategory({ name: category.name, id: categories[categories.length - 1].id + 1 }))
+    toast.success('Category Added Successfully')
   }
   console.log(category)
 
   const handleDelete = (id: number) => () => {
     console.log(id)
     dispatch(removeCategory(id))
+    toast.success('Category Deleted Successfully')
   }
 
   const handleEdit = (id: number, name: string) => {
@@ -55,6 +54,7 @@ function Categories() {
     <>
       <section>
         <AdminSideBar />
+
         <main>
           <form className="d-flex justify-content-center align-items-center" onSubmit={handleAdd}>
             <label

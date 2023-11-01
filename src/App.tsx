@@ -10,7 +10,7 @@ import { fetchUsers } from './redux/slices/UsersList/userSlice'
 
 import { NavBar } from './components/User/NavBar'
 import Footer from './components/User/Footer'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 
 function App() {
   const dispatch: AppDispatch = useDispatch()
