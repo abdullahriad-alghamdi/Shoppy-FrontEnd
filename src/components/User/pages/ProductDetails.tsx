@@ -18,6 +18,7 @@ const ProductDetails = () => {
     dispatch(fetchProducts()).then(() => dispatch(findProductById(Number(id))))
   }, [id])
 
+  // Returns the name of the category with the given ID.
   const getCategoryNameById = (categoryId: number) => {
     const category = categories.find((category) => category.id === categoryId)
     return category ? category.name : 'Category not found'

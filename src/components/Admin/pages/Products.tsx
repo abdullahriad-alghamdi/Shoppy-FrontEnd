@@ -37,10 +37,10 @@ function Products() {
 
   return (
     <>
-      <section className="admin-dashboard">
+      <section>
         <AdminSideBar />
-        <section className="admin-dashboard-content">
-          <section className="dashboard-header">
+        <section>
+          <section>
             <label
               htmlFor="products__searching"
               className="d-flex flex-wrap justify-content-center align-items-center">
@@ -68,7 +68,7 @@ function Products() {
             </label>
           </section>
 
-          <section className="products container d-flex flex-wrap gap-3 p-3 ">
+          <section className="container d-flex flex-wrap gap-3 p-3 ">
             {!error && isLoading ? (
               <h3> Loading products...</h3>
             ) : filteredProducts.length > 0 ? (
@@ -76,12 +76,11 @@ function Products() {
                 <Card
                   style={{ width: '18rem' }}
                   key={product.id}
-                  className="product-card shadow p-3 mb-5 bg-body rounded d-flex flex-column  ">
+                  className="shadow p-3 mb-5 bg-body rounded d-flex flex-column  ">
                   <Card.Img
                     variant="top"
                     src={product.image}
-                    className="product-card__image shadow-sm w
-                    -100 h-100 p-3 mb-5 bg-body rounded"
+                    className="shadow-sm w-100 h-100 p-3 mb-5 bg-body rounded"
                   />
                   <Card.Body>
                     <Card.Title>{product.name}</Card.Title>

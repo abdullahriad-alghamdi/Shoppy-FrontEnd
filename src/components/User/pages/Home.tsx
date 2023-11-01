@@ -114,7 +114,7 @@ function Home() {
                       </Card.Text>
                       <Card.Text>
                         <b>Price:</b>
-                        {` ${product.price} €`}
+                        {` ${product.price}`} <span className="text-muted fw-bold">SAR</span>
                       </Card.Text>
                       <Card.Text>
                         <Button variant="dark">Add to cart</Button>

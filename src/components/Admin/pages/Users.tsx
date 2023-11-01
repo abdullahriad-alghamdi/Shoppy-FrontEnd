@@ -47,10 +47,10 @@ function UsersList() {
   const filteredUsers = filterUsers(users)
   return (
     <>
-      <section className="admin-dashboard">
+      <section>
         <AdminSideBar />
-        <section className="admin-dashboard-content">
-          <section className="dashboard-header">
+        <section>
+          <section>
             <label
               htmlFor="products__searching"
               className="d-flex flex-wrap justify-content-center align-items-center">
@@ -82,7 +82,7 @@ function UsersList() {
             {filteredUsers.length > 0 ? (
               <table
                 border={1}
-                className="table table-striped table-hover table-bordered border-dark mx-auto w-75">
+                className="table table-striped table-hover table-bordered border-dark mx-auto w-75 responsive">
                 <thead className="table-dark text-center">
                   <tr>
                     <th>Id</th>

@@ -12,9 +12,9 @@ function Orders() {
 
   return (
     <>
-      <section className="admin-dashboard">
+      <section>
         <AdminSideBar />
-        <section className="admin-dashboard-content">
+        <section>
           {!error && isLoading ? (
             <h3> Loading orders...</h3>
           ) : orders.length > 0 ? (
