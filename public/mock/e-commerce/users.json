@@ -26,9 +26,17 @@
   {
     "id": 4,
     "firstName": "Abdullah",
-    "lastName": "AlGhamdi",
-    "email": "xlizro@gmail.com",
+    "lastName": "Al-Ghamdi-1",
+    "email": "abdullah@admin.com",
     "password": "123456",
-    "role": "Admin"
+    "role": "admin"
+  },
+  {
+    "id": 5,
+    "firstName": "Abdullah",
+    "lastName": "Al-Ghamdi-2",
+    "email": "abdullah@visitor.com",
+    "password": "123456",
+    "role": "visitor"
   }
 ]

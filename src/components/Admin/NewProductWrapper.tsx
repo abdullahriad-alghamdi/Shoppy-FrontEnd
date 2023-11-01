@@ -40,27 +40,25 @@ export function NewProductWrapper() {
       ...product,
       [name]: value
     })
+
+    // to update the product state
   }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    // Send the product data to your backend or in this case send it to Redux
     console.log('New product data:', product)
-    // let's add Id property to the object (usually IDs are generated automatically on the backend)
     product.id = +new Date()
     console.log('product:', product)
 
     dispatch(addProduct({ product }))
-    // Reset the form
     setProduct(initialProductState)
-    // Navigate to the products page in the admin dashboard
     navigate('/dashboard/admin/products')
   }
 
   return (
-    <div>
-      <h3 className="text-2xl font-bold">Add a new product</h3>
+    <section className="container d-flex flex-column border rounded p-4 mt-5 bg-dark text-white w-50 mx-auto">
+      <h2 className=" text-center mb-4">Add a new product</h2>
       <ProductForm handleSubmit={handleSubmit} handleChange={handleChange} product={product} />
-    </div>
+    </section>
   )
 }

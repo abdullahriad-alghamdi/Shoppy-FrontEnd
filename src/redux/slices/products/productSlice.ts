@@ -66,7 +66,6 @@ export const productSlice = createSlice({
           break
       }
     },
-    // single product
     findProductById: (state, action) => {
       const id = action.payload
       const foundProduct = state.products.find((product) => product.id === id)
@@ -76,7 +75,6 @@ export const productSlice = createSlice({
         state.error = `Product with id ${id} not found.`
       }
     },
-    // Categories filter
     filterProducts: (state, action) => {
       const filterValue = action.payload
       if (filterValue === 'all') {
@@ -103,9 +101,18 @@ export const productSlice = createSlice({
         (product) => product.id !== action.payload.productId
       )
       state.products = filteredItems
+    },
+    updateProduct: (state, action) => {
+      const { id, product } = action.payload
+      const updatedProducts = state.products.map((oneProduct) => {
+        if (oneProduct.id === id) {
+          return { ...oneProduct, ...product }
+        }
+        return oneProduct
+      })
+      state.products = updatedProducts
     }
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
@@ -131,6 +138,7 @@ export const {
   removeProduct,
   addProduct,
   productsRequest,
-  productsSuccess
+  productsSuccess,
+  updateProduct
 } = productSlice.actions
 export default productSlice.reducer

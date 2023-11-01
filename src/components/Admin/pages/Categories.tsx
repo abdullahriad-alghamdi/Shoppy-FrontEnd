@@ -19,6 +19,10 @@ function Categories() {
   const [isEdit, setIsEdit] = useState(false)
   const [SelectedId, setSelectedId] = useState<number>(0)
 
+  const getCategoryNameById = (categoryId: number) => {
+    const category = categories.find((category) => category.id === categoryId)
+    return category ? category.name : 'Category not found'
+  }
   const dispatch = useDispatch()
 
   if (error) {
@@ -33,7 +37,6 @@ function Categories() {
   console.log(category)
 
   const handleDelete = (id: number) => () => {
-    console.log(id)
     dispatch(removeCategory(id))
     toast.success('Category Deleted Successfully')
   }

@@ -1,6 +1,24 @@
-import { FaUser, FaCartPlus } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+
+import { FaUser, FaCartPlus } from 'react-icons/fa'
+import { AppDispatch, RootState } from '../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../redux/slices/UsersList/userSlice'
+import { toast } from 'react-toastify'
+
 export function NavBar() {
+  const { isLogin, userData } = useSelector((state: RootState) => state.users)
+
+  const dispatch: AppDispatch = useDispatch()
+  const handleLogout = () => {
+    dispatch(logout())
+    toast.promise(Promise.resolve(), {
+      pending: 'Logging out...',
+      success: 'Logged out successfully',
+      error: 'Error logging out'
+    })
+  }
+
   return (
     <>
       <div className="nav-bar">
@@ -20,21 +38,31 @@ export function NavBar() {
                   </span>
                 </button>
                 <nav className="sub-nav__content">
-                  <Link to="/dashboard/user">User Dashboard</Link>
-                  <Link to="/dashboard/admin">Admin Dashboard</Link>
-                  <Link to="/login">Login</Link>
-                  <Link to="/">Logout</Link>
-                  <Link to="/Registry">Sign Up</Link>
+                  {isLogin && userData?.role === 'visitor' && (
+                    <Link to="/dashboard/user">User Dashboard</Link>
+                  )}
+                  {isLogin && userData?.role === 'admin' && (
+                    <Link to="/dashboard/admin">Admin Dashboard</Link>
+                  )}
+                  {!isLogin && <Link to="/login">Login</Link>}
+                  {isLogin && (
+                    <Link to="/" onClick={handleLogout}>
+                      Logout
+                    </Link>
+                  )}
+                  {!isLogin && <Link to="/Registry">Sign Up</Link>}
                 </nav>
               </nav>
             </li>
             <li>
-              <Link to="/dashboard/user/MyCart">
-                <span>
-                  <FaCartPlus />
-                  Cart
-                </span>
-              </Link>
+              {isLogin && userData?.role === 'visitor' && (
+                <Link to="/dashboard/user/MyCart">
+                  <span>
+                    <FaCartPlus />
+                    Cart
+                  </span>
+                </Link>
+              )}
             </li>
           </ul>
         </div>

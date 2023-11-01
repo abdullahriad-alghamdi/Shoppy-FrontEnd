@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import api from '../../../api'
+import UsersList from '../../../components/Admin/pages/Users'
 
 export type User = {
   id: number
@@ -15,13 +16,26 @@ export type UserState = {
   error: null | string
   isLoading: boolean
   searchBy: number | string
+  isLogin: boolean
+  userData: null | User
 }
 
+// This is get data from local storage
+const data =
+  localStorage.getItem('loginData') !== null
+    ? JSON.parse(String(localStorage.getItem('loginData')))
+    : []
+
+const usersList =
+  localStorage.getItem('users') !== null ? JSON.parse(String(localStorage.getItem('users'))) : []
+
 const initialState: UserState = {
-  users: [],
+  users: usersList.users || [],
   error: null,
   isLoading: false,
-  searchBy: 0 || ''
+  searchBy: 0 || '',
+  isLogin: data.isLogin,
+  userData: data.userData
 }
 
 export const fetchUsers = createAsyncThunk('users/fetchData', async () => {
@@ -43,6 +57,7 @@ export const userSlice = createSlice({
 
     sortUsers: (state, action) => {
       const sortValue = action.payload
+      // Sorting users by first name or last name
       if (sortValue === 'firstName') {
         state.users.sort((a, b) => a.firstName.localeCompare(b.firstName))
       } else if (sortValue === 'lastName') {
@@ -51,8 +66,37 @@ export const userSlice = createSlice({
     },
 
     deleteUser: (state, action) => {
-      const { id } = action.payload
+      const id = Number(action.payload)
+      // Deleting user
       state.users = state.users.filter((user) => user.id !== id)
+      localStorage.setItem('users', JSON.stringify({ users: state.users }))
+    },
+
+    login: (state, action) => {
+      state.isLogin = true
+      state.userData = action.payload
+
+      // Setting login data to local storage
+      localStorage.setItem(
+        'loginData',
+        JSON.stringify({
+          isLogin: state.isLogin,
+          userData: state.userData
+        })
+      )
+    },
+    logout: (state) => {
+      state.isLogin = false
+      state.userData = null
+
+      // Resting login data in the local storage
+      localStorage.setItem(
+        'loginData',
+        JSON.stringify({
+          isLogin: state.isLogin,
+          userData: state.userData
+        })
+      )
     }
   },
   extraReducers: (builder) => {
@@ -72,5 +116,5 @@ export const userSlice = createSlice({
   }
 })
 
-export const { sortUsers, searchUsers, deleteUser } = userSlice.actions
+export const { sortUsers, searchUsers, deleteUser, logout, login } = userSlice.actions
 export default userSlice.reducer

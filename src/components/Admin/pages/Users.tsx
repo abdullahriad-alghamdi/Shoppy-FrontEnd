@@ -29,7 +29,14 @@ function UsersList() {
   }
 
   const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(deleteUser(Number(e.currentTarget.id)))
+    const userId = e.currentTarget.id
+    const confirmDelete = window.confirm('Are you sure you want to delete this user?')
+    if (!confirmDelete) {
+      return
+    }
+    console.log('delete user', typeof userId)
+
+    dispatch(deleteUser(userId))
   }
 
   if (isLoading) {

@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent } from 'react'
 import { Product } from '../../redux/slices/Products/productSlice'
+import { toast } from 'react-toastify'
 
 type ProductFormProps = {
   product: Product
@@ -8,12 +9,11 @@ type ProductFormProps = {
 }
 
 export function ProductForm({ product, handleSubmit, handleChange }: ProductFormProps) {
-  const inputStyle =
-    'w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-400'
-  const labelStyle = 'block text-sm font-medium text-gray-600'
+  const inputStyle = 'w-100 px-3 py-2  border rounded-lg focus:outline-none focus:border-blue-400'
+  const labelStyle = 'd-block mb-1 text-sm font-medium text-gray-600 dark:text-gray-200'
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-gray-100 rounded-lg">
+    <form onSubmit={handleSubmit} className="p-4 bg-gray-100 rounded-lg  ">
       <div className="mb-4">
         <label htmlFor="name" className={labelStyle}>
           Name:
@@ -25,6 +25,13 @@ export function ProductForm({ product, handleSubmit, handleChange }: ProductForm
           value={product.name}
           onChange={handleChange}
           className={inputStyle}
+          onBlur={(e) => {
+            const { value } = e.target
+            if (value.length < 3) {
+              toast.error('Name must be at least 3 characters long')
+            }
+          }}
+          required
         />
       </div>
       <div className="mb-4">
@@ -38,6 +45,13 @@ export function ProductForm({ product, handleSubmit, handleChange }: ProductForm
           value={product.image}
           onChange={handleChange}
           className={inputStyle}
+          onBlur={(e) => {
+            const { value } = e.target
+            if (!value.startsWith('https://')) {
+              toast.error('Image URL must start with https://')
+            }
+          }}
+          required
         />
       </div>
       <div className="mb-4">
@@ -50,6 +64,13 @@ export function ProductForm({ product, handleSubmit, handleChange }: ProductForm
           value={product.description}
           onChange={handleChange}
           className={inputStyle}
+          onBlur={(e) => {
+            const { value } = e.target
+            if (value.length < 10) {
+              toast.error('Description must be at least 10 characters long')
+            }
+          }}
+          required
         />
       </div>
       <div className="mb-4">
@@ -63,6 +84,13 @@ export function ProductForm({ product, handleSubmit, handleChange }: ProductForm
           value={product.categories.join(',')}
           onChange={handleChange}
           className={inputStyle}
+          onBlur={(e) => {
+            const { value } = e.target
+            if (!value.endsWith('s')) {
+              toast.error('Categories must be plural')
+            }
+          }}
+          required
         />
       </div>
       <div className="mb-4">
@@ -88,7 +116,7 @@ export function ProductForm({ product, handleSubmit, handleChange }: ProductForm
           id="sizes"
           value={product.sizes.join(',')}
           onChange={handleChange}
-          className="w-full px-3 py-2  border rounded-lg focus:outline-none focus:border-blue-400"
+          className={inputStyle}
         />
       </div>
       <div className="mb-4">
@@ -102,6 +130,12 @@ export function ProductForm({ product, handleSubmit, handleChange }: ProductForm
           value={product.price}
           onChange={handleChange}
           className={inputStyle}
+          onBlur={(e) => {
+            const { value } = e.target
+            if (+value < 0) {
+              toast.error('Price must be a positive number')
+            }
+          }}
         />
       </div>
       <div className="mb-4">
@@ -115,11 +149,19 @@ export function ProductForm({ product, handleSubmit, handleChange }: ProductForm
           value={product.rating}
           onChange={handleChange}
           className={inputStyle}
+          onBlur={(e) => {
+            const { value } = e.target
+            if (+value < 0 || +value > 5) {
+              toast.error('Rating must be between 0 and 5')
+            }
+          }}
         />
       </div>
-      <button type="submit" className="w-full px-4 py-2  bg-blue-500 rounded-lg hover:bg-blue-600">
-        Add Product
-      </button>
+      <div className="w-100 d-flex justify-content-center">
+        <button type="submit" className=" btn btn-outline-light border fw-bold px-4 py-2">
+          Add Product
+        </button>
+      </div>
     </form>
   )
 }
