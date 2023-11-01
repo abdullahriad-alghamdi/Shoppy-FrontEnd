@@ -39,15 +39,17 @@ function Categories() {
     dispatch(removeCategory(id))
   }
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: number, name: string) => {
     setSelectedId(id)
     setIsEdit(true)
+    setCategory({ name })
   }
 
   const handleSave = () => {
+    dispatch(updateCategory({ id: SelectedId, name: category.name }))
     setIsEdit(false)
     setSelectedId(0)
-    dispatch(updateCategory({ id: SelectedId, name: category.name }))
+    toast.success('Category Updated Successfully')
   }
   return (
     <>
@@ -62,7 +64,7 @@ function Categories() {
                 className="form-control m-2 w-75"
                 type="text"
                 placeholder="Category Name..."
-                value={category.name}
+                value={`${isEdit ? category.name : ''}`}
                 onChange={(e) => setCategory({ ...category, name: e.target.value })}
               />
               {isEdit ? (
@@ -89,7 +91,9 @@ function Categories() {
                       <Card.Title>{category.name}</Card.Title>
                       <Card.Text>Id: {category.id}</Card.Text>
                       <div className="d-flex justify-content-around align-items-center">
-                        <button className="btn btn-success" onClick={() => handleEdit(category.id)}>
+                        <button
+                          className="btn btn-success"
+                          onClick={() => handleEdit(category.id, category.name)}>
                           Edit
                         </button>
                         <button className="btn btn-danger" onClick={handleDelete(category.id)}>
@@ -100,7 +104,7 @@ function Categories() {
                   </Card>
                 ))
               ) : (
-                <h2>No Categories</h2>
+                toast.error('No Categories Found')
               )}
             </div>
           </section>
