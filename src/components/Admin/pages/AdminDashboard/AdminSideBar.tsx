@@ -4,7 +4,7 @@ const AdminSideBar = () => {
   return (
     <aside className="admin-sidebar p-3 my-4">
       <ul className="nav w-100 d-flex justify-content-around">
-        <Link to="/dashboard/admin/">
+        <Link to="/dashboard/admin/profile">
           <li>Profile</li>
         </Link>
         <Link to="/dashboard/admin/categories">

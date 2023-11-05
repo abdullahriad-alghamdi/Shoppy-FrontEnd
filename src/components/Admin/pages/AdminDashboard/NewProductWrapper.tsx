@@ -48,8 +48,8 @@ export function NewProductWrapper() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     console.log('New product data:', product)
-    product.id = +new Date()
-    console.log('product:', product)
+    const newProduct = { ...product, id: +new Date() }
+    console.log('product:', newProduct)
 
     dispatch(addProduct({ product }))
     setProduct(initialProductState)

@@ -134,6 +134,16 @@ export const userSlice = createSlice({
       state.users[userIndex].password = password
 
       localStorage.setItem('users', JSON.stringify({ users: state.users }))
+    },
+    editInfoAdmin: (state, action) => {
+      const { firstName, lastName } = action.payload
+      const userIndex = state.users.findIndex((user) => user.id === action.payload.id)
+
+      // Updating user
+      state.users[userIndex].firstName = firstName
+      state.users[userIndex].lastName = lastName
+
+      localStorage.setItem('users', JSON.stringify({ users: state.users }))
     }
   },
   extraReducers: (builder) => {
@@ -153,6 +163,14 @@ export const userSlice = createSlice({
   }
 })
 
-export const { sortUsers, searchUsers, deleteUser, register, logout, login, editInfo } =
-  userSlice.actions
+export const {
+  sortUsers,
+  searchUsers,
+  deleteUser,
+  register,
+  logout,
+  login,
+  editInfo,
+  editInfoAdmin
+} = userSlice.actions
 export default userSlice.reducer

@@ -89,7 +89,7 @@ function UsersList() {
             {filteredUsers.length > 0 ? (
               <table
                 border={1}
-                className="table table-striped table-hover table-bordered border-dark mx-auto w-75 responsive">
+                className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center users-table">
                 <thead className="table-dark text-center">
                   <tr>
                     <th>Id</th>
@@ -121,7 +121,7 @@ function UsersList() {
                 </tbody>
               </table>
             ) : (
-              'No users found'
+              <h1 className="text-center text-muted my-5">No users found</h1>
             )}
           </section>
         </section>

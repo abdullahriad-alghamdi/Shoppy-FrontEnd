@@ -15,6 +15,7 @@ import OrdersHistory from '../components/User/pages/UserDashboard/OrdersHistory'
 
 import AdminProtectedRouter from './AdminProtectedRouter'
 import AdminDashboard from '../components/Admin/pages/AdminDashboard/AdminDashboard'
+import AdminProfileEdit from '../components/Admin/pages/AdminDashboard/AdminProfileEdit'
 import Categories from '../components/Admin/pages/AdminDashboard/Categories'
 import Products from '../components/Admin/pages/AdminDashboard/Products'
 import Orders from '../components/Admin/pages/AdminDashboard/Orders'
@@ -32,11 +33,12 @@ const Router = () => {
 
         <Route path="/dashboard" element={<AdminProtectedRouter />}>
           <Route path="admin" element={<AdminDashboard />} />
+          <Route path="admin/profile" element={<AdminProfileEdit />} />
           <Route path="admin/categories" element={<Categories />} />
           <Route path="admin/products" element={<Products />} />
           <Route path="admin/NewProduct" element={<AddNewProduct />} />
           <Route path="admin/users" element={<UsersList />} />
-          <Route path="admin/ordersHistory" element={<Orders />} />
+          <Route path="admin/orders" element={<Orders />} />
         </Route>
 
         <Route path="/dashboard" element={<UserProtectedRouter />}>

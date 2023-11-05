@@ -5,6 +5,9 @@ import AdminSideBar from './AdminSideBar'
 
 function Orders() {
   const { orders, isLoading, error } = useSelector((state: RootState) => state.orders)
+  const { users } = useSelector((state: RootState) => state.users)
+  const { products } = useSelector((state: RootState) => state.products)
+
 
   if (error) {
     return <h3> {error} </h3>
@@ -20,21 +23,22 @@ function Orders() {
           ) : orders.length > 0 ? (
             <table
               border={1}
-              className="table table-striped table-hover table-bordered border-dark mx-auto w-75">
+              className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center" >
               <thead className="table-dark text-center">
-                <tr>
-                  <th>Order id</th>
-                  <th>Product id</th>
-                  <th>Buyer id</th>
-                  <th>purchased Date</th>
+                <tr className="text-center align-middle">
+                  <th>Id</th>
+                  <th>Product</th>
+                  <th>Buyer</th>
+                  <th>Purchased Date</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
                   <tr key={order.id}>
                     <td>{order.id}</td>
-                    <td>{order.productId}</td>
-                    <td>{order.userId}</td>
+
+                    <td>{products.find((product) => product.id === order.productId)?.name}</td>
+                    <td>{users.find((user) => user.id === order.userId)?.firstName}</td>
                     <td>{order.purchasedAt}</td>
                   </tr>
                 ))}
@@ -44,7 +48,7 @@ function Orders() {
             'No orders found'
           )}
         </section>
-      </section>
+      </section >
     </>
   )
 }

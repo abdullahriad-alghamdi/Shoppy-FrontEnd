@@ -23,7 +23,7 @@ const Footer = () => {
             <form onSubmit={handleSubscribe}>
               <label htmlFor="subscribe">
                 <h3>Unlock Exclusive Deals and Offers!</h3>
-                <input type="text" id="subscribe" placeholder="Enter your email address" required />
+                <input type="email" id="subscribe" placeholder="Enter your email address" required />
                 <button type="submit">Subscribe Now</button>
               </label>
             </form>

@@ -151,3 +151,11 @@ body {
   color: rgba(29, 29, 29, 0.7);
   margin: 0 3rem;
 }
+
+@media screen and (max-width: 500px) {
+  .users-table {
+    display: block;
+    overflow: auto;
+    width: 100%;
+  }
+}

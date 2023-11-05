@@ -60,8 +60,8 @@
     "purchasedAt": "2023-09-27T15:55:00"
   },
   {
-    "id": 10,
-    "productId": 6,
+    "id": 11,
+    "productId": 12,
     "userId": 5,
     "purchasedAt": "2023-09-27T15:55:00"
   }
