@@ -1,17 +1,17 @@
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../redux/store'
-import { Product, searchProducts, sortProducts } from '../../../../redux/slices/Products/productSlice'
 import { Link } from 'react-router-dom'
 
-import { Rating, Stack, Pagination } from '@mui/material'
-
-import { Button, Card } from 'react-bootstrap'
-
+import { Product, searchProducts, sortProducts } from '../../../../redux/slices/Products/productSlice'
 import Hero from './Hero'
 import FilterBar from './FilterBar'
-import { FaSearch } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
 import { addToCart } from '../../../../redux/slices/Cart/cartSlice'
+
+
+import { FaSearch } from 'react-icons/fa'
+import { Rating, Stack, Pagination } from '@mui/material'
+import { Button, Card } from 'react-bootstrap'
 
 function Home() {
   const dispatch: AppDispatch = useDispatch()

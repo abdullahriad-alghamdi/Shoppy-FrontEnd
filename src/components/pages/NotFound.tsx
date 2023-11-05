@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router-dom'
+
 import { Button } from 'react-bootstrap'
 import { FaArrowLeft } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const NotFound = () => {

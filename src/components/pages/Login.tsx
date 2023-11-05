@@ -1,10 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
+
 import { login } from '../../redux/slices/UsersList/userSlice'
+
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 
 const Login = () => {

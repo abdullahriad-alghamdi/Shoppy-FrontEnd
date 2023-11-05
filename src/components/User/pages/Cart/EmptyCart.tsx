@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 
 const EmptyCart = () => {
+
   const images = [
     '/assets/empty-cart-0.png',
     '/assets/empty-cart-1.png',

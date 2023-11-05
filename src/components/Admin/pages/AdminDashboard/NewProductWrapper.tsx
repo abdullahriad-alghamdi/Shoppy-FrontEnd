@@ -1,12 +1,13 @@
 import { useState, ChangeEvent, FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../../../../redux/store'
+import { addProduct, Product } from '../../../../redux/slices/Products/productSlice'
 
 import { ProductForm } from './ProductForm'
-import { addProduct, Product } from '../../../../redux/slices/Products/productSlice'
-import { AppDispatch } from '../../../../redux/store'
 
 export function NewProductWrapper() {
+
   const navigate = useNavigate()
 
   const initialProductState: Product = {
@@ -23,6 +24,7 @@ export function NewProductWrapper() {
   }
 
   const dispatch = useDispatch<AppDispatch>()
+
   const [product, setProduct] = useState<Product>(initialProductState)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -54,6 +56,9 @@ export function NewProductWrapper() {
     dispatch(addProduct({ product }))
     setProduct(initialProductState)
     navigate('/dashboard/admin/products')
+
+
+
   }
 
   return (

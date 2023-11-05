@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-
-import { FaUser, FaCartPlus, FaShoppingCart } from 'react-icons/fa'
 import { AppDispatch, RootState } from '../../../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { logout } from '../../../../redux/slices/UsersList/userSlice'
+
+import { FaUser, FaShoppingCart } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { Badge } from 'react-bootstrap'
 

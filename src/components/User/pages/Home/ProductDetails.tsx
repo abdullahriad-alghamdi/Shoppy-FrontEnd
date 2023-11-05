@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
+import { AppDispatch, RootState } from '../../../../redux/store'
 
 import { Product, fetchProducts, findProductById } from '../../../../redux/slices/Products/productSlice'
-import { AppDispatch, RootState } from '../../../../redux/store'
 import { addToCart } from '../../../../redux/slices/Cart/cartSlice'
 
 import { Card, Container, Row, Spinner } from 'react-bootstrap'

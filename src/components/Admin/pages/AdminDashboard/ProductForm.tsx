@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent } from 'react'
 import { Product } from '../../../../redux/slices/Products/productSlice'
+
 import { toast } from 'react-toastify'
 
 type ProductFormProps = {
@@ -9,6 +10,7 @@ type ProductFormProps = {
 }
 
 export function ProductForm({ product, handleSubmit, handleChange }: ProductFormProps) {
+
   const inputStyle = 'w-100 px-3 py-2  border rounded-lg focus:outline-none focus:border-blue-400'
   const labelStyle = 'd-block mb-1 text-sm font-medium text-gray-600 dark:text-gray-200'
 

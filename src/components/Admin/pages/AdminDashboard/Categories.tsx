@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 
 import AdminSideBar from './AdminSideBar'
-
-import { Button, Card, Spinner } from 'react-bootstrap'
-import { toast } from 'react-toastify'
 import {
   addCategory,
   removeCategory,
   updateCategory
 } from '../../../../redux/slices/Categories/categorySlice'
+
+
+import { Button, Card, Spinner } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 
 function Categories() {
   const { categories, isLoading, error } = useSelector((state: RootState) => state.categories)
@@ -20,10 +21,7 @@ function Categories() {
   const [isEdit, setIsEdit] = useState(false)
   const [selectedId, setSelectedId] = useState<number>(0)
 
-  // const getCategoryNameById = (categoryId: number) => {
-  //   const category = categories.find((category) => category.id === categoryId)
-  //   return category ? category.name : 'Category not found'
-  // }
+
   const dispatch = useDispatch()
 
   if (error) {

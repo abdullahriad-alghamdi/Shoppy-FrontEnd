@@ -4,6 +4,7 @@ import EmptyCart from './EmptyCart'
 import { RootState } from '../../../../redux/store'
 import { Product } from '../../../../redux/slices/Products/productSlice'
 import { DecreaseQuantity, IncreaseQuantity, removeFromCart } from '../../../../redux/slices/Cart/cartSlice'
+
 import { Button } from 'react-bootstrap'
 import { FaRegTrashAlt, FaShoppingBag } from 'react-icons/fa'
 

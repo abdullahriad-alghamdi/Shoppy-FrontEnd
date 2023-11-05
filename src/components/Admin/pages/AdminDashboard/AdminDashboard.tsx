@@ -1,9 +1,11 @@
 import { useSelector } from 'react-redux'
-import AdminSideBar from './AdminSideBar'
 import { RootState } from '../../../../redux/store'
 
+import AdminSideBar from './AdminSideBar'
+
 const AdminDashboard = () => {
-  const random = Math.floor(Math.random() * 200000)
+
+  const random = Math.floor(Math.random() * 2000)
 
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const { users } = useSelector((state: RootState) => state.users)

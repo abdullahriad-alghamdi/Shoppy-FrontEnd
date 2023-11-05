@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../redux/store'
+
 import {
   Product,
   removeProduct,
@@ -9,9 +10,9 @@ import {
   sortProducts,
   updateProduct
 } from '../../../../redux/slices/Products/productSlice'
+import AdminSideBar from './AdminSideBar'
 
 import { Button, Card } from 'react-bootstrap'
-import AdminSideBar from './AdminSideBar'
 import { FaPlusCircle } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 

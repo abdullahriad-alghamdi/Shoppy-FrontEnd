@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '../redux/store'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 import NotFound from '../components/pages/NotFound'
 

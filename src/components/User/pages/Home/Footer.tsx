@@ -1,10 +1,13 @@
-import { FaFacebookF, FaTwitter, FaInstagram, FaPhone, FaPhoneAlt, FaPhoneSquareAlt, FaRegMinusSquare } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
+
+import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 
 const Footer = () => {
+
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
+
   const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     toast.success('Thank you for subscribing!', {
@@ -15,6 +18,7 @@ const Footer = () => {
       draggable: true
     })
   }
+
   return (
     <footer className="footer">
       {((isLogin && userData && userData.role !== 'admin') || !isLogin) && (
