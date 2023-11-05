@@ -34,13 +34,13 @@ function Home() {
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchTerm = e.target.value
     setSearchTerm(newSearchTerm)
-    setCurrentPage(1) // Reset the current page to 1
+    setCurrentPage(1)
     dispatch(searchProducts(newSearchTerm))
   }
 
   useEffect(() => {
     if (searchTerm !== searchBy) {
-      setCurrentPage(1) // Reset the current page to 1
+      setCurrentPage(1)
     }
   }, [searchTerm, searchBy])
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

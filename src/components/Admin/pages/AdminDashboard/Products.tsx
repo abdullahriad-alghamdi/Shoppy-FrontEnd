@@ -187,8 +187,7 @@ function Products() {
                             }
                           />
                         </Card.Text>
-                        // i will use the getCategoryNameById function to get the name of the
-                        category
+
                         <Card.Text>
                           <select
                             id="products__sorting"

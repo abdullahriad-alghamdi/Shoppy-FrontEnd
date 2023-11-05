@@ -11,7 +11,6 @@ const NotFound = () => {
     let seconds = 10
     const interval = setInterval(() => {
       seconds--
-      console.log(seconds)
       if (seconds === 0) {
         clearInterval(interval)
         navigate('/')

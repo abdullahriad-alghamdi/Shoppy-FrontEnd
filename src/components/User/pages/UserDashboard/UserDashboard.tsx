@@ -13,7 +13,6 @@ const UserDashboard = () => {
 
   const userName = () => {
     if (isLogin && userData?.role === 'visitor') {
-      // finding the firstName of the admin who is logged in and assigning it to the visitor variable
       const visitor = users.find((user) => user.role === 'visitor' && user.id === userData.id)
       const visitorName = visitor?.firstName + ' ' + visitor?.lastName
       return visitorName

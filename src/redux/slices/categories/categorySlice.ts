@@ -43,7 +43,6 @@ export const categorySlice = createSlice({
 
       const updatedCategories = state.categories.map((category) => {
         if (category.id === id) {
-          // Create a new category object with the updated name
           return { ...category, name }
         }
         return category

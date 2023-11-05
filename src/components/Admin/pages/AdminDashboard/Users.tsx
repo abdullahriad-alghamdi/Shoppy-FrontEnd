@@ -34,7 +34,6 @@ function UsersList() {
     if (!confirmDelete) {
       return
     }
-    console.log('delete user', typeof userId)
 
     dispatch(deleteUser(userId))
   }
