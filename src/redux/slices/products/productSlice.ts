@@ -12,6 +12,7 @@ export type Product = {
   sizes: string[]
   price: number
   rating: number
+  quantity: number
 }
 
 export type ProductState = {
@@ -66,6 +67,7 @@ export const productSlice = createSlice({
           break
       }
     },
+
     findProductById: (state, action) => {
       const id = action.payload
       const foundProduct = state.products.find((product) => product.id === id)
@@ -75,6 +77,7 @@ export const productSlice = createSlice({
         state.error = `Product with id ${id} not found.`
       }
     },
+
     filterProducts: (state, action) => {
       const filterValue = action.payload
       if (filterValue === 'all') {
@@ -85,23 +88,27 @@ export const productSlice = createSlice({
         )
       }
     },
+
     productsRequest: (state) => {
       state.isLoading = true
     },
+
     productsSuccess: (state, action) => {
       state.isLoading = false
       state.products = action.payload
     },
+
     addProduct: (state, action: { payload: { product: Product } }) => {
-      // let's append the new product to the beginning of the array
       state.products = [action.payload.product, ...state.products]
     },
+
     removeProduct: (state, action: { payload: { productId: number } }) => {
       const filteredItems = state.products.filter(
         (product) => product.id !== action.payload.productId
       )
       state.products = filteredItems
     },
+
     updateProduct: (state, action) => {
       const { id, product } = action.payload
       const updatedProducts = state.products.map((oneProduct) => {
@@ -113,6 +120,7 @@ export const productSlice = createSlice({
       state.products = updatedProducts
     }
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {

@@ -58,5 +58,11 @@
     "productId": 6,
     "userId": 10,
     "purchasedAt": "2023-09-27T15:55:00"
+  },
+  {
+    "id": 10,
+    "productId": 6,
+    "userId": 5,
+    "purchasedAt": "2023-09-27T15:55:00"
   }
 ]

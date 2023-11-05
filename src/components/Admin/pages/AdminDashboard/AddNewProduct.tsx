@@ -1,4 +1,4 @@
-import { NewProductWrapper } from '../NewProductWrapper'
+import { NewProductWrapper } from './NewProductWrapper'
 
 function AddNewProduct() {
   return (

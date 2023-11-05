@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom'
 
-import { FaUser, FaCartPlus } from 'react-icons/fa'
-import { AppDispatch, RootState } from '../../redux/store'
+import { FaUser, FaCartPlus, FaShoppingCart } from 'react-icons/fa'
+import { AppDispatch, RootState } from '../../../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../../redux/slices/UsersList/userSlice'
+import { logout } from '../../../../redux/slices/UsersList/userSlice'
 import { toast } from 'react-toastify'
+import { Badge } from 'react-bootstrap'
 
 export function NavBar() {
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
+  const cartItems = useSelector((state: RootState) => state.cart.inCart)
 
   const dispatch: AppDispatch = useDispatch()
   const handleLogout = () => {
@@ -57,9 +59,13 @@ export function NavBar() {
             <li>
               {isLogin && userData?.role === 'visitor' && (
                 <Link to="/dashboard/user/MyCart">
-                  <span>
-                    <FaCartPlus />
-                    Cart
+                  <span className="cart-icon-wrapper">
+                    <FaShoppingCart className="cart-icon fs-4" />
+                    <Badge
+                      bg="danger"
+                      className="badge">
+                      {cartItems && cartItems.length > 0 ? cartItems.length : 0}
+                    </Badge>
                   </span>
                 </Link>
               )}

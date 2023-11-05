@@ -33,7 +33,6 @@ const Login = () => {
       })
     } else {
       alert('please enter valid email and password')
-      toast.error('Invalid email or password')
     }
   }
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +53,7 @@ const Login = () => {
             value={user.email}
             name="email"
             onChange={handleChange}
+            required
           />
         </Form.Group>
 
@@ -65,6 +65,7 @@ const Login = () => {
             value={user.password}
             name="password"
             onChange={handleChange}
+            required
           />
         </Form.Group>
 

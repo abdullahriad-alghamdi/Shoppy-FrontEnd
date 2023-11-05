@@ -61,6 +61,23 @@
       gap: 0.5rem;
       margin-top: 1rem;
     }
+    .cart-icon-wrapper {
+      position: relative;
+
+      .cart-icon {
+        cursor: pointer;
+      }
+      .badge {
+        font-size: 0.75rem;
+        font-weight: bold;
+        position: absolute;
+        top: -1.4rem;
+        right: -0.6rem;
+        background-color: #ffffff;
+        border-radius: 50%;
+        padding: 0.2rem 0.35rem;
+      }
+    }
     .small-navbar {
       display: flex;
       justify-content: center;

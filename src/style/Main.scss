@@ -6,7 +6,7 @@
 @forward 'user/HomePage/home';
 @forward 'user/HomePage/filterBar';
 @forward 'user/HomePage/footerSection';
-
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Dosis&display=swap');
 /**============================================
   *               Global Styles
   *=============================================**/
@@ -16,6 +16,14 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
 body {
@@ -73,15 +81,73 @@ body {
   }
 }
 
-.loading {
-  position: absolute;
+.overlay {
+  overscroll-behavior: quick;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
   left: 0;
-  right: 0;
-  display: flex;
-  place-items: center;
-  place-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-  font-size: 2em;
+  z-index: 100;
+  width: 100%;
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.trash-icon {
+  color: #dc3545;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    // animation at 90deg left and right
+    animation: trash-icon 1s ease-in-out;
+
+    @keyframes trash-icon {
+      0% {
+        transform: rotate(0deg);
+      }
+      25% {
+        transform: rotate(20deg);
+      }
+      50% {
+        transform: rotate(-20deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+  }
+}
+
+.error-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: auto auto;
+}
+.error-img {
+  max-height: 40rem;
+  max-width: 40rem;
+
+  @media screen and (max-width: 1187px) {
+    max-height: 20rem;
+    max-width: 20rem;
+  }
+}
+.font-brandon {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 6rem);
+  font-weight: 700;
+  line-height: 3.188rem;
+  color: #1d1d1d;
+  margin: 3rem;
+}
+
+.font-dosis {
+  font-family: 'Dosis';
+  font-size: clamp(1.5rem, 1vw, 2rem);
+  line-height: 1.875rem;
+  color: rgba(29, 29, 29, 0.7);
+  margin: 0 3rem;
 }

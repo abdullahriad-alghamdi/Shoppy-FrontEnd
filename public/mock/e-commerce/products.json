@@ -8,7 +8,8 @@
     "variants": ["8GB RAM", "16GB RAM"],
     "sizes": ["13-inch", "15-inch"],
     "price": 5520,
-    "rating": 4.5
+    "rating": 4.5,
+    "quantity": 0
   },
   {
     "id": 2,
@@ -19,7 +20,8 @@
     "variants": ["64GB", "128GB"],
     "sizes": [],
     "price": 5500,
-    "rating": 4.8
+    "rating": 4.8,
+    "quantity": 0
   },
   {
     "id": 3,
@@ -30,7 +32,8 @@
     "variants": ["32GB", "64GB"],
     "sizes": ["10-inch", "12-inch"],
     "price": 3500,
-    "rating": 4.2
+    "rating": 4.2,
+    "quantity": 0
   },
   {
     "id": 4,
@@ -41,7 +44,8 @@
     "variants": ["500GB", "1TB"],
     "sizes": [],
     "price": 3000,
-    "rating": 4.9
+    "rating": 4.9,
+    "quantity": 0
   },
   {
     "id": 5,
@@ -52,7 +56,8 @@
     "variants": ["24MP", "36MP"],
     "sizes": [],
     "price": 2500,
-    "rating": 4.7
+    "rating": 4.7,
+    "quantity": 0
   },
   {
     "id": 6,
@@ -63,7 +68,8 @@
     "variants": ["Small", "Large"],
     "sizes": [],
     "price": 400,
-    "rating": 4.3
+    "rating": 4.3,
+    "quantity": 0
   },
   {
     "id": 7,
@@ -74,7 +80,8 @@
     "variants": ["5.1 Surround Sound", "7.1 Surround Sound"],
     "sizes": [],
     "price": 4000,
-    "rating": 4.6
+    "rating": 4.6,
+    "quantity": 0
   },
   {
     "id": 8,
@@ -85,7 +92,8 @@
     "variants": ["Single Serve", "Drip Coffee Maker"],
     "sizes": [],
     "price": 500,
-    "rating": 3.4
+    "rating": 3.4,
+    "quantity": 0
   },
   {
     "id": 9,
@@ -96,7 +104,8 @@
     "variants": ["Black", "White"],
     "sizes": [],
     "price": 50,
-    "rating": 4.1
+    "rating": 4.1,
+    "quantity": 0
   },
   {
     "id": 10,
@@ -107,7 +116,8 @@
     "variants": ["1TB", "2TB"],
     "sizes": [],
     "price": 900,
-    "rating": 2.9
+    "rating": 2.9,
+    "quantity": 0
   },
   {
     "id": 11,
@@ -118,7 +128,8 @@
     "variants": ["Over-Ear", "In-Ear"],
     "sizes": [],
     "price": 80,
-    "rating": 4.2
+    "rating": 4.2,
+    "quantity": 0
   },
   {
     "id": 12,
@@ -129,6 +140,7 @@
     "variants": ["Titanium"],
     "sizes": [],
     "price": 700,
-    "rating": 1.5
+    "rating": 1.5,
+    "quantity": 0
   }
 ]

@@ -1,15 +1,16 @@
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import { RootState } from '../../../../redux/store'
 
 import AdminSideBar from './AdminSideBar'
+
 import { Button, Card, Spinner } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import {
   addCategory,
   removeCategory,
   updateCategory
-} from '../../../redux/slices/Categories/categorySlice'
-import { useState } from 'react'
+} from '../../../../redux/slices/Categories/categorySlice'
 
 function Categories() {
   const { categories, isLoading, error } = useSelector((state: RootState) => state.categories)
@@ -17,12 +18,12 @@ function Categories() {
     name: ''
   })
   const [isEdit, setIsEdit] = useState(false)
-  const [SelectedId, setSelectedId] = useState<number>(0)
+  const [selectedId, setSelectedId] = useState<number>(0)
 
-  const getCategoryNameById = (categoryId: number) => {
-    const category = categories.find((category) => category.id === categoryId)
-    return category ? category.name : 'Category not found'
-  }
+  // const getCategoryNameById = (categoryId: number) => {
+  //   const category = categories.find((category) => category.id === categoryId)
+  //   return category ? category.name : 'Category not found'
+  // }
   const dispatch = useDispatch()
 
   if (error) {
@@ -32,13 +33,24 @@ function Categories() {
   const handleAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(addCategory({ name: category.name, id: categories[categories.length - 1].id + 1 }))
-    toast.success('Category Added Successfully')
+    toast.success('Category Added Successfully', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      draggable: true
+    })
   }
-  console.log(category)
 
   const handleDelete = (id: number) => () => {
     dispatch(removeCategory(id))
-    toast.success('Category Deleted Successfully')
+    toast.success('Category Deleted Successfully', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      draggable: true
+    })
   }
 
   const handleEdit = (id: number, name: string) => {
@@ -48,10 +60,16 @@ function Categories() {
   }
 
   const handleSave = () => {
-    dispatch(updateCategory({ id: SelectedId, name: category.name }))
+    dispatch(updateCategory({ id: selectedId, name: category.name }))
     setIsEdit(false)
     setSelectedId(0)
-    toast.success('Category Updated Successfully')
+    toast.success('Category Updated Successfully', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      draggable: true
+    })
   }
   return (
     <>
@@ -107,7 +125,13 @@ function Categories() {
                   </Card>
                 ))
               ) : (
-                toast.error('No Categories Found')
+                toast.error('No Categories Found', {
+                  position: 'top-right',
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  draggable: true
+                })
               )}
             </div>
           </section>

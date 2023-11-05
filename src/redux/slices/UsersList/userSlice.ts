@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import api from '../../../api'
-import UsersList from '../../../components/Admin/pages/Users'
 
 export type User = {
   id: number
@@ -9,6 +8,7 @@ export type User = {
   lastName: string
   email: string
   password: string
+  passwordConfirmation: string
   role: string
 }
 export type UserState = {
@@ -18,6 +18,7 @@ export type UserState = {
   searchBy: number | string
   isLogin: boolean
   userData: null | User
+  userExist: boolean
 }
 
 // This is get data from local storage
@@ -25,6 +26,8 @@ const data =
   localStorage.getItem('loginData') !== null
     ? JSON.parse(String(localStorage.getItem('loginData')))
     : []
+
+// This is get data from local storage
 
 const usersList =
   localStorage.getItem('users') !== null ? JSON.parse(String(localStorage.getItem('users'))) : []
@@ -35,7 +38,8 @@ const initialState: UserState = {
   isLoading: false,
   searchBy: 0 || '',
   isLogin: data.isLogin,
-  userData: data.userData
+  userData: data.userData,
+  userExist: false
 }
 
 export const fetchUsers = createAsyncThunk('users/fetchData', async () => {
@@ -72,6 +76,25 @@ export const userSlice = createSlice({
       localStorage.setItem('users', JSON.stringify({ users: state.users }))
     },
 
+    register: (state, action) => {
+      const { id, firstName, lastName, email, password, role, passwordConfirmation } =
+        action.payload
+
+      // Adding new user
+      state.users.push({
+        id,
+        firstName,
+        lastName,
+        email,
+        password,
+        passwordConfirmation,
+        role
+      })
+
+      // Setting new user to local storage
+      localStorage.setItem('users', JSON.stringify({ users: state.users }))
+    },
+
     login: (state, action) => {
       state.isLogin = true
       state.userData = action.payload
@@ -85,6 +108,7 @@ export const userSlice = createSlice({
         })
       )
     },
+
     logout: (state) => {
       state.isLogin = false
       state.userData = null
@@ -97,6 +121,19 @@ export const userSlice = createSlice({
           userData: state.userData
         })
       )
+    },
+
+    editInfo: (state, action) => {
+      const { id, firstName, lastName, email, password } = action.payload
+      const userIndex = state.users.findIndex((user) => user.id === id)
+
+      // Updating user
+      state.users[userIndex].firstName = firstName
+      state.users[userIndex].lastName = lastName
+      state.users[userIndex].email = email
+      state.users[userIndex].password = password
+
+      localStorage.setItem('users', JSON.stringify({ users: state.users }))
     }
   },
   extraReducers: (builder) => {
@@ -116,5 +153,6 @@ export const userSlice = createSlice({
   }
 })
 
-export const { sortUsers, searchUsers, deleteUser, logout, login } = userSlice.actions
+export const { sortUsers, searchUsers, deleteUser, register, logout, login, editInfo } =
+  userSlice.actions
 export default userSlice.reducer

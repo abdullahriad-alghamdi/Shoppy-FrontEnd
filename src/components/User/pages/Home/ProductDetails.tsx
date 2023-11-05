@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { fetchProducts, findProductById } from '../../../redux/slices/Products/productSlice'
-import { AppDispatch, RootState } from '../../../redux/store'
+
+import { Product, fetchProducts, findProductById } from '../../../../redux/slices/Products/productSlice'
+import { AppDispatch, RootState } from '../../../../redux/store'
+import { addToCart } from '../../../../redux/slices/Cart/cartSlice'
+
 import { Card, Container, Row, Spinner } from 'react-bootstrap'
 import { ButtonGroup } from '@mui/material'
 
@@ -32,6 +35,10 @@ const ProductDetails = () => {
   }
   if (error) {
     return <h2 className="loading">{error}</h2>
+  }
+
+  const handelAddToCart = (product: Product) => {
+    dispatch(addToCart(product))
   }
 
   return (
@@ -64,18 +71,18 @@ const ProductDetails = () => {
               <span className="fw-bold">Category: </span>
               {singleProduct.categories
                 ? singleProduct.categories
-                    .map((categoryId) => getCategoryNameById(categoryId))
-                    .join(', ')
+                  .map((categoryId) => getCategoryNameById(categoryId))
+                  .join(', ')
                 : 'Product not assigned to any category'}
             </Card.Text>
             <Card.Text>
               <span className="fw-bold">variants: </span>
               {singleProduct.variants
                 ? singleProduct.variants.map((variant) => (
-                    <span key={variant} className="me-2">
-                      {variant}
-                    </span>
-                  ))
+                  <span key={variant} className="me-2">
+                    {variant}
+                  </span>
+                ))
                 : 'No variants provided'}
             </Card.Text>
             <Card.Text>
@@ -83,15 +90,18 @@ const ProductDetails = () => {
               <span className="fw-bold">Sizes: </span>
               {singleProduct.sizes && singleProduct.sizes.length > 0
                 ? singleProduct.sizes.map((size) => (
-                    <span className="me-2" key={size}>
-                      {size}
-                    </span>
-                  ))
+                  <span className="me-2" key={size}>
+                    {size}
+                  </span>
+                ))
                 : 'No sizes provided'}
             </Card.Text>
             <Card.Text>
               <button
                 className="btn"
+                onClick={() => {
+                  handelAddToCart(singleProduct)
+                }}
                 style={{
                   marginLeft: '0px',
                   backgroundColor: '#F5C419',

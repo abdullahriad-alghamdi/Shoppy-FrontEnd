@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { AppDispatch, RootState } from '../../../redux/store'
+import { AppDispatch, RootState } from '../../../../redux/store'
 import {
   Product,
   removeProduct,
   searchProducts,
   sortProducts,
   updateProduct
-} from '../../../redux/slices/Products/productSlice'
+} from '../../../../redux/slices/Products/productSlice'
 
 import { Button, Card } from 'react-bootstrap'
 import AdminSideBar from './AdminSideBar'
@@ -25,7 +25,8 @@ function Products() {
     variants: [],
     sizes: [],
     price: 0,
-    rating: 0
+    rating: 0,
+    quantity: 0
   })
   const dispatch: AppDispatch = useDispatch()
   const { products, isLoading, error, searchBy } = useSelector((state: RootState) => state.products)
@@ -66,7 +67,13 @@ function Products() {
     dispatch(updateProduct({ id: selectedId, product: updatedProduct }))
     setIsEdit(false)
     setSelectedId(0)
-    toast.success('Product Updated Successfully')
+    toast.success('Product Updated Successfully', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      draggable: true
+    })
   }
   const getCategoryNameById = (categoryId: number) => {
     const category = categories.find((category) => category.id === categoryId)
@@ -265,8 +272,8 @@ function Products() {
                           <span className="fw-bold">Category: </span>
                           {product.categories
                             ? product.categories
-                                .map((categoryId) => getCategoryNameById(categoryId))
-                                .join(', ')
+                              .map((categoryId) => getCategoryNameById(categoryId))
+                              .join(', ')
                             : 'Product not assigned to any category'}
                         </Card.Text>
                         <Card.Text>

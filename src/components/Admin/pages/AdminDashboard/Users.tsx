@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../redux/store'
-import { User, deleteUser, searchUsers, sortUsers } from '../../../redux/slices/UsersList/userSlice'
+import { AppDispatch, RootState } from '../../../../redux/store'
+import { User, deleteUser, searchUsers, sortUsers } from '../../../../redux/slices/UsersList/userSlice'
 
 import AdminSideBar from './AdminSideBar'
 import { Spinner } from 'react-bootstrap'

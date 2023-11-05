@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { ProductForm } from './ProductForm'
-import { addProduct, Product } from '../../redux/slices/Products/productSlice'
-import { AppDispatch } from '../../redux/store'
+import { addProduct, Product } from '../../../../redux/slices/Products/productSlice'
+import { AppDispatch } from '../../../../redux/store'
 
 export function NewProductWrapper() {
   const navigate = useNavigate()
@@ -18,7 +18,8 @@ export function NewProductWrapper() {
     variants: [],
     sizes: [],
     price: 0,
-    rating: 0
+    rating: 0,
+    quantity: 0
   }
 
   const dispatch = useDispatch<AppDispatch>()
