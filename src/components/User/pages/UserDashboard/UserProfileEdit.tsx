@@ -1,13 +1,15 @@
 import React, { useState } from "react"
-import { Button, Form } from "react-bootstrap"
-import UserDashboard from "./UserDashboard"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../../../redux/store"
+
+import UserDashboard from "./UserDashboard"
+
 import { editInfo } from "../../../../redux/slices/UsersList/userSlice"
+import { Button, Form } from "react-bootstrap"
 
 const UserProfileEdit = () => {
 
-  const { isLogin, userData } = useSelector((state: RootState) => state.users)
+  const { userData } = useSelector((state: RootState) => state.users)
 
   const dispatch: AppDispatch = useDispatch()
 
