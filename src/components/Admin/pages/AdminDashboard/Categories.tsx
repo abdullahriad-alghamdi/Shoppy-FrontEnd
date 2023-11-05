@@ -21,7 +21,6 @@ function Categories() {
   const [isEdit, setIsEdit] = useState(false)
   const [selectedId, setSelectedId] = useState<number>(0)
 
-
   const dispatch = useDispatch()
 
   if (error) {
@@ -30,7 +29,8 @@ function Categories() {
 
   const handleAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(addCategory({ name: category.name, id: categories[categories.length - 1].id + 1 }))
+    dispatch(addCategory(category))
+    setCategory({ name: '' })
     toast.success('Category Added Successfully', {
       position: 'top-right',
       autoClose: 3000,
@@ -83,7 +83,7 @@ function Categories() {
                 className="form-control m-2 w-75"
                 type="text"
                 placeholder="Category Name..."
-                value={`${isEdit ? category.name : ''}`}
+                value={`${isEdit ? category.name : category.name}`}
                 onChange={(e) => setCategory({ ...category, name: e.target.value })}
               />
               {isEdit ? (
@@ -91,7 +91,7 @@ function Categories() {
                   Save
                 </Button>
               ) : (
-                <button type="submit" className=" btn btn-dark m-2 w-75">
+                <button type="submit" className=" btn btn-dark m-2 w-75" onClick={() => { handleAdd }}>
                   Add Category
                 </button>
               )}
