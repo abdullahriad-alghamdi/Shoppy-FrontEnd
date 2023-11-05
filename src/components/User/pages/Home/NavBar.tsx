@@ -58,8 +58,8 @@ export function NavBar() {
               </nav>
             </li>
             <li>
-              {isLogin && userData?.role === 'visitor' && (
-                <Link to="/dashboard/user/MyCart">
+              {((isLogin && userData && userData.role !== 'admin') || !isLogin) && (
+                <Link to="/MyCart">
                   <span className="cart-icon-wrapper">
                     <FaShoppingCart className="cart-icon fs-4" />
                     <Badge

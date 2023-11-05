@@ -6,6 +6,7 @@ import UserDashboard from "./UserDashboard"
 
 import { editInfo } from "../../../../redux/slices/UsersList/userSlice"
 import { Button, Form } from "react-bootstrap"
+import { toast } from "react-toastify"
 
 const UserProfileEdit = () => {
 
@@ -33,6 +34,19 @@ const UserProfileEdit = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     dispatch(editInfo(user))
+    toast.success('Profile updated successfully', {
+      position: 'top-center',
+      autoClose: 2000
+    })
+
+    setUser({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      role: 'visitor',
+      id: userData?.id
+    })
   }
 
   return <>
@@ -44,7 +58,6 @@ const UserProfileEdit = () => {
         <Form.Label>First Name</Form.Label>
         <Form.Control
           type="text"
-          placeholder={userData?.firstName}
           value={user.firstName}
           name="firstName"
           onChange={handleChange}
@@ -55,7 +68,6 @@ const UserProfileEdit = () => {
         <Form.Label>Last Name</Form.Label>
         <Form.Control
           type="text"
-          placeholder={userData?.lastName}
           value={user.lastName}
           name="lastName"
           onChange={handleChange}
@@ -66,7 +78,6 @@ const UserProfileEdit = () => {
         <Form.Label>Email address</Form.Label>
         <Form.Control
           type="email"
-          placeholder={userData?.email}
           value={user.email}
           name="email"
           onChange={handleChange}
@@ -77,7 +88,6 @@ const UserProfileEdit = () => {
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
-          placeholder={userData?.password}
           value={user.password}
           name="password"
           onChange={handleChange}

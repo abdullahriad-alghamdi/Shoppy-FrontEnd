@@ -30,6 +30,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/Registry" element={<Registry />} />
         <Route path="product/details/:id" element={<ProductDetails />} />
+        <Route path="/MyCart" element={<Cart />} />
 
         <Route path="/dashboard" element={<AdminProtectedRouter />}>
           <Route path="admin" element={<AdminDashboard />} />
@@ -46,7 +47,6 @@ const Router = () => {
           <Route path="user/profile" element={<UserProfile />} />
           <Route path="user/ordersHistory" element={<OrdersHistory />} />
           <Route path="user/profile/edit" element={<UserProfileEdit />} />
-          <Route path="user/MyCart" element={<Cart />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

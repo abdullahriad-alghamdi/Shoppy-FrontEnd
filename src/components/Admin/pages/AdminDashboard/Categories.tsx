@@ -123,13 +123,7 @@ function Categories() {
                   </Card>
                 ))
               ) : (
-                toast.error('No Categories Found', {
-                  position: 'top-right',
-                  autoClose: 3000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  draggable: true
-                })
+                <h2 className="text-muted">No Categories</h2>
               )}
             </div>
           </section>

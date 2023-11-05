@@ -7,13 +7,14 @@ import { editInfoAdmin } from '../../../../redux/slices/UsersList/userSlice'
 import AdminDashboard from './AdminDashboard'
 
 import { Button, Form } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 
 const AdminProfileEdit = () => {
   const { userData } = useSelector((state: RootState) => state.users)
 
   const [user, setUser] = useState({
-    firstName: '',
-    lastName: ''
+    firstName: userData?.firstName,
+    lastName: userData?.lastName,
   })
 
   const dispatch: AppDispatch = useDispatch()
@@ -31,7 +32,16 @@ const AdminProfileEdit = () => {
       const { id } = userData
       const data = { id, ...user }
       dispatch(editInfoAdmin(data))
+      toast.success('Profile updated successfully', {
+        position: 'top-center',
+        autoClose: 2000,
+      })
     }
+
+    setUser({
+      firstName: '',
+      lastName: '',
+    })
   }
 
   return (
@@ -44,8 +54,8 @@ const AdminProfileEdit = () => {
           <Form.Label>First Name</Form.Label>
           <Form.Control
             type="text"
-            placeholder={userData?.firstName}
-            value={user.firstName}
+            placeholder={user?.firstName}
+            value={user?.firstName}
             name="firstName"
             onChange={handleChange}
           />
@@ -55,8 +65,8 @@ const AdminProfileEdit = () => {
           <Form.Label>Last Name</Form.Label>
           <Form.Control
             type="text"
-            placeholder={userData?.lastName}
-            value={user.lastName}
+            placeholder={user?.lastName}
+            value={user?.lastName}
             name="lastName"
             onChange={handleChange}
           />
