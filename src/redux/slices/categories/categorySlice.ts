@@ -33,7 +33,10 @@ export const categorySlice = createSlice({
   initialState,
   reducers: {
     addCategory: (state, action) => {
-      state.categories.push(action.payload)
+      // we need to add an id to the new category
+      const id = state.categories.length + 1
+      const newCategory = { ...action.payload, id }
+      state.categories.push(newCategory)
     },
     removeCategory: (state, action) => {
       state.categories = state.categories.filter((category) => category.id !== action.payload)
