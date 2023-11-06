@@ -7,20 +7,17 @@ export type CartState = {
   totalPrice: number
 }
 
-
 const initialState: CartState = {
   inCart: [],
   totalQuantity: 0,
   totalPrice: 0
 }
 
-
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addToCart: (state, action) => {
-
       const newProduct: Product = action.payload
       const isExist = state.inCart.find((cart) => cart.id === newProduct.id)
 
@@ -48,9 +45,8 @@ export const cartSlice = createSlice({
         (total, product) => total + product.quantity * product.price,
         0
       )
-
     },
-    IncreaseQuantity: (state, action) => {
+    increaseQuantity: (state, action) => {
       const productIncrease: Product = action.payload
       state.inCart.map((product) => {
         if (product.id == productIncrease.id) {
@@ -80,10 +76,9 @@ export const cartSlice = createSlice({
         (total, product) => total + product.quantity * product.price,
         0
       )
-    },
-
+    }
   }
 })
-export const { addToCart, removeFromCart, IncreaseQuantity, DecreaseQuantity } = cartSlice.actions
+export const { addToCart, removeFromCart, increaseQuantity, DecreaseQuantity } = cartSlice.actions
 
 export default cartSlice.reducer

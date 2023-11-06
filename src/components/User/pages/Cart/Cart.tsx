@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import EmptyCart from './EmptyCart'
 import { RootState } from '../../../../redux/store'
 import { Product } from '../../../../redux/slices/Products/productSlice'
-import { DecreaseQuantity, IncreaseQuantity, removeFromCart } from '../../../../redux/slices/Cart/cartSlice'
+import { DecreaseQuantity, increaseQuantity, removeFromCart } from '../../../../redux/slices/Cart/cartSlice'
 
 import { Button } from 'react-bootstrap'
 import { FaRegTrashAlt, FaShoppingBag } from 'react-icons/fa'
@@ -13,7 +13,7 @@ const Cart = () => {
 
   const dispatch = useDispatch()
   const onIncrease = (product: Product) => {
-    dispatch(IncreaseQuantity(product))
+    dispatch(increaseQuantity(product))
   }
 
   const onDecrease = (product: Product) => {
