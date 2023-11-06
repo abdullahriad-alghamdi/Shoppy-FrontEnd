@@ -34,6 +34,7 @@ function Products() {
   const { categories } = useSelector((state: RootState) => state.categories)
   const [isEdit, setIsEdit] = useState(false)
   const [selectedId, setSelectedId] = useState<number>(0)
+
   if (error) {
     return <h3> {error} </h3>
   }
@@ -80,6 +81,13 @@ function Products() {
     const category = categories.find((category) => category.id === categoryId)
     return category ? category.name : 'Category not found'
   }
+
+  //   const handleChange = (fieldName, value) => {
+  //   setUpdatedProduct((prevProduct) => ({
+  //     ...prevProduct,
+  //     [fieldName]: value,
+  //   }));
+  // };
   return (
     <>
       <section>

@@ -9,12 +9,13 @@ const AdminDashboard = () => {
 
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const { users } = useSelector((state: RootState) => state.users)
+
   const adminName = () => {
     if (isLogin && userData?.role === 'admin') {
       // finding the firstName of the admin who is logged in and assigning it to the admin variable
       const admin = users.find((user) => user.role === 'admin' && user.id === userData.id)
-      const Name = admin?.firstName + ' ' + admin?.lastName
-      return Name
+      const name = admin?.firstName + ' ' + admin?.lastName
+      return name
     }
   }
   return (
