@@ -9,7 +9,7 @@ import {
   searchProducts,
   sortProducts,
   updateProduct
-} from '../../../../redux/slices/Products/productSlice'
+} from '../../../../redux/slices/products/productSlice'
 import AdminSideBar from './AdminSideBar'
 
 import { Button, Card } from 'react-bootstrap'

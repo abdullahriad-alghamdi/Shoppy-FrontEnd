@@ -2,7 +2,7 @@ import { useState, ChangeEvent, FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../../../redux/store'
-import { addProduct, Product } from '../../../../redux/slices/Products/productSlice'
+import { addProduct, Product } from '../../../../redux/slices/products/productSlice'
 
 import { ProductForm } from './ProductForm'
 

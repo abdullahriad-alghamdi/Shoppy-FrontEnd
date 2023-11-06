@@ -7,7 +7,7 @@ import {
   addCategory,
   removeCategory,
   updateCategory
-} from '../../../../redux/slices/Categories/categorySlice'
+} from '../../../../redux/slices/categories/categorySlice'
 
 
 import { Button, Card, Spinner } from 'react-bootstrap'

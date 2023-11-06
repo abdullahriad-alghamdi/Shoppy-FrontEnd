@@ -4,7 +4,7 @@ import { AppDispatch, RootState } from "../../../../redux/store"
 
 import UserDashboard from "./UserDashboard"
 
-import { editInfo } from "../../../../redux/slices/UsersList/userSlice"
+import { editInfo } from "../../../../redux/slices/usersList/userSlice"
 import { Button, Form } from "react-bootstrap"
 import { toast } from "react-toastify"
 

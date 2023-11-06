@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import EmptyCart from './EmptyCart'
 import { RootState } from '../../../../redux/store'
-import { Product } from '../../../../redux/slices/Products/productSlice'
+import { Product } from '../../../../redux/slices/products/productSlice'
 import { DecreaseQuantity, increaseQuantity, removeFromCart } from '../../../../redux/slices/Cart/cartSlice'
 
 import { Button } from 'react-bootstrap'

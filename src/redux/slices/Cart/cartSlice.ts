@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Product } from '../Products/productSlice'
+import { Product } from '../products/productSlice'
 
 export type CartState = {
   inCart: Product[]

@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent } from 'react'
-import { Product } from '../../../../redux/slices/Products/productSlice'
+import { Product } from '../../../../redux/slices/products/productSlice'
 
 import { toast } from 'react-toastify'
 

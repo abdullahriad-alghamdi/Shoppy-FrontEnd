@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../src/redux/store'
 import { Link } from 'react-router-dom'
 
-import { Product, searchProducts, sortProducts } from '../../../../src/redux/slices/Products/productSlice'
+import { Product, searchProducts, sortProducts } from '../../../redux/slices/products/productSlice'
 import Hero from './Hero'
 import FilterBar from './FilterBar'
 import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'

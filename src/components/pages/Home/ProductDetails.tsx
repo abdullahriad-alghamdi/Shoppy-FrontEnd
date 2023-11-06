@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '../../../../src/redux/store'
 
-import { Product, fetchProducts, findProductById } from '../../../../src/redux/slices/Products/productSlice'
+import { Product, fetchProducts, findProductById } from '../../../redux/slices/products/productSlice'
 import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
 
 import { Card, Container, Row, Spinner } from 'react-bootstrap'

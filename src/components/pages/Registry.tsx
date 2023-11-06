@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from '../../redux/store'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { User, register } from '../../redux/slices/UsersList/userSlice'
+import { User, register } from '../../redux/slices/usersList/userSlice'
 import { toast } from 'react-toastify'
 
 

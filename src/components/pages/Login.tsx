@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 
-import { login } from '../../redux/slices/UsersList/userSlice'
+import { login } from '../../redux/slices/usersList/userSlice'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
