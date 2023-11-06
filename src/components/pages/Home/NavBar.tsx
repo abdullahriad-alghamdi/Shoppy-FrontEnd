@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import { AppDispatch, RootState } from '../../../../redux/store'
+import { AppDispatch, RootState } from '../../../../src/redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { logout } from '../../../../redux/slices/UsersList/userSlice'
+import { logout } from '../../../../src/redux/slices/UsersList/userSlice'
 
 import { FaUser, FaShoppingCart } from 'react-icons/fa'
 import { toast } from 'react-toastify'
@@ -58,7 +58,7 @@ export function NavBar() {
               </nav>
             </li>
             <li>
-              {((isLogin && userData && userData.role !== 'admin') || !isLogin) && (
+              {((isLogin && (userData && userData.role === 'visitor')) || !isLogin) && (
                 <Link to="/MyCart">
                   <span className="cart-icon-wrapper">
                     <FaShoppingCart className="cart-icon fs-4" />

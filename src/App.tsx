@@ -8,8 +8,8 @@ import { fetchCategories } from './redux/slices/Categories/categorySlice'
 import { fetchOrders } from './redux/slices/Orders/orderSlice'
 import { fetchUsers } from './redux/slices/UsersList/userSlice'
 
-import { NavBar } from './components/User/pages/Home/NavBar'
-import Footer from './components/User/pages/Home/Footer'
+import { NavBar } from './components/pages/Home/NavBar'
+import Footer from './components/pages/Home/Footer'
 import { ToastContainer } from 'react-toastify'
 
 function App() {

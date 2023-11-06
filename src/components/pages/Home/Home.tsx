@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../../redux/store'
+import { AppDispatch, RootState } from '../../../../src/redux/store'
 import { Link } from 'react-router-dom'
 
-import { Product, searchProducts, sortProducts } from '../../../../redux/slices/Products/productSlice'
+import { Product, searchProducts, sortProducts } from '../../../../src/redux/slices/Products/productSlice'
 import Hero from './Hero'
 import FilterBar from './FilterBar'
-import { addToCart } from '../../../../redux/slices/Cart/cartSlice'
+import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
 
 
 import { FaSearch } from 'react-icons/fa'
@@ -84,7 +84,7 @@ function Home() {
                 type="text"
                 placeholder="Search..."
               />
-              <Button variant="dark" className="rounded-0" type="submit">
+              <Button variant="dark" className="rounded-0">
                 <FaSearch />
               </Button>
             </label>

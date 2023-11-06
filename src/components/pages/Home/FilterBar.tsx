@@ -1,8 +1,8 @@
 import { MouseEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../../redux/store'
+import { AppDispatch, RootState } from '../../../../src/redux/store'
 
-import { fetchProducts, filterProducts } from '../../../../redux/slices/Products/productSlice'
+import { fetchProducts, filterProducts } from '../../../../src/redux/slices/Products/productSlice'
 
 import { Button, Spinner } from 'react-bootstrap'
 

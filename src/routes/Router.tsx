@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
 
-import Home from '../components/User/pages/Home/Home'
+import Home from '../components/pages/Home/Home'
 import NotFound from '../components/pages/NotFound'
 import Login from '../components/pages/Login'
 import Registry from '../components/pages/Registry'
-import ProductDetails from '../components/User/pages/Home/ProductDetails'
+import ProductDetails from '../components/pages/Home/ProductDetails'
 
 import UserProtectedRouter from './UserProtectedRouter'
 import UserDashboard from '../components/User/pages/UserDashboard/UserDashboard'

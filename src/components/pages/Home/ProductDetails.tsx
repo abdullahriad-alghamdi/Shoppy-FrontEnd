@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { AppDispatch, RootState } from '../../../../redux/store'
+import { AppDispatch, RootState } from '../../../../src/redux/store'
 
-import { Product, fetchProducts, findProductById } from '../../../../redux/slices/Products/productSlice'
-import { addToCart } from '../../../../redux/slices/Cart/cartSlice'
+import { Product, fetchProducts, findProductById } from '../../../../src/redux/slices/Products/productSlice'
+import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
 
 import { Card, Container, Row, Spinner } from 'react-bootstrap'
 import { ButtonGroup } from '@mui/material'
