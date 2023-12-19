@@ -32,22 +32,22 @@ const Router = () => {
         <Route path="product/details/:id" element={<ProductDetails />} />
         <Route path="/MyCart" element={<Cart />} />
 
-        <Route path="/dashboard" element={<AdminProtectedRouter />}>
-          <Route path="admin" element={<AdminDashboard />} />
-          <Route path="admin/profile" element={<AdminProfileEdit />} />
-          <Route path="admin/categories" element={<Categories />} />
-          <Route path="admin/products" element={<Products />} />
-          <Route path="admin/NewProduct" element={<AddNewProduct />} />
-          <Route path="admin/users" element={<UsersList />} />
-          <Route path="admin/orders" element={<Orders />} />
-        </Route>
+        {/* <Route path="/dashboard" element={<AdminProtectedRouter />}> */}
+        <Route path="admin" element={<AdminDashboard />} />
+        <Route path="admin/profile" element={<AdminProfileEdit />} />
+        <Route path="admin/categories" element={<Categories />} />
+        <Route path="admin/products" element={<Products />} />
+        <Route path="admin/NewProduct" element={<AddNewProduct />} />
+        <Route path="admin/users" element={<UsersList />} />
+        <Route path="admin/orders" element={<Orders />} />
+        {/* </Route> */}
 
-        <Route path="/dashboard" element={<UserProtectedRouter />}>
-          <Route path="user" element={<UserDashboard />} />
-          <Route path="user/profile" element={<UserProfile />} />
-          <Route path="user/ordersHistory" element={<OrdersHistory />} />
-          <Route path="user/profile/edit" element={<UserProfileEdit />} />
-        </Route>
+        {/* <Route path="/dashboard" element={<UserProtectedRouter />}> */}
+        <Route path="user" element={<UserDashboard />} />
+        <Route path="user/profile" element={<UserProfile />} />
+        <Route path="user/ordersHistory" element={<OrdersHistory />} />
+        <Route path="user/profile/edit" element={<UserProfileEdit />} />
+        {/* </Route> */}
 
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -8,7 +8,6 @@ import Hero from './Hero'
 import FilterBar from './FilterBar'
 import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
 
-
 import { FaSearch } from 'react-icons/fa'
 import { Rating, Stack, Pagination } from '@mui/material'
 import { Button, Card } from 'react-bootstrap'
@@ -131,19 +130,23 @@ function Home() {
                       <span className="fw-bold">Category: </span>
                       {product.categories
                         ? product.categories
-                          .map((categoryId) => getCategoryNameById(categoryId))
-                          .join(', ')
+                            .map((categoryId) => getCategoryNameById(categoryId))
+                            .join(', ')
                         : 'Product not assigned to any category'}
                     </Card.Text>
                     <Card.Text>
                       <b>Price:</b>
                       {` ${product.price}`} <span className="text-muted fw-bold">SAR</span>
                     </Card.Text>
-                    {((isLogin && userData && userData.role !== 'admin') || !isLogin) && (
+                    {((isLogin && userData && !userData.isAdmin) || !isLogin) && (
                       <Card.Text>
-                        <Button onClick={() => {
-                          handelAddToCart(product)
-                        }} variant="dark">Add to cart</Button>
+                        <Button
+                          onClick={() => {
+                            handelAddToCart(product)
+                          }}
+                          variant="dark">
+                          Add to cart
+                        </Button>
                       </Card.Text>
                     )}
                   </Card.Body>

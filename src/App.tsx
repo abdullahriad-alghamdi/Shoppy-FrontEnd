@@ -19,7 +19,7 @@ function App() {
     dispatch(fetchCategories())
     dispatch(fetchOrders())
     dispatch(fetchUsers())
-  }, [])
+  }, [dispatch])
   return (
     <div className="app">
       <NavBar />

@@ -1,17 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../redux/store'
-import { User, deleteUser, searchUsers, sortUsers } from '../../../../redux/slices/usersList/userSlice'
+import { useState } from 'react'
+import {
+  User,
+  banStatus,
+  baseURl,
+  deleteUser,
+  fetchUsers,
+  grantRole,
+  searchUsers,
+  sortUsers
+} from '../../../../redux/slices/usersList/userSlice'
 
 import AdminSideBar from './AdminSideBar'
 import { Spinner } from 'react-bootstrap'
+import { Stack, Pagination } from '@mui/material'
 
 function UsersList() {
   const dispatch: AppDispatch = useDispatch()
   const { users, isLoading, error, searchBy } = useSelector((state: RootState) => state.users)
-
-  if (error) {
-    return <h3> {error} </h3>
-  }
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let searchTerm = e.target.value
@@ -23,34 +30,47 @@ function UsersList() {
     dispatch(sortUsers(sortBy))
   }
   const filterUsers = (users: User[]) => {
-    return users.filter((user) =>
-      user.firstName.toString().toLowerCase().includes(searchBy.toString().toLowerCase())
+    return users.filter(
+      (user) =>
+        user.name &&
+        user.name
+          .toString()
+          .toLowerCase()
+          .includes(searchBy && searchBy.toString().toLowerCase())
     )
   }
 
   const handleDeleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const userId = e.currentTarget.id
+    const slug = e.currentTarget.id
     const confirmDelete = window.confirm('Are you sure you want to delete this user?')
     if (!confirmDelete) {
       return
     }
 
-    dispatch(deleteUser(userId))
+    dispatch(deleteUser(slug))
   }
 
-  if (isLoading) {
-    return (
-      <h2 className="loading">
-        <Spinner animation="grow" variant="light" />
-      </h2>
-    )
+  const handleBanStatus = (id: string) => {
+    dispatch(banStatus(id))
   }
+
+  const handleGrantRole = (id: string) => {
+    dispatch(grantRole(id))
+  }
+  // if (isLoading) {
+  //   return (
+  //     <h2 className="loading">
+  //       <Spinner animation="grow" variant="light" />
+  //     </h2>
+  //   )
+  // }
 
   if (error) {
     return <h2 className="loading">{error}</h2>
   }
 
   const filteredUsers = filterUsers(users)
+
   return (
     <>
       <section>
@@ -78,47 +98,89 @@ function UsersList() {
                 id="users__sorting"
                 onChange={handleSortChange}
                 className="form-select m-2 w-25">
-                <option value="firstName">First Name</option>
-                <option value="lastName">Last Name</option>
+                <option value="name">Name</option>
               </select>
             </label>
           </section>
 
           <section>
             {filteredUsers.length > 0 ? (
-              <table
-                border={1}
-                className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center users-table">
-                <thead className="table-dark text-center">
-                  <tr>
-                    <th>Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Password</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredUsers.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.id}</td>
-                      <td>{user.firstName}</td>
-                      <td>{user.lastName}</td>
-                      <td>{user.email}</td>
-                      <td>{user.password}</td>
-                      <td className="d-flex justify-content-around">
-                        <button
-                          onClick={handleDeleteUser}
-                          className="btn btn-danger"
-                          id={`${user.id}`}>
-                          Delete
-                        </button>
-                      </td>
+              <>
+                <table
+                  border={1}
+                  className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center users-table">
+                  <thead className="table-dark text-center">
+                    <tr>
+                      <th>Slug</th>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Ban status</th>
+                      <th>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredUsers.map((user) => (
+                      <tr key={user._id}>
+                        <td>{user.slug}</td>
+                        <td>
+                          <img src={baseURl + user.image} alt="" width="50" />
+                        </td>
+
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>
+                          {user.isAdmin ? (
+                            <span className="badge bg-primary">Admin</span>
+                          ) : (
+                            <span className="badge bg-secondary">User</span>
+                          )}
+                        </td>
+                        <td>
+                          {user.isBanned ? (
+                            <span className="badge bg-danger">Banned</span>
+                          ) : (
+                            <span className="badge bg-success">Active</span>
+                          )}
+                        </td>
+                        <td className="d-flex justify-content-around">
+                          <button
+                            onClick={handleDeleteUser}
+                            className="btn btn-danger"
+                            id={`${user.slug}`}>
+                            Delete
+                          </button>
+                          <button
+                            className="btn btn-warning"
+                            style={{ width: '80px', textAlign: 'center' }}
+                            onClick={() => handleBanStatus(user._id)}>
+                            {user.isBanned ? <span>Unban</span> : <span>Ban</span>}
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            style={{ width: '100px', textAlign: 'center' }}
+                            onClick={() => handleGrantRole(user._id)}>
+                            {user.isAdmin ? <span>👑 Admin</span> : <span>🤨 User</span>}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <Stack spacing={2} sx={{ marginTop: 4 }} className="d-flex align-items-center p-5 ">
+                  <Pagination
+                    // count={totalPages}
+                    // page={currentPage}
+                    count={3}
+                    page={1}
+                    // onChange={(e, page) => setCurrentPage(page)}
+                    variant="outlined"
+                    shape="rounded"
+                    color="primary"
+                  />
+                </Stack>
+              </>
             ) : (
               <h1 className="text-center text-muted my-5">No users found</h1>
             )}
