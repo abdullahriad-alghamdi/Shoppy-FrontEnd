@@ -1,44 +1,136 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-import api from '../../../api'
+import axios from 'axios'
+import { baseURl } from '../usersList/userSlice'
+import { Category } from '../categories/categorySlice'
+import { toast } from 'react-toastify'
 
 export type Product = {
-  id: number
-  name: string
-  image: string
+  _id: string
+  title: string
+  slug: string
   description: string
-  categories: number[]
-  variants: string[]
-  sizes: string[]
   price: number
-  rating: number
   quantity: number
+  countInStock: number
+  sold: number
+  image: string
+  category: Category
 }
 
 export type ProductState = {
   products: Product[]
-  error: null | string
+  error: string
   isLoading: boolean
   searchBy: number | string
   singleProduct: Product
+  totalPages: number
 }
 
 const initialState: ProductState = {
   products: [],
-  error: null,
+  error: '',
   isLoading: false,
   searchBy: 0 || '',
-  singleProduct: {} as Product
+  singleProduct: {} as Product,
+  totalPages: 0
 }
 
-export const fetchProducts = createAsyncThunk('Products/fetchData', async () => {
-  try {
-    const { data } = await api.get('/mock/e-commerce/products.json')
-    return data
-  } catch (error) {
-    console.error("Error: Can't fetch products.", error)
+export const fetchAllProducts = createAsyncThunk(
+  'Products/fetchAllData',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${baseURl}products/?page=1&limit=4`)
+
+      return data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
   }
-})
+)
+
+export const fetchProducts = createAsyncThunk(
+  'Products/fetchData',
+  async (pagination: { page: number; limit: number }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${baseURl}products/?page=${pagination.page}&limit=${pagination.limit}`
+      )
+
+      return data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+// fetch single product by id
+export const findProductById = createAsyncThunk(
+  'Products/fetchSingleProduct',
+  async (slug: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${baseURl}products/${slug}`)
+      return data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+// filter products by categoryID
+export const fetchProductsByCategory = createAsyncThunk(
+  'Products/fetchDataByCategory',
+  async (categoryId: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${baseURl}products/?categoryId=${categoryId}`)
+      return data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+// add product
+export const addProduct = createAsyncThunk(
+  'Products/addProduct',
+  async (FormData: FormData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${baseURl}products`, FormData)
+      return data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+// Update product
+export const updateProduct = createAsyncThunk(
+  'products/updateProduct',
+  async (updatedProduct: { formData: FormData; slug: string }, thunkAPI) => {
+    try {
+      const { data } = await axios.put(
+        `${baseURl}products/${updatedProduct.slug}`,
+        updatedProduct.formData
+      )
+      return data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+// Delete product by slug
+export const removeProduct = createAsyncThunk(
+  'Products/deleteProduct',
+  async (slug: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`${baseURl}products/${slug}`)
+      return { data, slug }
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 
 export const productSlice = createSlice({
   name: 'products',
@@ -52,7 +144,7 @@ export const productSlice = createSlice({
       const sortValue = action.payload
       switch (sortValue) {
         case 'name':
-          state.products.sort((a, b) => a.name.localeCompare(b.name))
+          state.products.sort((a, b) => a.title.localeCompare(b.title))
           break
         case 'priceLowToHigh':
           state.products.sort((a, b) => a.price - b.price)
@@ -60,93 +152,96 @@ export const productSlice = createSlice({
         case 'priceHighToLow':
           state.products.sort((a, b) => b.price - a.price)
           break
-        case 'rating':
-          state.products.sort((a, b) => b.rating - a.rating)
-          break
         default:
           break
       }
-    },
-
-    findProductById: (state, action) => {
-      const id = action.payload
-      const foundProduct = state.products.find((product) => product.id === id)
-      if (foundProduct) {
-        state.singleProduct = foundProduct
-      } else {
-        state.error = `Product with id ${id} not found.`
-      }
-    },
-
-    filterProducts: (state, action) => {
-      const filterValue = action.payload
-      if (filterValue === 'all') {
-        state.products = state.products
-      } else {
-        state.products = state.products.filter((product) =>
-          product.categories.includes(parseInt(filterValue))
-        )
-      }
-    },
-
-    productsRequest: (state) => {
-      state.isLoading = true
-    },
-
-    productsSuccess: (state, action) => {
-      state.isLoading = false
-      state.products = action.payload
-    },
-
-    addProduct: (state, action: { payload: { product: Product } }) => {
-      state.products = [action.payload.product, ...state.products]
-    },
-
-    removeProduct: (state, action: { payload: { productId: number } }) => {
-      const filteredItems = state.products.filter(
-        (product) => product.id !== action.payload.productId
-      )
-      state.products = filteredItems
-    },
-
-    updateProduct: (state, action) => {
-      const { id, product } = action.payload
-      const updatedProducts = state.products.map((oneProduct) => {
-        if (oneProduct.id === id) {
-          return { ...oneProduct, ...product }
-        }
-        return oneProduct
-      })
-      state.products = updatedProducts
     }
+
+    // findProductById: (state, action) => {
+    // const id = action.payload
+    // const foundProduct = state.products.find((product) => product.id === id)
+    // if (foundProduct) {
+    //   state.singleProduct = foundProduct
+    // } else {
+    //   state.error = `Product with id ${id} not found.`
+    // }
+    // },
+
+    // updateProduct: (state, action) => {
+    // const { id, product } = action.payload
+    // const updatedProducts = state.products.map((oneProduct) => {
+    //   if (oneProduct.id === id) {
+    //     return { ...oneProduct, ...product }
+    //   }
+    //   return oneProduct
+    // })
+    // state.products = updatedProducts
+    // }
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProducts.pending, (state) => {
-        state.isLoading = true
-        state.error = null
-      })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isLoading = false
-        state.products = action.payload
+        state.products = action.payload.payload
+        const { totalPages } = action.payload.pagination
+        state.totalPages = totalPages
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
+
+      .addCase(fetchAllProducts.fulfilled, (state, action) => {
         state.isLoading = false
-        state.error = action.error.message || 'Error: Fetching products was rejected.'
+        state.products = action.payload.payload
       })
+
+      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.products = action.payload.payload
+      })
+
+      .addCase(findProductById.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.singleProduct = action.payload.payload
+      })
+
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.products.push(action.payload.payload)
+        toast.success(action.payload.message)
+      })
+
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.isLoading = false
+        const index = state.products.findIndex(
+          (product) => product._id === action.payload.payload._id
+        )
+        state.products[index] = action.payload.payload
+
+        toast.success(action.payload.message)
+      })
+
+      .addCase(removeProduct.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.products = state.products.filter((product) => product.slug !== action.payload.slug)
+        toast.success(action.payload.data.message)
+      })
+
+      .addMatcher(
+        (action) => action.type.endsWith('/pending'),
+        (state) => {
+          state.isLoading = true
+          state.error = 'no error while pending'
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/rejected'),
+        (state, action) => {
+          toast.error(action.payload.response.data.errors)
+          state.isLoading = false
+          state.error = action.payload.response.data.errors
+        }
+      )
   }
 })
 
-export const {
-  filterProducts,
-  findProductById,
-  sortProducts,
-  searchProducts,
-  removeProduct,
-  addProduct,
-  productsRequest,
-  productsSuccess,
-  updateProduct
-} = productSlice.actions
+export const { sortProducts, searchProducts } = productSlice.actions
 export default productSlice.reducer

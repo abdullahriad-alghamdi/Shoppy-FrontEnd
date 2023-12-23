@@ -20,7 +20,7 @@ import Categories from '../components/Admin/pages/AdminDashboard/Categories'
 import Products from '../components/Admin/pages/AdminDashboard/Products'
 import Orders from '../components/Admin/pages/AdminDashboard/Orders'
 import UsersList from '../components/Admin/pages/AdminDashboard/Users'
-import AddNewProduct from '../components/Admin/pages/AdminDashboard/AddNewProduct'
+// import AddNewProduct from '../components/Admin/pages/AdminDashboard/AddNewProduct'
 
 const Router = () => {
   return (
@@ -37,7 +37,7 @@ const Router = () => {
         <Route path="admin/profile" element={<AdminProfileEdit />} />
         <Route path="admin/categories" element={<Categories />} />
         <Route path="admin/products" element={<Products />} />
-        <Route path="admin/NewProduct" element={<AddNewProduct />} />
+        {/* <Route path="admin/NewProduct" element={<AddNewProduct />} /> */}
         <Route path="admin/users" element={<UsersList />} />
         <Route path="admin/orders" element={<Orders />} />
         {/* </Route> */}

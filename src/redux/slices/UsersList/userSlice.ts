@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 
 // import api from '../../../api'
 import axios from 'axios'
@@ -247,14 +247,6 @@ export const userSlice = createSlice({
   }
 })
 
-export const {
-  sortUsers,
-  searchUsers,
-  // deleteUser,
-  register,
-  logout,
-  login,
-  editInfo,
-  editInfoAdmin
-} = userSlice.actions
+export const { sortUsers, searchUsers, register, logout, login, editInfo, editInfoAdmin } =
+  userSlice.actions
 export default userSlice.reducer

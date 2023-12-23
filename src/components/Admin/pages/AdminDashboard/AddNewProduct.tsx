@@ -1,11 +1,11 @@
-import { NewProductWrapper } from './NewProductWrapper'
+// import { NewProductWrapper } from './NewProductWrapper'
 
-function AddNewProduct() {
-  return (
-    <>
-      <NewProductWrapper />
-    </>
-  )
-}
+// function AddNewProduct() {
+//   return (
+//     <>
+//       <NewProductWrapper />
+//     </>
+//   )
+// }
 
-export default AddNewProduct
+// export default AddNewProduct

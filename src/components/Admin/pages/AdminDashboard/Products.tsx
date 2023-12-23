@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../redux/store'
 
 import {
   Product,
+  addProduct,
+  fetchProducts,
   removeProduct,
   searchProducts,
   sortProducts,
@@ -12,39 +13,39 @@ import {
 } from '../../../../redux/slices/products/productSlice'
 import AdminSideBar from './AdminSideBar'
 
-import { Button, Card } from 'react-bootstrap'
-import { FaPlusCircle } from 'react-icons/fa'
-import { toast } from 'react-toastify'
+import { FaDropbox, FaPlusCircle, FaTimes } from 'react-icons/fa'
+import { Category } from '../../../../redux/slices/categories/categorySlice'
+import { baseURl } from '../../../../redux/slices/usersList/userSlice'
+import { Pagination, Stack } from '@mui/material'
 
+const initialProductState = {
+  title: '',
+  description: '',
+  price: 0,
+  quantity: 0,
+  image: '',
+  category: ''
+}
 function Products() {
-  const [updatedProduct, setUpdatedProduct] = useState<Product>({
-    id: 0,
-    name: '',
-    image: '',
-    description: '',
-    categories: [],
-    variants: [],
-    sizes: [],
-    price: 0,
-    rating: 0,
-    quantity: 0
-  })
   const dispatch: AppDispatch = useDispatch()
-  const { products, isLoading, error, searchBy } = useSelector((state: RootState) => state.products)
+  const { products, isLoading, error, searchBy, totalPages } = useSelector(
+    (state: RootState) => state.products
+  )
   const { categories } = useSelector((state: RootState) => state.categories)
-  const [isEdit, setIsEdit] = useState(false)
-  const [selectedId, setSelectedId] = useState<number>(0)
 
-  if (error) {
-    return <h3> {error} </h3>
-  }
+  const [MycurrentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [isOpenForm, setIsOpenForm] = useState(false)
+  const [isEdit, setisEdit] = useState(false)
+  const [product, setProduct] = useState(initialProductState)
+  const [seletedSlug, setSeletedSlug] = useState('')
 
-  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let searchTerm = e.target.value
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let searchTerm = (e as React.ChangeEvent<HTMLInputElement>).target.value
     dispatch(searchProducts(searchTerm))
   }
 
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let sortValue = e.target.value
     dispatch(sortProducts(sortValue))
   }
@@ -52,60 +53,253 @@ function Products() {
   const filterProducts = (products: Product[], searchBy: string | number) => {
     return products.filter((product) => {
       return (
-        product.name.toLowerCase().includes(searchBy.toString().toLowerCase()) ||
-        product.id.toString().includes(searchBy.toString())
+        product.title.toLowerCase().includes(searchBy.toString().toLowerCase()) ||
+        product._id.toString().includes(searchBy.toString())
       )
     })
   }
+
   const filteredProducts = searchBy ? filterProducts(products, searchBy) : products
 
-  const handleEdit = (idN: number, product: Product) => {
-    setUpdatedProduct(product)
-    setIsEdit(true)
-    setSelectedId(idN)
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type } = e.target
+    if (type === 'file') {
+      const fileInput = e.target as HTMLInputElement
+      setProduct((prev) => ({ ...prev, [name]: fileInput.files?.[0] }))
+    } else if (name === 'price' || name === 'quantity') {
+      setProduct((prev) => ({ ...prev, [name]: Number(value) }))
+    } else {
+      setProduct((prev) => ({ ...prev, [name]: value }))
+    }
   }
 
-  const handleSave = () => {
-    dispatch(updateProduct({ id: selectedId, product: updatedProduct }))
-    setIsEdit(false)
-    setSelectedId(0)
-    toast.success('Product Updated Successfully', {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true
-    })
-  }
-  const getCategoryNameById = (categoryId: number) => {
-    const category = categories.find((category) => category.id === categoryId)
-    return category ? category.name : 'Category not found'
+  // handleing default category
+  useEffect(() => {
+    if (categories.length > 0) {
+      setProduct((prev) => ({
+        ...prev,
+        category: categories.find((c) => c.title === 'Uncategorized')?._id || ''
+      }))
+    }
+  }, [categories])
+
+  const handleEditAction = (e: MouseEvent<HTMLButtonElement>, slug: string) => {
+    e.preventDefault()
+    // find the product by slug
+    const product = products.find((product) => product.slug === slug)
+    // set the product state
+    if (product) {
+      // setProduct({
+      //   ...product,
+      //   category: product.category._id // Assuming the category object has an _id property
+      // })
+      setSeletedSlug(slug)
+    }
+    // open the form
+    setIsOpenForm(true)
+    // set the edit state
+    setisEdit(true)
   }
 
-  //   const handleChange = (fieldName, value) => {
-  //   setUpdatedProduct((prevProduct) => ({
-  //     ...prevProduct,
-  //     [fieldName]: value,
-  //   }));
-  // };
+  const handleFormSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+    formData.append('title', product.title)
+    formData.append('description', product.description)
+    formData.append('price', product.price.toString())
+    formData.append('quantity', product.quantity.toString())
+    formData.append('image', product.image)
+    formData.append('category', product.category)
+    if (!isEdit) {
+      try {
+        dispatch(addProduct(formData))
+      } catch (error) {
+        return
+      }
+    } else {
+      // object has the form data and the slug
+      const theFormData = {
+        formData,
+        slug: seletedSlug
+      }
+      dispatch(updateProduct(theFormData))
+    }
+  }
+
+  // if the form close reset the product state
+  useEffect(() => {
+    if (!isOpenForm) {
+      setProduct(initialProductState)
+      setisEdit(false)
+    }
+  }, [isOpenForm])
+
+  const pagination = {
+    page: MycurrentPage,
+    limit: itemsPerPage
+  }
+  useEffect(() => {
+    dispatch(fetchProducts(pagination))
+  }, [dispatch, MycurrentPage, itemsPerPage])
+
   return (
     <>
       <section>
         <AdminSideBar />
-        <Link
-          to="/dashboard/admin/NewProduct"
-          className="d-flex flex-wrap justify-content-left col-12 align-items-center text-decoration-none text-dark">
-          <FaPlusCircle
+        {/* create and edit form */}
+        {!isEdit ? (
+          <button
+            className=" col-2"
             style={{
-              margin: '50px',
+              margin: 'auto',
+              marginTop: '30px',
+              marginLeft: '100px',
               width: '50px',
-              height: '50px',
-              color: '#000000'
+              border: 'none',
+              backgroundColor: 'transparent'
             }}
-          />
-          <h2>Add New Product</h2>
-        </Link>
+            onClick={() => {
+              setIsOpenForm(!isOpenForm)
+            }}>
+            <FaPlusCircle size={50} />
+          </button>
+        ) : (
+          <button
+            className=" col-2"
+            style={{
+              margin: 'auto',
+              marginTop: '30px',
+              marginLeft: '100px',
+              width: '50px',
+              border: 'none',
+              backgroundColor: 'transparent'
+            }}
+            onClick={() => {
+              setIsOpenForm(false)
+            }}>
+            <FaTimes size={50} />
+          </button>
+        )}
+
+        {/* form */}
+        <section
+          className="container d-flex flex-column  align-items-left gap-3 "
+          style={{ width: '500px', margin: 'auto', marginBottom: '50px', height: '100%' }}>
+          {isOpenForm && (
+            <form className="container col-6 bg-light p-3 col-12">
+              <h2 className="text-center">Add Product</h2>
+              <div className="mb-3">
+                <label htmlFor="title" className="form-label">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="title"
+                  name="title"
+                  value={product.title}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="description" className="form-label">
+                  Description
+                </label>
+                <textarea
+                  className="form-control"
+                  id="description"
+                  rows={3}
+                  name="description"
+                  value={product.description}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="price" className="form-label">
+                  Price
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="price"
+                  name="price"
+                  value={Number(product.price)}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="image" className="form-label">
+                  Image
+                </label>
+                <input
+                  type="file"
+                  className="form-control"
+                  id="image"
+                  accept="image/*"
+                  name="image"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="category" className="form-label">
+                  Category
+                </label>
+                <select
+                  className="form-select"
+                  id="category"
+                  name="category"
+                  value={product.category}
+                  onChange={handleInputChange}>
+                  {categories.map((category: Category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="quantity" className="form-label">
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="quantity"
+                  name="quantity"
+                  value={Number(product.quantity)}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {isEdit ? (
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  name="update"
+                  onClick={handleFormSubmit}
+                  style={{ width: '100%' }}>
+                  Update
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  onClick={handleFormSubmit}
+                  name="create"
+                  style={{ width: '100%' }}>
+                  Create
+                </button>
+              )}
+            </form>
+          )}
+        </section>
+        {/* main page */}
         <section>
+          {/* sorting and searching */}
           <section>
             <label
               htmlFor="products__searching"
@@ -133,211 +327,71 @@ function Products() {
               </select>
             </label>
           </section>
-
+          {/* Products */}
           <section className="container d-flex justify-content-center flex-wrap gap-3 p-3">
-            {!error && isLoading ? (
-              <h3> Loading products...</h3>
-            ) : filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
-                <Card
-                  style={{ width: '18rem' }}
-                  key={product.id}
-                  className="shadow p-3 mb-5 bg-body rounded d-flex flex-column  ">
-                  <Card.Img
-                    variant="top"
-                    src={product.image}
-                    className="shadow-sm w-100 h-100 p-3 mb-5 bg-body rounded"
-                  />
+            <table
+              border={1}
+              style={{
+                minHeight: '500px'
+              }}
+              className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center Products-table table-responsive">
+              <thead className="table-dark text-center">
+                <tr>
+                  <th>Slug</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>CountInStock</th>
+                  <th>Sold</th>
+                  <th>Category</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredProducts.map((Product) => (
+                  <tr key={Product._id}>
+                    <td>{Product.slug}</td>
+                    <td>
+                      <img src={baseURl + Product.image} alt="" width="50" />
+                    </td>
 
-                  <Card.Body>
-                    {isEdit && selectedId === product.id ? (
-                      <>
-                        <h3> Edit Product</h3>
-                        <Card.Title>
-                          <input
-                            type="text"
-                            value={updatedProduct.name}
-                            onChange={(e) =>
-                              setUpdatedProduct({ ...updatedProduct, name: e.target.value })
-                            }
-                          />
-                        </Card.Title>
-                        <Card.Text>
-                          <input
-                            type="text"
-                            value={updatedProduct.price}
-                            onChange={(e) =>
-                              setUpdatedProduct({
-                                ...updatedProduct,
-                                price: Number(e.target.value)
-                              })
-                            }
-                          />
-                        </Card.Text>
-                        <Card.Text>
-                          <input
-                            type="text"
-                            value={updatedProduct.id}
-                            onChange={(e) =>
-                              setUpdatedProduct({ ...updatedProduct, id: Number(e.target.value) })
-                            }
-                          />
-                        </Card.Text>
-                        <Card.Text>
-                          <input
-                            type="text"
-                            value={isEdit ? updatedProduct.rating : product.rating}
-                            onChange={(e) =>
-                              setUpdatedProduct({
-                                ...updatedProduct,
-                                rating: Number(e.target.value)
-                              })
-                            }
-                          />
-                        </Card.Text>
-
-                        <Card.Text>
-                          <select
-                            id="products__sorting"
-                            onChange={(e) =>
-                              setUpdatedProduct({
-                                ...updatedProduct,
-                                categories: [Number(e.target.value)]
-                              })
-                            }
-                            className="form-select m-2 w-25">
-                            {categories.map((category) => (
-                              <option value={category.id} key={category.id}>
-                                {category.name}
-                              </option>
-                            ))}
-                          </select>
-                        </Card.Text>
-                        <Card.Text>
-                          <input
-                            type="text"
-                            value={updatedProduct.variants.join(',')}
-                            onChange={(e) =>
-                              setUpdatedProduct({
-                                ...updatedProduct,
-                                variants: e.target.value.split(',')
-                              })
-                            }
-                          />
-                        </Card.Text>
-                        <Card.Text>
-                          <input
-                            type="text"
-                            value={
-                              isEdit ? updatedProduct.sizes.join(',') : product.sizes.join(',')
-                            }
-                            onChange={(e) =>
-                              setUpdatedProduct({
-                                ...updatedProduct,
-                                sizes: e.target.value.split(', ')
-                              })
-                            }
-                          />
-                        </Card.Text>
-                        <Card.Text>
-                          <input
-                            type="text"
-                            value={isEdit ? updatedProduct.description : product.description}
-                            onChange={(e) =>
-                              setUpdatedProduct({ ...updatedProduct, description: e.target.value })
-                            }
-                          />
-                        </Card.Text>
-                        <Card.Text>
-                          <input
-                            type="text"
-                            value={isEdit ? updatedProduct.image : product.image}
-                            onChange={(e) => {
-                              setUpdatedProduct({ ...updatedProduct, image: e.target.value })
-                            }}
-                          />
-                        </Card.Text>
-                        <div className="d-flex justify-content-between">
-                          <Button variant="btn text-light bg-primary" onClick={() => handleSave()}>
-                            Save
-                          </Button>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <Card.Title>{product.name}</Card.Title>
-                        <Card.Text>
-                          <b>Price:</b> {product.price}
-                        </Card.Text>
-                        <Card.Text>
-                          <b>Id:</b> {product.id}
-                        </Card.Text>
-                        <Card.Text>
-                          <b>Rating:</b> {product.rating}
-                        </Card.Text>
-
-                        <Card.Text>
-                          <span className="fw-bold">Category: </span>
-                          {product.categories
-                            ? product.categories
-                              .map((categoryId) => getCategoryNameById(categoryId))
-                              .join(', ')
-                            : 'Product not assigned to any category'}
-                        </Card.Text>
-                        <Card.Text>
-                          <b>Variants:</b>
-                          {product.variants.join(',')}
-                        </Card.Text>
-                        <Card.Text>
-                          <b>Sizes:</b> {product.sizes.join(',')}
-                        </Card.Text>
-                        <Card.Text>
-                          <b>Description:</b> {product.description}
-                        </Card.Text>
-                        <Card.Text>
-                          <b>Image:</b> {product.image}
-                        </Card.Text>
-                      </>
-                    )}
-                    {isEdit && selectedId === product.id ? (
-                      <div style={{ display: 'none' }}>
-                        <Button
-                          variant="btn text-light bg-danger"
-                          onClick={() => dispatch(removeProduct({ productId: product.id }))}>
-                          Delete
-                        </Button>
-                        <Button
-                          variant="btn text-light bg-success"
-                          onClick={() => handleEdit(product.id, product)}>
-                          Edit
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="d-flex justify-content-between">
-                        <Button
-                          variant="btn text-light bg-danger"
-                          onClick={() => dispatch(removeProduct({ productId: product.id }))}>
-                          Delete
-                        </Button>
-                        <Button
-                          variant="btn text-light bg-success"
-                          onClick={() => handleEdit(product.id, product)}>
-                          Edit
-                        </Button>
-                      </div>
-                    )}
-                  </Card.Body>
-                </Card>
-              ))
-            ) : (
-              <h2
-                className="text-center text-2xl font-bold text-muted my-5"
-                style={{ width: '100%' }}>
-                No Products Found
-              </h2>
-            )}
+                    <td>{Product.title}</td>
+                    <td>{Product.price}</td>
+                    <td>{Product.quantity}</td>
+                    <td>{Product.countInStock}</td>
+                    <td>{Product.sold}</td>
+                    <td>{Product.category.title}</td>
+                    <td className="d-grid gap-2">
+                      <button
+                        className="btn btn-warning"
+                        onClick={(e) => handleEditAction(e, Product.slug)}>
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => dispatch(removeProduct(Product.slug))}>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </section>
         </section>
+        <Stack spacing={2} sx={{ marginTop: 4 }} className="d-flex align-items-center p-5 ">
+          <Pagination
+            count={totalPages}
+            page={MycurrentPage}
+            onChange={(e, page) => {
+              setCurrentPage(page)
+            }}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+          />
+        </Stack>
       </section>
     </>
   )

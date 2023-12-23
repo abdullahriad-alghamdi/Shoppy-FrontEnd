@@ -3,11 +3,16 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '../../../../src/redux/store'
 
-import { Product, fetchProducts, findProductById } from '../../../redux/slices/products/productSlice'
+import {
+  Product,
+  fetchProducts,
+  findProductById
+} from '../../../redux/slices/products/productSlice'
 import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
 
 import { Card, Container, Row, Spinner } from 'react-bootstrap'
 import { ButtonGroup } from '@mui/material'
+import { baseURl } from '../../../redux/slices/usersList/userSlice'
 
 const ProductDetails = () => {
   const { id } = useParams()
@@ -18,21 +23,9 @@ const ProductDetails = () => {
   const { categories } = useSelector((state: RootState) => state.categories)
 
   useEffect(() => {
-    dispatch(fetchProducts()).then(() => dispatch(findProductById(Number(id))))
-  }, [id])
+    dispatch(findProductById(String(id)))
+  }, [dispatch, id])
 
-  // Returns the name of the category with the given ID.
-  const getCategoryNameById = (categoryId: number) => {
-    const category = categories.find((category) => category.id === categoryId)
-    return category ? category.name : 'Category not found'
-  }
-  if (isLoading) {
-    return (
-      <h2 className="loading">
-        <Spinner animation="border" variant="light" />
-      </h2>
-    )
-  }
   if (error) {
     return <h2 className="loading">{error}</h2>
   }
@@ -49,71 +42,65 @@ const ProductDetails = () => {
         </button>
       </ButtonGroup>
 
-      <Container>
-        <Row className="d-flex justify-content-center align-items-center col-12">
-          <div style={{ maxWidth: '800px', maxHeight: '800px' }}>
-            <Card.Img
-              variant="top"
-              src={singleProduct.image}
-              className="col-sm-12 col-md-3 col-lg-3"
-            />
-          </div>
+      <Row className="d-flex justify-content-space-around align-items-center col-9 m-auto">
+        <div
+          className="img-fluid col-sm-12 col-md-6 col-lg-6"
+          style={{
+            height: '500px',
 
-          <Card.Body className="col-sm-12 col-md-3 col-lg-3">
-            <Card.Title className="fs-1">{singleProduct.name}</Card.Title>
-            <Card.Text className="text-muted mt-4">{singleProduct.description}</Card.Text>
-            <Card.Text>
-              <span className="fw-bold">Price: </span>
-              {singleProduct.price ? singleProduct.price : 'Price not found'}
-              <span className="text-muted fw-bold"> SAR</span>
-            </Card.Text>
-            <Card.Text>
-              <span className="fw-bold">Category: </span>
-              {singleProduct.categories
-                ? singleProduct.categories
-                  .map((categoryId) => getCategoryNameById(categoryId))
-                  .join(', ')
-                : 'Product not assigned to any category'}
-            </Card.Text>
-            <Card.Text>
-              <span className="fw-bold">variants: </span>
-              {singleProduct.variants
-                ? singleProduct.variants.map((variant) => (
-                  <span key={variant} className="me-2">
-                    {variant}
-                  </span>
-                ))
-                : 'No variants provided'}
-            </Card.Text>
-            <Card.Text>
-              {' '}
-              <span className="fw-bold">Sizes: </span>
-              {singleProduct.sizes && singleProduct.sizes.length > 0
-                ? singleProduct.sizes.map((size) => (
-                  <span className="me-2" key={size}>
-                    {size}
-                  </span>
-                ))
-                : 'No sizes provided'}
-            </Card.Text>
-            <Card.Text>
-              <button
-                className="btn"
-                onClick={() => {
-                  handelAddToCart(singleProduct)
-                }}
-                style={{
-                  marginLeft: '0px',
-                  backgroundColor: '#F5C419',
-                  fontWeight: 'bold',
-                  borderRadius: '0px'
-                }}>
-                Add to cart
-              </button>
-            </Card.Text>
-          </Card.Body>
-        </Row>
-      </Container>
+            marginLeft: 'auto',
+            marginRight: '100px',
+            marginBottom: '30px'
+          }}>
+          <img
+            src={(singleProduct.image && baseURl + singleProduct.image) || ''}
+            alt={singleProduct.title}
+            className="img-fluid col-12"
+            style={{
+              height: '100%',
+              width: '100%',
+              objectFit: 'contain'
+            }}
+          />
+        </div>
+
+        <Card.Body className="col-sm-12 col-md-3 col-lg-3">
+          <Card.Title className="fs-1">{singleProduct.title}</Card.Title>
+          <Card.Text className="text-muted mt-4">{singleProduct.description}</Card.Text>
+          <Card.Text>
+            <span className="fw-bold">Price: </span>
+            {singleProduct.price ? singleProduct.price : 'Price not found'}
+            <span className="text-muted fw-bold"> SAR</span>
+          </Card.Text>
+          <Card.Text>
+            <span className="fw-bold">CountInStock: </span>
+            {singleProduct.countInStock ? singleProduct.countInStock : 'CountInStock not found'}
+          </Card.Text>
+          <Card.Text>
+            <span className="fw-bold">Category: </span>
+            {singleProduct.category ? singleProduct.category.title : 'Category not found'}
+          </Card.Text>
+          <Card.Text>
+            <span className="fw-bold">Quantity: </span>
+            {singleProduct.quantity ? singleProduct.quantity : 'Quantity not found'}
+          </Card.Text>
+          <Card.Text>
+            <button
+              className="btn"
+              onClick={() => {
+                handelAddToCart(singleProduct)
+              }}
+              style={{
+                marginLeft: '0px',
+                backgroundColor: '#F5C419',
+                fontWeight: 'bold',
+                borderRadius: '0px'
+              }}>
+              Add to cart
+            </button>
+          </Card.Text>
+        </Card.Body>
+      </Row>
     </section>
   )
 }

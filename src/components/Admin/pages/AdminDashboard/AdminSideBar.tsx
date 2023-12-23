@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const AdminSideBar = () => {
   return (
-    <aside className="admin-sidebar p-3 my-4">
+    <aside className="admin-sidebar p-3 m-4 d-flex flex-column align-items-center">
       <ul className="nav w-100 d-flex justify-content-around">
         <Link to="/dashboard/admin/profile">
           <li>Profile</li>

@@ -3,38 +3,32 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../src/redux/store'
 import { Link } from 'react-router-dom'
 
-import { Product, searchProducts, sortProducts } from '../../../redux/slices/products/productSlice'
+// import { Product, searchProducts, sortProducts } from '../../../redux/slices/products/productSlice'
+import * as productSlice from '../../../redux/slices/products/productSlice'
 import Hero from './Hero'
 import FilterBar from './FilterBar'
 import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
 
 import { FaSearch } from 'react-icons/fa'
-import { Rating, Stack, Pagination } from '@mui/material'
+import { Stack, Pagination } from '@mui/material'
 import { Button, Card } from 'react-bootstrap'
+import { baseURl } from '../../../redux/slices/usersList/userSlice'
 
 function Home() {
   const dispatch: AppDispatch = useDispatch()
-  const { products, error, searchBy } = useSelector((state: RootState) => state.products)
-  const { categories } = useSelector((state: RootState) => state.categories)
+  const { products, error, searchBy, totalPages } = useSelector(
+    (state: RootState) => state.products
+  )
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [MycurrentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
   const [searchTerm, setSearchTerm] = useState('')
-
-  const getCategoryNameById = (categoryId: number) => {
-    const category = categories.find((category) => category.id === categoryId)
-    return category ? category.name : 'Category not found'
-  }
-
-  if (error) {
-    return <h2 className="loading">{error}</h2>
-  }
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchTerm = e.target.value
     setSearchTerm(newSearchTerm)
     setCurrentPage(1)
-    dispatch(searchProducts(newSearchTerm))
+    dispatch(productSlice.searchProducts(newSearchTerm))
   }
 
   useEffect(() => {
@@ -42,30 +36,33 @@ function Home() {
       setCurrentPage(1)
     }
   }, [searchTerm, searchBy])
+
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     let sortValue = e.target.value
-    dispatch(sortProducts(sortValue))
+    dispatch(productSlice.sortProducts(sortValue))
   }
 
-  const filterProducts = (products: Product[], searchBy: string | number) => {
+  const filterProducts = (products: productSlice.Product[], searchBy: string | number) => {
     return products.filter((product) => {
       return (
-        product.name.toLowerCase().includes(searchBy.toString().toLowerCase()) ||
-        product.id.toString().includes(searchBy.toString())
+        product.title.toLowerCase().includes(searchBy.toString().toLowerCase()) ||
+        product._id.toString().includes(searchBy.toString())
       )
     })
   }
   const filteredProducts = searchBy ? filterProducts(products, searchBy) : products
 
-  const handelAddToCart = (product: Product) => {
+  const handelAddToCart = (product: productSlice.Product) => {
     dispatch(addToCart(product))
   }
 
-  // pagination logic
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage)
+  const pagination = {
+    page: MycurrentPage,
+    limit: itemsPerPage
+  }
+  useEffect(() => {
+    dispatch(productSlice.fetchProducts(pagination))
+  }, [dispatch, MycurrentPage, itemsPerPage])
 
   return (
     <main>
@@ -98,7 +95,6 @@ function Home() {
                 <option value="name">Name</option>
                 <option value="priceLowToHigh">Price: Low to High</option>
                 <option value="priceHighToLow">Price: High to Low</option>
-                <option value="rating">Rating</option>
               </select>
             </label>
           </form>
@@ -106,33 +102,25 @@ function Home() {
 
         <section className="products-content mt-5">
           <div className="product d-flex flex-wrap justify-content-center gap-5">
-            {currentItems.length > 0 ? (
-              currentItems.map((product) => (
-                <Card style={{ width: '18rem' }} key={product.id} className="product-card">
-                  <Link to={`/product/details/${product.id}`}>
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <Card style={{ width: '18rem' }} key={product.slug} className="product-card">
+                  <Link to={`/product/details/${product.slug}`}>
                     <div
                       className="d-flex justify-content-center"
                       style={{ height: '300px', overflow: 'hidden' }}>
                       <Card.Img
                         variant="top"
-                        src={product.image}
+                        src={baseURl + product.image}
                         className="product-card__image shadow-sm p-3 mb-5 bg-body rounded img-fluid"
                       />
                     </div>
                   </Link>
                   <Card.Body className="d-flex flex-column justify-content-between">
-                    <Card.Title className="d-flex justify-content-between">
-                      <Card.Title>{product.name}</Card.Title>
-                      <Rating name="read-only" value={Number(product.rating)} readOnly />
-                    </Card.Title>
+                    <Card.Title>{product.title}</Card.Title>
                     <Card.Text>{product.description}</Card.Text>
                     <Card.Text>
-                      <span className="fw-bold">Category: </span>
-                      {product.categories
-                        ? product.categories
-                            .map((categoryId) => getCategoryNameById(categoryId))
-                            .join(', ')
-                        : 'Product not assigned to any category'}
+                      <span className="fw-bold">Category:</span> {product.category.title}
                     </Card.Text>
                     <Card.Text>
                       <b>Price:</b>
@@ -160,8 +148,10 @@ function Home() {
           <Stack spacing={2} sx={{ marginTop: 4 }} className="d-flex align-items-center p-5 ">
             <Pagination
               count={totalPages}
-              page={currentPage}
-              onChange={(e, page) => setCurrentPage(page)}
+              page={MycurrentPage}
+              onChange={(e, page) => {
+                setCurrentPage(page)
+              }}
               variant="outlined"
               shape="rounded"
               color="primary"

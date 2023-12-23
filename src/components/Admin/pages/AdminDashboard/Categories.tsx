@@ -1,73 +1,62 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../../redux/store'
+import { AppDispatch, RootState } from '../../../../redux/store'
+import { toast } from 'react-toastify' // Add this import statement
 
 import AdminSideBar from './AdminSideBar'
 import {
   addCategory,
+  fetchCategories,
   removeCategory,
   updateCategory
 } from '../../../../redux/slices/categories/categorySlice'
 
-
-import { Button, Card, Spinner } from 'react-bootstrap'
-import { toast } from 'react-toastify'
+import { Button, Card } from 'react-bootstrap'
 
 function Categories() {
   const { categories, isLoading, error } = useSelector((state: RootState) => state.categories)
-  const [category, setCategory] = useState<{ name: string }>({
-    name: ''
+  const [category, setCategory] = useState<{ title: string }>({
+    title: ''
   })
   const [isEdit, setIsEdit] = useState(false)
-  const [selectedId, setSelectedId] = useState<number>(0)
+  const [selectedSlug, setSelectedSlug] = useState<string>('')
 
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
 
   if (error) {
-    return <h2 className="loading">{error}</h2>
+    toast.success(error, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      draggable: true
+    })
   }
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [dispatch])
 
   const handleAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(addCategory(category))
-    setCategory({ name: '' })
-    toast.success('Category Added Successfully', {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true
-    })
+    setCategory({ title: '' })
   }
 
-  const handleDelete = (id: number) => () => {
-    dispatch(removeCategory(id))
-    toast.success('Category Deleted Successfully', {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true
-    })
+  const handleDelete = (slug: string) => () => {
+    dispatch(removeCategory(slug))
   }
 
-  const handleEdit = (id: number, name: string) => {
-    setSelectedId(id)
+  const handleEdit = (slug: string, title: string) => {
+    setSelectedSlug(slug)
     setIsEdit(true)
-    setCategory({ name })
+    setCategory({ title })
   }
 
   const handleSave = () => {
-    dispatch(updateCategory({ id: selectedId, name: category.name }))
+    dispatch(updateCategory({ slug: selectedSlug, title: category.title }))
     setIsEdit(false)
-    setSelectedId(0)
-    toast.success('Category Updated Successfully', {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true
-    })
+    setSelectedSlug('')
+    setCategory({ title: '' })
   }
   return (
     <>
@@ -83,15 +72,20 @@ function Categories() {
                 className="form-control m-2 w-75"
                 type="text"
                 placeholder="Category Name..."
-                value={`${isEdit ? category.name : category.name}`}
-                onChange={(e) => setCategory({ ...category, name: e.target.value })}
+                value={`${isEdit ? category.title : category.title}`}
+                onChange={(e) => setCategory({ ...category, title: e.target.value })}
               />
               {isEdit ? (
                 <Button variant="primary m-2 w-75" onClick={handleSave}>
                   Save
                 </Button>
               ) : (
-                <button type="submit" className=" btn btn-dark m-2 w-75" onClick={() => { handleAdd }}>
+                <button
+                  type="submit"
+                  className=" btn btn-dark m-2 w-75"
+                  onClick={() => {
+                    handleAdd
+                  }}>
                   Add Category
                 </button>
               )}
@@ -99,23 +93,19 @@ function Categories() {
           </form>
           <section>
             <div className="d-flex flex-wrap justify-content-center align-items-center mb-5">
-              {!error && isLoading ? (
-                <h2 className="loading">
-                  <Spinner animation="border" variant="light" />
-                </h2>
-              ) : categories.length > 0 ? (
+              {categories.length > 0 ? (
                 categories.map((category) => (
-                  <Card key={category.id} className="col-6 col-lg-2 col-md-4 m-2">
+                  <Card key={category._id} className="col-6 col-lg-2 col-md-4 m-2">
                     <Card.Body>
-                      <Card.Title>{category.name}</Card.Title>
-                      <Card.Text>Id: {category.id}</Card.Text>
+                      <Card.Title>{category.title}</Card.Title>
+                      <Card.Text>Slug: {category.slug}</Card.Text>
                       <div className="d-flex justify-content-around align-items-center">
                         <button
                           className="btn btn-success"
-                          onClick={() => handleEdit(category.id, category.name)}>
+                          onClick={() => handleEdit(category.slug, category.title)}>
                           Edit
                         </button>
-                        <button className="btn btn-danger" onClick={handleDelete(category.id)}>
+                        <button className="btn btn-danger" onClick={handleDelete(category.slug)}>
                           Delete
                         </button>
                       </div>

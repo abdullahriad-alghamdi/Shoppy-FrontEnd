@@ -6,22 +6,23 @@ import {
   banStatus,
   baseURl,
   deleteUser,
-  fetchUsers,
   grantRole,
   searchUsers,
   sortUsers
 } from '../../../../redux/slices/usersList/userSlice'
 
 import AdminSideBar from './AdminSideBar'
-import { Spinner } from 'react-bootstrap'
 import { Stack, Pagination } from '@mui/material'
 
 function UsersList() {
   const dispatch: AppDispatch = useDispatch()
-  const { users, isLoading, error, searchBy } = useSelector((state: RootState) => state.users)
+  const { users, error, searchBy } = useSelector((state: RootState) => state.users)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(3)
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let searchTerm = e.target.value
+    setCurrentPage(1)
     dispatch(searchUsers(searchTerm))
   }
 
@@ -65,11 +66,13 @@ function UsersList() {
   //   )
   // }
 
-  if (error) {
-    return <h2 className="loading">{error}</h2>
-  }
-
   const filteredUsers = filterUsers(users)
+
+  // pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
 
   return (
     <>
@@ -104,7 +107,7 @@ function UsersList() {
           </section>
 
           <section>
-            {filteredUsers.length > 0 ? (
+            {currentItems.length > 0 ? (
               <>
                 <table
                   border={1}
@@ -121,7 +124,7 @@ function UsersList() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredUsers.map((user) => (
+                    {currentItems.map((user) => (
                       <tr key={user._id}>
                         <td>{user.slug}</td>
                         <td>
@@ -170,11 +173,9 @@ function UsersList() {
                 </table>
                 <Stack spacing={2} sx={{ marginTop: 4 }} className="d-flex align-items-center p-5 ">
                   <Pagination
-                    // count={totalPages}
-                    // page={currentPage}
-                    count={3}
-                    page={1}
-                    // onChange={(e, page) => setCurrentPage(page)}
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={(e, page) => setCurrentPage(page)}
                     variant="outlined"
                     shape="rounded"
                     color="primary"

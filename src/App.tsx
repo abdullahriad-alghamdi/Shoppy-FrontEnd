@@ -3,7 +3,7 @@ import Router from './routes/Router'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from './redux/store'
 
-import { fetchProducts } from './redux/slices/products/productSlice'
+import { fetchAllProducts, fetchProducts } from './redux/slices/products/productSlice'
 import { fetchCategories } from './redux/slices/categories/categorySlice'
 import { fetchOrders } from './redux/slices/orders/orderSlice'
 import { fetchUsers } from './redux/slices/usersList/userSlice'
@@ -15,7 +15,7 @@ import { ToastContainer } from 'react-toastify'
 function App() {
   const dispatch: AppDispatch = useDispatch()
   useEffect(() => {
-    dispatch(fetchProducts())
+    dispatch(fetchAllProducts())
     dispatch(fetchCategories())
     dispatch(fetchOrders())
     dispatch(fetchUsers())
