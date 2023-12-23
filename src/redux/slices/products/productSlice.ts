@@ -20,7 +20,7 @@ export type Product = {
 
 export type ProductState = {
   products: Product[]
-  error: string
+  error: string | null
   isLoading: boolean
   searchBy: number | string
   singleProduct: Product
@@ -29,7 +29,7 @@ export type ProductState = {
 
 const initialState: ProductState = {
   products: [],
-  error: '',
+  error: null,
   isLoading: false,
   searchBy: 0 || '',
   singleProduct: {} as Product,
@@ -132,50 +132,42 @@ export const removeProduct = createAsyncThunk(
   }
 )
 
+//sortProducts
+export const sortProducts = createAsyncThunk(
+  'Products/sortProducts',
+  async (sortValue: string, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${baseURl}products/?sort=${sortValue}`)
+      return data
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
 export const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
     searchProducts: (state, action) => {
       state.searchBy = action.payload
-    },
-
-    sortProducts: (state, action) => {
-      const sortValue = action.payload
-      switch (sortValue) {
-        case 'name':
-          state.products.sort((a, b) => a.title.localeCompare(b.title))
-          break
-        case 'priceLowToHigh':
-          state.products.sort((a, b) => a.price - b.price)
-          break
-        case 'priceHighToLow':
-          state.products.sort((a, b) => b.price - a.price)
-          break
-        default:
-          break
-      }
     }
 
-    // findProductById: (state, action) => {
-    // const id = action.payload
-    // const foundProduct = state.products.find((product) => product.id === id)
-    // if (foundProduct) {
-    //   state.singleProduct = foundProduct
-    // } else {
-    //   state.error = `Product with id ${id} not found.`
-    // }
-    // },
-
-    // updateProduct: (state, action) => {
-    // const { id, product } = action.payload
-    // const updatedProducts = state.products.map((oneProduct) => {
-    //   if (oneProduct.id === id) {
-    //     return { ...oneProduct, ...product }
+    // sortProducts: (state, action) => {
+    //   const sortValue = action.payload
+    //   switch (sortValue) {
+    //     case 'name':
+    //       state.products.sort((a, b) => a.title.localeCompare(b.title))
+    //       break
+    //     case 'priceLowToHigh':
+    //       state.products.sort((a, b) => a.price - b.price)
+    //       break
+    //     case 'priceHighToLow':
+    //       state.products.sort((a, b) => b.price - a.price)
+    //       break
+    //     default:
+    //       break
     //   }
-    //   return oneProduct
-    // })
-    // state.products = updatedProducts
     // }
   },
 
@@ -225,11 +217,16 @@ export const productSlice = createSlice({
         toast.success(action.payload.data.message)
       })
 
+      .addCase(sortProducts.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.products = action.payload.payload
+      })
+
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
           state.isLoading = true
-          state.error = 'no error while pending'
+          state.error = null
         }
       )
       .addMatcher(
@@ -243,5 +240,5 @@ export const productSlice = createSlice({
   }
 })
 
-export const { sortProducts, searchProducts } = productSlice.actions
+export const { searchProducts } = productSlice.actions
 export default productSlice.reducer

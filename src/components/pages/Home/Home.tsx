@@ -92,9 +92,8 @@ function Home() {
                 <option defaultValue="sort by" hidden>
                   Sort by
                 </option>
-                <option value="name">Name</option>
-                <option value="priceLowToHigh">Price: Low to High</option>
-                <option value="priceHighToLow">Price: High to Low</option>
+                <option value="asc">Price: Low to High</option> asc
+                <option value="desc">Price: High to Low</option>
               </select>
             </label>
           </form>
