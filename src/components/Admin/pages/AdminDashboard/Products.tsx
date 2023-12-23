@@ -115,7 +115,9 @@ function Products() {
     formData.append('category', product.category)
     if (!isEdit) {
       try {
-        dispatch(addProduct(formData))
+        dispatch(addProduct(formData)).then(() => {
+          dispatch(fetchProducts(pagination))
+        })
       } catch (error) {
         return
       }
