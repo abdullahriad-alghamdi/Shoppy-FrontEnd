@@ -41,10 +41,10 @@ export function NavBar() {
                   </span>
                 </button>
                 <nav className="sub-nav__content">
-                  {isLogin && userData?.role === 'visitor' && (
+                  {isLogin && !userData?.isAdmin && (
                     <Link to="/dashboard/user">User Dashboard</Link>
                   )}
-                  {isLogin && userData?.role === 'admin' && (
+                  {isLogin && userData?.isAdmin && (
                     <Link to="/dashboard/admin">Admin Dashboard</Link>
                   )}
                   {!isLogin && <Link to="/login">Login</Link>}
@@ -58,13 +58,11 @@ export function NavBar() {
               </nav>
             </li>
             <li>
-              {((isLogin && (userData && userData.role === 'visitor')) || !isLogin) && (
+              {((isLogin && userData && !userData?.isAdmin) || !isLogin) && (
                 <Link to="/MyCart">
                   <span className="cart-icon-wrapper">
                     <FaShoppingCart className="cart-icon fs-4" />
-                    <Badge
-                      bg="danger"
-                      className="badge">
+                    <Badge bg="danger" className="badge">
                       {cartItems && cartItems.length > 0 ? cartItems.length : 0}
                     </Badge>
                   </span>

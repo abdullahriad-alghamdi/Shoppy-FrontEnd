@@ -4,18 +4,16 @@ import { RootState } from '../../../../redux/store'
 import AdminSideBar from './AdminSideBar'
 
 const AdminDashboard = () => {
-
   const random = Math.floor(Math.random() * 2000)
 
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const { users } = useSelector((state: RootState) => state.users)
 
   const adminName = () => {
-    if (isLogin && userData?.role === 'admin') {
+    if (isLogin && userData?.isAdmin) {
       // finding the firstName of the admin who is logged in and assigning it to the admin variable
-      const admin = users.find((user) => user.role === 'admin' && user.id === userData.id)
-      const name = admin?.firstName + ' ' + admin?.lastName
-      return name
+      const admin = users.find((user) => user.isAdmin && user._id === userData._id)
+      return admin?.name
     }
   }
   return (
@@ -41,6 +39,5 @@ const AdminDashboard = () => {
     </>
   )
 }
-
 
 export default AdminDashboard

@@ -7,8 +7,6 @@ import {
   addProduct,
   fetchProducts,
   removeProduct,
-  searchProducts,
-  sortProducts,
   updateProduct
 } from '../../../../redux/slices/products/productSlice'
 import AdminSideBar from './AdminSideBar'
@@ -28,38 +26,30 @@ const initialProductState = {
 }
 function Products() {
   const dispatch: AppDispatch = useDispatch()
-  const { products, isLoading, error, searchBy, totalPages } = useSelector(
+  const { products, isLoading, error, searchBy, pagination } = useSelector(
     (state: RootState) => state.products
   )
   const { categories } = useSelector((state: RootState) => state.categories)
 
   const [MycurrentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [sort, setSort] = useState('')
   const [isOpenForm, setIsOpenForm] = useState(false)
   const [isEdit, setisEdit] = useState(false)
   const [product, setProduct] = useState(initialProductState)
   const [seletedSlug, setSeletedSlug] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let searchTerm = (e as React.ChangeEvent<HTMLInputElement>).target.value
-    dispatch(searchProducts(searchTerm))
+    const { value } = e.target
+    setSearchTerm(value)
+    setCurrentPage(1)
   }
 
   const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let sortValue = e.target.value
-    dispatch(sortProducts(sortValue))
+    setSort(sortValue)
   }
-
-  const filterProducts = (products: Product[], searchBy: string | number) => {
-    return products.filter((product) => {
-      return (
-        product.title.toLowerCase().includes(searchBy.toString().toLowerCase()) ||
-        product._id.toString().includes(searchBy.toString())
-      )
-    })
-  }
-
-  const filteredProducts = searchBy ? filterProducts(products, searchBy) : products
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -91,6 +81,7 @@ function Products() {
     const product = products.find((product) => product.slug === slug)
     // set the product state
     if (product) {
+      // THIS is optional wether i want show the initial values for my case i don't want to show them because backend will take them as repeated values
       // setProduct({
       //   ...product,
       //   category: product.category._id // Assuming the category object has an _id property
@@ -102,6 +93,21 @@ function Products() {
     // set the edit state
     setisEdit(true)
   }
+
+  const QeuerParams = {
+    page: MycurrentPage,
+    limit: itemsPerPage,
+    sortValue: sort,
+    searchTerm: searchTerm,
+    categoryID: ''
+  }
+
+  useEffect(() => {
+    if (searchTerm !== searchBy) {
+      setCurrentPage(1)
+    }
+    dispatch(fetchProducts(QeuerParams))
+  }, [dispatch, MycurrentPage, itemsPerPage, sort, searchTerm, searchBy])
 
   const handleFormSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -116,7 +122,7 @@ function Products() {
     if (!isEdit) {
       try {
         dispatch(addProduct(formData)).then(() => {
-          dispatch(fetchProducts(pagination))
+          dispatch(fetchProducts(QeuerParams))
         })
       } catch (error) {
         return
@@ -127,7 +133,9 @@ function Products() {
         formData,
         slug: seletedSlug
       }
-      dispatch(updateProduct(theFormData))
+      dispatch(updateProduct(theFormData)).then(() => {
+        dispatch(fetchProducts(QeuerParams))
+      })
     }
   }
 
@@ -138,14 +146,6 @@ function Products() {
       setisEdit(false)
     }
   }, [isOpenForm])
-
-  const pagination = {
-    page: MycurrentPage,
-    limit: itemsPerPage
-  }
-  useEffect(() => {
-    dispatch(fetchProducts(pagination))
-  }, [dispatch, MycurrentPage, itemsPerPage])
 
   return (
     <>
@@ -192,7 +192,7 @@ function Products() {
           style={{ width: '500px', margin: 'auto', marginBottom: '50px', height: '100%' }}>
           {isOpenForm && (
             <form className="container col-6 bg-light p-3 col-12">
-              <h2 className="text-center">Add Product</h2>
+              <h2 className="text-center">{isEdit ? 'Update Product' : 'Create Product'}</h2>
               <div className="mb-3">
                 <label htmlFor="title" className="form-label">
                   Title
@@ -308,7 +308,7 @@ function Products() {
               className="d-flex flex-wrap justify-content-center align-items-center">
               <input
                 value={searchBy}
-                onChange={handleSearchInputChange || ''}
+                onChange={handleSearchInputChange}
                 id="products__searching"
                 type="text"
                 placeholder="Search..."
@@ -324,67 +324,71 @@ function Products() {
                 id="products__sorting"
                 onChange={handleSortChange}
                 className="form-select m-2 w-25">
-                <option value="price">Price</option>
-                <option value="name">Name</option>
+                <option value="desc">Price: High to Low</option>
+                <option value="asc">Price: Low to High</option>
               </select>
             </label>
           </section>
           {/* Products */}
           <section className="container d-flex justify-content-center flex-wrap gap-3 p-3">
-            <table
-              border={1}
-              style={{
-                minHeight: '500px'
-              }}
-              className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center Products-table table-responsive">
-              <thead className="table-dark text-center">
-                <tr>
-                  <th>Slug</th>
-                  <th>Image</th>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>CountInStock</th>
-                  <th>Sold</th>
-                  <th>Category</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map((Product) => (
-                  <tr key={Product._id}>
-                    <td>{Product.slug}</td>
-                    <td>
-                      <img src={baseURl + Product.image} alt="" width="50" />
-                    </td>
-
-                    <td>{Product.title}</td>
-                    <td>{Product.price}</td>
-                    <td>{Product.quantity}</td>
-                    <td>{Product.countInStock}</td>
-                    <td>{Product.sold}</td>
-                    <td>{Product.category.title}</td>
-                    <td className="d-grid gap-2">
-                      <button
-                        className="btn btn-warning"
-                        onClick={(e) => handleEditAction(e, Product.slug)}>
-                        Edit
-                      </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => dispatch(removeProduct(Product.slug))}>
-                        Delete
-                      </button>
-                    </td>
+            {products.length > 0 ? (
+              <table
+                border={1}
+                style={{
+                  minHeight: '500px'
+                }}
+                className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center Products-table table-responsive">
+                <thead className="table-dark text-center">
+                  <tr>
+                    <th>Slug</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>CountInStock</th>
+                    <th>Sold</th>
+                    <th>Category</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {products.map((Product) => (
+                    <tr key={Product._id}>
+                      <td>{Product.slug}</td>
+                      <td>
+                        <img src={baseURl + Product.image} alt="" width="50" />
+                      </td>
+
+                      <td>{Product.title}</td>
+                      <td>{Product.price}</td>
+                      <td>{Product.quantity}</td>
+                      <td>{Product.countInStock}</td>
+                      <td>{Product.sold}</td>
+                      <td>{Product.category.title}</td>
+                      <td className="d-grid gap-2">
+                        <button
+                          className="btn btn-warning"
+                          onClick={(e) => handleEditAction(e, Product.slug)}>
+                          Edit
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => dispatch(removeProduct(Product.slug))}>
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <h2 className="text-muted m-5">No products found</h2>
+            )}
           </section>
         </section>
         <Stack spacing={2} sx={{ marginTop: 4 }} className="d-flex align-items-center p-5 ">
           <Pagination
-            count={totalPages}
+            count={pagination.totalPages}
             page={MycurrentPage}
             onChange={(e, page) => {
               setCurrentPage(page)

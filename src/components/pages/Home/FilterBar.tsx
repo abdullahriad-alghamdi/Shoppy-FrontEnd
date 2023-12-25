@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../../../../src/redux/store'
 
 import {
   fetchAllProducts,
+  fetchProducts,
   fetchProductsByCategory
 } from '../../../redux/slices/products/productSlice'
 
@@ -19,8 +20,15 @@ const FilterBar = () => {
       dispatch(fetchAllProducts())
       setActiveCategory('all')
     } else {
+      const sentToPagination = {
+        page: 1,
+        limit: 4,
+        sortValue: '',
+        searchTerm: '',
+        categoryID: categoryID
+      }
       setActiveCategory(categoryID)
-      dispatch(fetchProductsByCategory(categoryID))
+      dispatch(fetchProducts(sentToPagination))
     }
   }
 

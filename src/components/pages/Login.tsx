@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 
@@ -24,7 +24,7 @@ const Login = () => {
     if (foundUser && foundUser.password === user.password) {
       dispatch(login(foundUser))
       // this is the line that redirects the user after login based on the role
-      if (foundUser.role === 'admin') navigate('/dashboard/admin')
+      if (foundUser.isAdmin) navigate('/dashboard/admin')
       else {
         navigate('/')
       }
@@ -70,10 +70,19 @@ const Login = () => {
             required
           />
         </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check type="checkbox" label="Remember me" />
+        </Form.Group>
 
         <Button type="submit" variant="dark">
           Login
         </Button>
+
+        <Form.Group className="mb-3 mt-3" controlId="formBasicCheckbox">
+          <Form.Text className="text-muted">
+            <Link to="/forgotPassword">Forgot password?</Link>
+          </Form.Text>
+        </Form.Group>
       </Form>
     </section>
   )

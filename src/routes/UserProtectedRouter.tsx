@@ -7,5 +7,5 @@ import NotFound from '../components/pages/NotFound'
 export default function UserProtectedRouter() {
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
 
-  return isLogin && userData?.role === 'visitor' ? <Outlet /> : <NotFound />
+  return isLogin && !userData?.isAdmin ? <Outlet /> : <NotFound />
 }

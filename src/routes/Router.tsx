@@ -20,7 +20,9 @@ import Categories from '../components/Admin/pages/AdminDashboard/Categories'
 import Products from '../components/Admin/pages/AdminDashboard/Products'
 import Orders from '../components/Admin/pages/AdminDashboard/Orders'
 import UsersList from '../components/Admin/pages/AdminDashboard/Users'
-// import AddNewProduct from '../components/Admin/pages/AdminDashboard/AddNewProduct'
+import Activation from '../components/pages/Activation'
+import ForgotPassword from '../components/pages/ForgotPassword'
+import ResetPassword from '../components/pages/RestPassword'
 
 const Router = () => {
   return (
@@ -29,6 +31,9 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/Registry" element={<Registry />} />
+        <Route path="/activate/:token" element={<Activation />} />
+        <Route path="forgotPassword" element={<ForgotPassword />} />
+        <Route path="resetPassword/:token" element={<ResetPassword />} />
         <Route path="product/details/:id" element={<ProductDetails />} />
         <Route path="/MyCart" element={<Cart />} />
 
@@ -37,7 +42,6 @@ const Router = () => {
         <Route path="admin/profile" element={<AdminProfileEdit />} />
         <Route path="admin/categories" element={<Categories />} />
         <Route path="admin/products" element={<Products />} />
-        {/* <Route path="admin/NewProduct" element={<AddNewProduct />} /> */}
         <Route path="admin/users" element={<UsersList />} />
         <Route path="admin/orders" element={<Orders />} />
         {/* </Route> */}

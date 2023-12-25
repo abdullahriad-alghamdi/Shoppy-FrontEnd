@@ -5,103 +5,164 @@ import { AppDispatch, RootState } from '../../redux/store'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { User, register } from '../../redux/slices/usersList/userSlice'
+import { registerUser } from '../../redux/slices/usersList/userSlice'
 import { toast } from 'react-toastify'
 
-
-
 const Registry = () => {
-
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
 
   const { users } = useSelector((state: RootState) => state.users)
-
+  type User = {
+    name: string
+    username: string
+    email: string
+    password: string
+    address: string
+    phone: string
+    image: string
+  }
   const [user, setUser] = useState<User>({
-    id: users.length + 1,
-    firstName: '',
-    lastName: '',
+    name: '',
+    username: '',
     email: '',
     password: '',
-    passwordConfirmation: '',
-    role: 'visitor'
+    address: '',
+    phone: '',
+    image: ''
   })
 
   const [errorMessage, setErrorMessage] = useState('')
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setUser((prevState) => {
-      return { ...prevState, [name]: value }
-    })
-
-  }
-
-
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault()
-    const foundUser = users.find(
-      (userData) => userData.email.toLocaleLowerCase() === user.email.toLocaleLowerCase()
-    )
-    if (foundUser) {
-      setErrorMessage('User already exists')
-    } else if (user.password.length < 8) {
-      alert('Password must be at least 8 characters long')
-      return
-    } else if (user.password !== user.passwordConfirmation) {
-      setErrorMessage('Passwords do not match')
-    } else if (!user.email || !user.password) {
-      alert('Both fields are required')
-      return
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target
+    if (type === 'file') {
+      const fileInput = e.target as HTMLInputElement
+      const file = fileInput.files?.[0]
+      setUser((prev) => ({ ...prev, [name]: file }))
     } else {
-      dispatch(register(user))
-      navigate('/login')
-      toast.promise(Promise.resolve(), {
-        pending: 'Logging in...',
-        success: 'Logged in successfully',
-        error: 'Error logging in'
-      })
+      setUser((prev) => ({ ...prev, [name]: value }))
     }
   }
 
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault()
 
+    // formData an object that allows us to send files and text
+    const formData = new FormData()
+    for (const key in user) {
+      formData.append(key, user[key as keyof User])
+    }
+    // const foundUser = users.find(
+    //   (userData) => userData.email.toLocaleLowerCase() === user.email.toLocaleLowerCase()
+    // )
+    // if (foundUser) {
+    //   setErrorMessage('User already exists')
+    // } else if (user.password.length < 8) {
+    //   alert('Password must be at least 8 characters long')
+    //   return
+    // } else if (!user.email || !user.password) {
+    //   alert('Both fields are required')
+    //   return
+    // } else {
+    //   dispatch(register(user))
+    //   navigate('/login')
+    //   toast.promise(Promise.resolve(), {
+    //     pending: 'Logging in...',
+    //     success: 'Logged in successfully',
+    //     error: 'Error logging in'
+    //   })
+    // }
+    try {
+      const response = dispatch(registerUser(formData))
+      console.log(response)
+    } catch (error) {
+      console.log('hereee', error)
+    }
+  }
 
   return (
     <>
-      <section className="login-registry-container" >
+      <section className="login-registry-container">
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formFirstName">
-            <Form.Label>First name</Form.Label>
-            <Form.Control type="text" placeholder="Enter first name" name="firstName" value={user.firstName} required onChange={handleChange} />
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter name"
+              name="name"
+              value={user.name}
+              required
+              onChange={handleChange}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formLastName">
-            <Form.Label>Last name</Form.Label>
-            <Form.Control type="text" placeholder="Enter last name" name="lastName" value={user.lastName} required onChange={handleChange} />
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter user name"
+              name="username"
+              value={user.username}
+              required
+              onChange={handleChange}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" name="email" value={user.email} required onChange={handleChange} />
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter email"
+              name="email"
+              value={user.email}
+              required
+              onChange={handleChange}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" name="password" value={user.password} required onChange={handleChange} />
+            <Form.Control
+              type="password"
+              placeholder="Enter Password"
+              name="password"
+              value={user.password}
+              required
+              onChange={handleChange}
+            />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formPasswordConfirmation">
-            <Form.Label>Password Confirmation</Form.Label>
-            <Form.Control type="password" placeholder="Password" name="passwordConfirmation" value={user.passwordConfirmation} required onChange={handleChange} />
+          <Form.Group className="mb-3" controlId="formAddress">
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+              as="textarea"
+              placeholder="Enter address"
+              name="address"
+              onChange={handleChange}
+            />
           </Form.Group>
 
+          <Form.Group className="mb-3" controlId="formPhone">
+            <Form.Label>Phone</Form.Label>
+            <Form.Control
+              type="tel"
+              placeholder="Enter phone"
+              name="phone"
+              value={user.phone}
+              onChange={handleChange}
+            />
+          </Form.Group>
 
-          <Button className="mt-3" variant="dark" type="submit">
+          <Form.Group className="mb-3" controlId="formImage">
+            <Form.Label>Image</Form.Label>
+            <Form.Control type="file" name="image" accept="image/*" onChange={handleChange} />
+          </Form.Group>
+
+          <Button className="w-100" variant="dark" type="submit">
             Sign Up
           </Button>
-          <p className='text-danger m-5 '>{errorMessage}</p>
-
+          <p className="text-danger m-5 ">{errorMessage}</p>
         </Form>
       </section>
     </>

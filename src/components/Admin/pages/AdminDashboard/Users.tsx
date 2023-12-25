@@ -128,7 +128,12 @@ function UsersList() {
                       <tr key={user._id}>
                         <td>{user.slug}</td>
                         <td>
-                          <img src={baseURl + user.image} alt="" width="50" />
+                          <img
+                            src={baseURl + user.image}
+                            alt=""
+                            width="50"
+                            style={{ borderRadius: '50%', height: '50px' }}
+                          />
                         </td>
 
                         <td>{user.name}</td>

@@ -13,8 +13,8 @@ const AdminProfileEdit = () => {
   const { userData } = useSelector((state: RootState) => state.users)
 
   const [user, setUser] = useState({
-    firstName: userData?.firstName,
-    lastName: userData?.lastName,
+    name: userData?.name,
+    email: userData?.email
   })
 
   const dispatch: AppDispatch = useDispatch()
@@ -29,18 +29,18 @@ const AdminProfileEdit = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (userData) {
-      const { id } = userData
-      const data = { id, ...user }
+      const { _id } = userData
+      const data = { _id, ...user }
       dispatch(editInfoAdmin(data))
       toast.success('Profile updated successfully', {
         position: 'top-center',
-        autoClose: 2000,
+        autoClose: 2000
       })
     }
 
     setUser({
-      firstName: '',
-      lastName: '',
+      name: '',
+      email: ''
     })
   }
 
@@ -54,20 +54,20 @@ const AdminProfileEdit = () => {
           <Form.Label>First Name</Form.Label>
           <Form.Control
             type="text"
-            placeholder={user?.firstName}
-            value={user?.firstName}
+            placeholder={user?.name}
+            value={user?.name}
             name="firstName"
             onChange={handleChange}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Last Name</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="text"
-            placeholder={user?.lastName}
-            value={user?.lastName}
-            name="lastName"
+            placeholder={user?.email}
+            value={user?.email}
+            name="email"
             onChange={handleChange}
           />
         </Form.Group>

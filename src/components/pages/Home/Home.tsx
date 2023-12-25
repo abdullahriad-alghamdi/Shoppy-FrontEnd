@@ -16,53 +16,44 @@ import { baseURl } from '../../../redux/slices/usersList/userSlice'
 
 function Home() {
   const dispatch: AppDispatch = useDispatch()
-  const { products, error, searchBy, totalPages } = useSelector(
+  const { products, error, searchBy, pagination } = useSelector(
     (state: RootState) => state.products
   )
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const [MycurrentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
   const [searchTerm, setSearchTerm] = useState('')
+  const [sort, setSort] = useState('')
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newSearchTerm = e.target.value
-    setSearchTerm(newSearchTerm)
+    const { value } = e.target
+    setSearchTerm(value)
     setCurrentPage(1)
-    dispatch(productSlice.searchProducts(newSearchTerm))
+  }
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    let sortValue = e.target.value
+    setSort(sortValue)
+  }
+
+  const handelAddToCart = (product: productSlice.Product) => {
+    dispatch(addToCart(product))
+  }
+
+  const sentToPagination = {
+    page: MycurrentPage,
+    limit: itemsPerPage,
+    sortValue: sort,
+    searchTerm: searchTerm,
+    categoryID: ''
   }
 
   useEffect(() => {
     if (searchTerm !== searchBy) {
       setCurrentPage(1)
     }
-  }, [searchTerm, searchBy])
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    let sortValue = e.target.value
-    dispatch(productSlice.sortProducts(sortValue))
-  }
-
-  const filterProducts = (products: productSlice.Product[], searchBy: string | number) => {
-    return products.filter((product) => {
-      return (
-        product.title.toLowerCase().includes(searchBy.toString().toLowerCase()) ||
-        product._id.toString().includes(searchBy.toString())
-      )
-    })
-  }
-  const filteredProducts = searchBy ? filterProducts(products, searchBy) : products
-
-  const handelAddToCart = (product: productSlice.Product) => {
-    dispatch(addToCart(product))
-  }
-
-  const pagination = {
-    page: MycurrentPage,
-    limit: itemsPerPage
-  }
-  useEffect(() => {
-    dispatch(productSlice.fetchProducts(pagination))
-  }, [dispatch, MycurrentPage, itemsPerPage])
+    dispatch(productSlice.fetchProducts(sentToPagination))
+  }, [dispatch, MycurrentPage, itemsPerPage, sort, searchTerm, searchBy])
 
   return (
     <main>
@@ -74,7 +65,7 @@ function Home() {
             <label className="d-flex justify-content-start col-lg-5 col-md-4 col-sm-12 col-xs-12">
               <input
                 value={searchBy}
-                onChange={handleSearchInputChange || ''}
+                onChange={handleSearchInputChange}
                 className="form-control rounded-0"
                 id="products__searching"
                 type="text"
@@ -92,7 +83,7 @@ function Home() {
                 <option defaultValue="sort by" hidden>
                   Sort by
                 </option>
-                <option value="asc">Price: Low to High</option> asc
+                <option value="asc">Price: Low to High</option>
                 <option value="desc">Price: High to Low</option>
               </select>
             </label>
@@ -101,8 +92,8 @@ function Home() {
 
         <section className="products-content mt-5">
           <div className="product d-flex flex-wrap justify-content-center gap-5">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
+            {products.length > 0 ? (
+              products.map((product) => (
                 <Card style={{ width: '18rem' }} key={product.slug} className="product-card">
                   <Link to={`/product/details/${product.slug}`}>
                     <div
@@ -146,7 +137,7 @@ function Home() {
 
           <Stack spacing={2} sx={{ marginTop: 4 }} className="d-flex align-items-center p-5 ">
             <Pagination
-              count={totalPages}
+              count={pagination.totalPages}
               page={MycurrentPage}
               onChange={(e, page) => {
                 setCurrentPage(page)

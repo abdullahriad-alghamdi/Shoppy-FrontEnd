@@ -24,8 +24,14 @@ export type ProductState = {
   isLoading: boolean
   searchBy: number | string
   singleProduct: Product
-  totalPages: number
+  pagination: {
+    totalPages: number
+    currentPage: number
+    totalProducts: number
+  }
 }
+
+type queries = { page: number; limit: number; sortValue: string , categoryID: string , searchTerm : string}
 
 const initialState: ProductState = {
   products: [],
@@ -33,7 +39,11 @@ const initialState: ProductState = {
   isLoading: false,
   searchBy: 0 || '',
   singleProduct: {} as Product,
-  totalPages: 0
+  pagination: {
+    totalPages: 0,
+    currentPage: 0,
+    totalProducts: 0
+  }
 }
 
 export const fetchAllProducts = createAsyncThunk(
@@ -51,11 +61,12 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchProducts = createAsyncThunk(
   'Products/fetchData',
-  async (pagination: { page: number; limit: number }, { rejectWithValue }) => {
+  async (pagination: Partial<queries>, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `${baseURl}products/?page=${pagination.page}&limit=${pagination.limit}`
+        `${baseURl}products/?page=${pagination.page}&limit=${pagination.limit}&categoryId=${pagination.categoryID}&search=${pagination.searchTerm}&sort=${pagination.sortValue}`
       )
+        // http://localhost:8080/products/?page=1&limit=1&categoryId=656a54ea69e619196c502073&search=the choice&sort=asc
 
       return data
     } catch (error) {
@@ -132,42 +143,25 @@ export const removeProduct = createAsyncThunk(
   }
 )
 
-//sortProducts
-export const sortProducts = createAsyncThunk(
-  'Products/sortProducts',
-  async (sortValue: string, { rejectWithValue }) => {
-    try {
-      const { data } = await axios.get(`${baseURl}products/?sort=${sortValue}`)
-      return data
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
+// //sortProducts
+// export const sortProducts = createAsyncThunk(
+//   'Products/sortProducts',
+//   async (sortValue: string, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.get(`${baseURl}products/?sort=${sortValue}`)
+//       return data
+//     } catch (error) {
+//       return rejectWithValue(error)
+//     }
+//   }
+// )
 
 export const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    searchProducts: (state, action) => {
-      state.searchBy = action.payload
-    }
-
-    // sortProducts: (state, action) => {
-    //   const sortValue = action.payload
-    //   switch (sortValue) {
-    //     case 'name':
-    //       state.products.sort((a, b) => a.title.localeCompare(b.title))
-    //       break
-    //     case 'priceLowToHigh':
-    //       state.products.sort((a, b) => a.price - b.price)
-    //       break
-    //     case 'priceHighToLow':
-    //       state.products.sort((a, b) => b.price - a.price)
-    //       break
-    //     default:
-    //       break
-    //   }
+    // searchProducts: (state, action) => {
+    //   state.searchBy = action.payload
     // }
   },
 
@@ -176,8 +170,8 @@ export const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isLoading = false
         state.products = action.payload.payload
-        const { totalPages } = action.payload.pagination
-        state.totalPages = totalPages
+        state.pagination = action.payload.pagination
+        state.searchBy = action.payload.searchBy
       })
 
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
@@ -185,10 +179,6 @@ export const productSlice = createSlice({
         state.products = action.payload.payload
       })
 
-      .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.products = action.payload.payload
-      })
 
       .addCase(findProductById.fulfilled, (state, action) => {
         state.isLoading = false
@@ -217,10 +207,10 @@ export const productSlice = createSlice({
         toast.success(action.payload.data.message)
       })
 
-      .addCase(sortProducts.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.products = action.payload.payload
-      })
+      // .addCase(sortProducts.fulfilled, (state, action) => {
+      //   state.isLoading = false
+      //   state.products = action.payload.payload
+      // })
 
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
@@ -240,5 +230,5 @@ export const productSlice = createSlice({
   }
 })
 
-export const { searchProducts } = productSlice.actions
+export const {  } = productSlice.actions
 export default productSlice.reducer
