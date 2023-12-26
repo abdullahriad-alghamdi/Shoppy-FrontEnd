@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../../src/redux/store'
+import { AppDispatch, RootState } from '../../redux/store'
 
-import { fetchAllProducts, fetchProducts } from '../../../redux/slices/products/productSlice'
+import { fetchAllProducts, fetchProducts } from '../../redux/slices/products/productSlice'
 
 import { Button } from 'react-bootstrap'
 

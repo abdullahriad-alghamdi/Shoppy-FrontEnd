@@ -9,11 +9,11 @@ import {
   grantRole,
   searchUsers,
   sortUsers
-} from '../../../../redux/slices/usersList/userSlice'
-import { AppDispatch, RootState } from '../../../../redux/store'
+} from '../../redux/slices/usersList/userSlice'
+import { AppDispatch, RootState } from '../../redux/store'
 
 import { Pagination, Stack } from '@mui/material'
-import AdminSideBar from './AdminSideBar'
+import AdminSideBar from '../../components/admin/AdminSideBar'
 
 function UsersList() {
   const { users, searchBy } = useSelector((state: RootState) => state.users)

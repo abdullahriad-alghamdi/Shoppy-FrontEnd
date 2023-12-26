@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { AppDispatch, RootState } from '../../../../src/redux/store'
+import { AppDispatch, RootState } from '../../redux/store'
 
-import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
-import * as productSlice from '../../../redux/slices/products/productSlice'
-import FilterBar from './FilterBar'
-import Hero from './Hero'
+import { addToCart } from '../../redux/slices/cart/cartSlice'
+import * as productSlice from '../../redux/slices/products/productSlice'
+import FilterBar from '../../components/user/FilterBar'
+import Hero from '../../components/general/Hero'
 
 import { Pagination, Stack } from '@mui/material'
 import { Button, Card } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
-import { baseURl } from '../../../redux/slices/usersList/userSlice'
+import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 function Home() {
   const { products, searchBy, pagination } = useSelector((state: RootState) => state.products)

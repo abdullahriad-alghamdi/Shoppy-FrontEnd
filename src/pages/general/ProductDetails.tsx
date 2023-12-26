@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppDispatch, RootState } from '../../../../src/redux/store'
+import { AppDispatch, RootState } from '../../redux/store'
 
-import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
-import { Product, findProductById } from '../../../redux/slices/products/productSlice'
+import { addToCart } from '../../redux/slices/cart/cartSlice'
+import { Product, findProductById } from '../../redux/slices/products/productSlice'
 
 import { ButtonGroup } from '@mui/material'
 import { Card, Row } from 'react-bootstrap'
-import { baseURl } from '../../../redux/slices/usersList/userSlice'
+import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 const ProductDetails = () => {
   const { id } = useParams()

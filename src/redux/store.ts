@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import CartReducer from './slices/Cart/cartSlice'
+import CartReducer from './slices/cart/cartSlice'
 import categoryReducer from './slices/categories/categorySlice'
 import OrdersReducer from './slices/orders/orderSlice'
 import productsReducer from './slices/products/productSlice'

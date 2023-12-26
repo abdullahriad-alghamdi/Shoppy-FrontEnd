@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { AppDispatch, RootState } from '../../../../src/redux/store'
+import { AppDispatch, RootState } from '../../redux/store'
 
-import { logout } from '../../../redux/slices/usersList/userSlice'
+import { logout } from '../../redux/slices/usersList/userSlice'
 
 import { Badge } from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'

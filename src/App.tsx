@@ -9,8 +9,8 @@ import { fetchAllProducts } from './redux/slices/products/productSlice'
 import { fetchUsers } from './redux/slices/usersList/userSlice'
 
 import { ToastContainer } from 'react-toastify'
-import Footer from './components/pages/Home/Footer'
-import { NavBar } from './components/pages/Home/NavBar'
+import Footer from './components/general/Footer'
+import { NavBar } from './components/general/NavBar'
 
 function App() {
   const dispatch: AppDispatch = useDispatch()

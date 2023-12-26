@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../../redux/store'
+import { RootState } from '../../redux/store'
 
 import {
   DecreaseQuantity,
   increaseQuantity,
   removeFromCart
-} from '../../../../redux/slices/Cart/cartSlice'
-import { Product } from '../../../../redux/slices/products/productSlice'
+} from '../../redux/slices/cart/cartSlice'
+import { Product } from '../../redux/slices/products/productSlice'
 import EmptyCart from './EmptyCart'
 
 import { Button } from 'react-bootstrap'

@@ -1,22 +1,22 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../../redux/store'
+import { RootState } from '../../redux/store'
 
-import UserSideBar from './UserSideBar'
+import AdminSideBar from '../../components/admin/AdminSideBar'
 
-const UserDashboard = () => {
+const AdminDashboard = () => {
   const random = Math.floor(Math.random() * 2000)
 
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const { users } = useSelector((state: RootState) => state.users)
 
-  const userName = () => {
-    if (isLogin && !userData?.isAdmin) {
-      const user = users.find((user) => !user.isAdmin && user._id === userData?._id)
-      const visitorName = user?.name
-      return visitorName
+  // function to find the name of the admin who is logged in
+  const adminName = () => {
+    if (isLogin && userData?.isAdmin) {
+      // finding Name of the admin who is logged in and assigning it to the admin variable
+      const admin = users.find((user) => user.isAdmin && user._id === userData._id)
+      return admin?.name
     }
   }
-
   return (
     <>
       <section>
@@ -33,12 +33,12 @@ const UserDashboard = () => {
             }}
             className="img-fluid"
           />
-          <h1 className="text-white fw-bold p-5">{`Welcome ${userName()}!`}</h1>
+          <h1 className="text-white p-5">{`Welcome ${adminName()}!`}</h1>
         </section>
-        <UserSideBar />
+        <AdminSideBar />
       </section>
     </>
   )
 }
 
-export default UserDashboard
+export default AdminDashboard

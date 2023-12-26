@@ -1,10 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../redux/store'
+import { AppDispatch, RootState } from '../../../redux/store'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { registerUser } from '../../redux/slices/usersList/userSlice'
+import { registerUser } from '../../../redux/slices/usersList/userSlice'
 
 const Registry = () => {
   const { users } = useSelector((state: RootState) => state.users)

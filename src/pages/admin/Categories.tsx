@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../../redux/store'
+import { AppDispatch, RootState } from '../../redux/store'
 
 import {
   addCategory,
   removeCategory,
   updateCategory
-} from '../../../../redux/slices/categories/categorySlice'
-import AdminSideBar from './AdminSideBar'
+} from '../../redux/slices/categories/categorySlice'
+import AdminSideBar from '../../components/admin/AdminSideBar'
 
 import { Button, Card } from 'react-bootstrap'
 

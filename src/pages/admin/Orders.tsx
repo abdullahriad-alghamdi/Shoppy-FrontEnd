@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../../redux/store'
+import { RootState } from '../../redux/store'
 
-import AdminSideBar from './AdminSideBar'
+import AdminSideBar from '../../components/admin/AdminSideBar'
 
 function Orders() {
   const { orders } = useSelector((state: RootState) => state.orders)

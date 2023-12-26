@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../../src/redux/store'
+import { RootState } from '../../redux/store'
 
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
 import { toast } from 'react-toastify'

@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../../redux/store'
+import { RootState } from '../../redux/store'
 
 import UserDashboard from './UserDashboard'
-import { baseURl } from '../../../../redux/slices/usersList/userSlice'
+import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 const OrdersHistory = () => {
   const { userData } = useSelector((state: RootState) => state.users)

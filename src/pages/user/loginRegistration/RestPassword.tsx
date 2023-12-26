@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppDispatch } from '../../redux/store'
+import { AppDispatch } from '../../../redux/store'
 
-import { resetPassword } from '../../redux/slices/usersList/userSlice'
+import { resetPassword } from '../../../redux/slices/usersList/userSlice'
 
 const ResetPassword = () => {
   const { token } = useParams()

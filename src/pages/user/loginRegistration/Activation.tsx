@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { AppDispatch } from '../../redux/store'
+import { AppDispatch } from '../../../redux/store'
 
-import { activateUser } from '../../redux/slices/usersList/userSlice'
+import { activateUser } from '../../../redux/slices/usersList/userSlice'
 
 import jwtDecode from 'jwt-decode'
 

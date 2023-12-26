@@ -1,19 +1,19 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../../redux/store'
+import { AppDispatch, RootState } from '../../redux/store'
 
 import {
   addProduct,
   fetchProducts,
   removeProduct,
   updateProduct
-} from '../../../../redux/slices/products/productSlice'
-import AdminSideBar from './AdminSideBar'
+} from '../../redux/slices/products/productSlice'
+import AdminSideBar from '../../components/admin/AdminSideBar'
 
 import { Pagination, Stack } from '@mui/material'
 import { FaPlusCircle, FaTimes } from 'react-icons/fa'
-import { Category } from '../../../../redux/slices/categories/categorySlice'
-import { baseURl } from '../../../../redux/slices/usersList/userSlice'
+import { Category } from '../../redux/slices/categories/categorySlice'
+import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 function Products() {
   const { products, searchBy, pagination } = useSelector((state: RootState) => state.products)

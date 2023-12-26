@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { AppDispatch } from '../../redux/store'
+import { AppDispatch } from '../../../redux/store'
 
-import { forgotPassword } from '../../redux/slices/usersList/userSlice'
+import { forgotPassword } from '../../../redux/slices/usersList/userSlice'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('')

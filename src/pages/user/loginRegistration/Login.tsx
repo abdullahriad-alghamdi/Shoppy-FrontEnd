@@ -1,9 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { AppDispatch, RootState } from '../../redux/store'
+import { AppDispatch, RootState } from '../../../redux/store'
 
-import { login } from '../../redux/slices/usersList/userSlice'
+import { login } from '../../../redux/slices/usersList/userSlice'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
