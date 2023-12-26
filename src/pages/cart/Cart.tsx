@@ -26,7 +26,7 @@ const Cart = () => {
   }
 
   const onRemove = (product: Product) => {
-    dispatch(removeFromCart(Number(product._id)))
+    dispatch(removeFromCart(product._id))
   }
 
   if (inCart.length == 0) {
@@ -72,6 +72,7 @@ const Cart = () => {
                       value={product.quantity}
                       className="text-center border-0"
                       style={{ width: '25px' }}
+                      readOnly
                     />
                     <button onClick={() => onIncrease(product)} className="btn">
                       <span className="fs-5 fw-bold">+</span>

@@ -8,7 +8,7 @@ export type CartState = {
 }
 
 const initialState: CartState = {
-  inCart: [],
+  inCart: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')!) : [],
   totalQuantity: 0,
   totalPrice: 0
 }
@@ -37,15 +37,20 @@ export const cartSlice = createSlice({
       )
       localStorage.setItem('cart', JSON.stringify(state.inCart))
     },
+
     removeFromCart: (state, action) => {
       const id: string = action.payload
       state.inCart = state.inCart.filter((product) => product._id !== id)
+
       state.totalQuantity = state.inCart.reduce((total, product) => total + product.quantity, 0)
+
       state.totalPrice = state.inCart.reduce(
         (total, product) => total + product.quantity * product.price,
         0
       )
+      localStorage.setItem('cart', JSON.stringify(state.inCart))
     },
+
     increaseQuantity: (state, action) => {
       const productIncrease: Product = action.payload
       state.inCart.map((product) => {
@@ -59,6 +64,7 @@ export const cartSlice = createSlice({
         0
       )
     },
+
     DecreaseQuantity: (state, action) => {
       const productIncrease: Product = action.payload
       state.inCart.map((product) => {
