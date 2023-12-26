@@ -1,20 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../redux/store'
-import { toast } from 'react-toastify' // Add this import statement
 
-import AdminSideBar from './AdminSideBar'
 import {
   addCategory,
-  fetchCategories,
   removeCategory,
   updateCategory
 } from '../../../../redux/slices/categories/categorySlice'
+import AdminSideBar from './AdminSideBar'
 
 import { Button, Card } from 'react-bootstrap'
 
 function Categories() {
-  const { categories, isLoading, error } = useSelector((state: RootState) => state.categories)
+  const { categories } = useSelector((state: RootState) => state.categories)
   const [category, setCategory] = useState<{ title: string }>({
     title: ''
   })
@@ -22,19 +20,6 @@ function Categories() {
   const [selectedSlug, setSelectedSlug] = useState<string>('')
 
   const dispatch: AppDispatch = useDispatch()
-
-  if (error) {
-    toast.success(error, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      draggable: true
-    })
-  }
-  useEffect(() => {
-    dispatch(fetchCategories())
-  }, [dispatch])
 
   const handleAdd = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -58,12 +43,16 @@ function Categories() {
     setSelectedSlug('')
     setCategory({ title: '' })
   }
+
   return (
     <>
       <section>
         <AdminSideBar />
 
         <main>
+          {/* 
+          create a form to add a new category
+           */}
           <form className="d-flex justify-content-center align-items-center" onSubmit={handleAdd}>
             <label
               htmlFor="categories__adding"
@@ -92,6 +81,7 @@ function Categories() {
             </label>
           </form>
           <section>
+            {/* displaying categories */}
             <div className="d-flex flex-wrap justify-content-center align-items-center mb-5">
               {categories.length > 0 ? (
                 categories.map((category) => (

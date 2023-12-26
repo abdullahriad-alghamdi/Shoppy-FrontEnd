@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-import api from '../../../api'
 import axios from 'axios'
+import { Product } from '../products/productSlice'
 import { baseURl } from '../usersList/userSlice'
 
 interface OrderProduct {
-  product: string
+  product: Product
   quantity: number
 }
 

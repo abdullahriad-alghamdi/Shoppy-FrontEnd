@@ -1,19 +1,19 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '../../redux/store'
 
 import { login } from '../../redux/slices/usersList/userSlice'
 
-import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import { toast } from 'react-toastify'
 
 const Login = () => {
-  const navigate = useNavigate()
+  const { users } = useSelector((state: RootState) => state.users)
   const [user, setUser] = useState({ email: '', password: '' })
 
-  const { users } = useSelector((state: RootState) => state.users)
+  const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
 
   const handleSubmit = async (event: FormEvent) => {
@@ -77,7 +77,7 @@ const Login = () => {
         <Button type="submit" variant="dark">
           Login
         </Button>
-
+        {/* forgot password form */}
         <Form.Group className="mb-3 mt-3" controlId="formBasicCheckbox">
           <Form.Text className="text-muted">
             <Link to="/forgotPassword">Forgot password?</Link>

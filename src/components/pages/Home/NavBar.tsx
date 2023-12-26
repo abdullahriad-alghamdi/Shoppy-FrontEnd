@@ -1,18 +1,19 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { AppDispatch, RootState } from '../../../../src/redux/store'
-import { useDispatch, useSelector } from 'react-redux'
 
 import { logout } from '../../../redux/slices/usersList/userSlice'
 
-import { FaUser, FaShoppingCart } from 'react-icons/fa'
-import { toast } from 'react-toastify'
 import { Badge } from 'react-bootstrap'
+import { FaShoppingCart, FaUser } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 
 export function NavBar() {
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const cartItems = useSelector((state: RootState) => state.cart.inCart)
 
   const dispatch: AppDispatch = useDispatch()
+
   const handleLogout = () => {
     dispatch(logout())
     toast.promise(Promise.resolve(), {
@@ -25,6 +26,7 @@ export function NavBar() {
   return (
     <>
       <div className="nav-bar">
+        {/* Navbar content */}
         <div className="nav-left">
           <Link to="/" className="nav-logo">
             <span className="logo">Shoppy</span>

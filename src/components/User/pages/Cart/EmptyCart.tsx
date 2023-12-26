@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 
 const EmptyCart = () => {
-
   const images = [
     '/assets/empty-cart-0.png',
     '/assets/empty-cart-1.png',
-    '/assets/empty-cart-2.png',
+    '/assets/empty-cart-2.png'
   ]
+
   const randomImage = images[Math.floor(Math.random() * images.length)]
 
   return (
@@ -23,9 +23,7 @@ const EmptyCart = () => {
         />
         <div className="fs-5">
           <p className="text-muted fs-3">Your cart is empty</p>
-          <p className="text-muted  font-light">
-            no items added to your cart yet
-          </p>
+          <p className="text-muted  font-light">no items added to your cart yet</p>
         </div>
 
         <Link to="/">
@@ -34,7 +32,7 @@ const EmptyCart = () => {
           </Button>
         </Link>
       </div>
-    </div >
+    </div>
   )
 }
 

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, current, isRejectedWithValue } from '@reduxjs/toolkit'
 
-// import api from '../../../api'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -52,61 +51,63 @@ const initialState: UserState = {
 }
 
 // Get users
-export const fetchUsers = createAsyncThunk('users/fetchData', async () => {
+export const fetchUsers = createAsyncThunk('users/fetchData', async (_, thunkAPI) => {
   try {
     const { data } = await axios.get(`${baseURl}users`)
     return data
   } catch (error) {
-    isRejectedWithValue(error)
+    return thunkAPI.rejectWithValue(error)
   }
 })
 
 // Delete user
-export const deleteUser = createAsyncThunk('users/deleteUser', async (slug: string) => {
+export const deleteUser = createAsyncThunk('users/deleteUser', async (slug: string, thunkAPI) => {
   try {
     const { data } = await axios.delete(`${baseURl}users/${slug}`)
     const { message } = data
     return { slug, message }
   } catch (error) {
-    console.error("Error: Can't fetch users.", error)
+    return thunkAPI.rejectWithValue(error)
   }
 })
 
 // Grant a Role
-export const grantRole = createAsyncThunk('users/grantRole', async (id: string) => {
+export const grantRole = createAsyncThunk('users/grantRole', async (id: string, thunkAPI) => {
   try {
     const { data } = await axios.put(`${baseURl}users/role/${id}`)
     const { message } = data
 
     return { id, message }
   } catch (error) {
-    console.error("Error: Can't fetch users.", error)
+    return thunkAPI.rejectWithValue(error)
   }
 })
 
 // Ban unban user
-export const banStatus = createAsyncThunk('users/banUser', async (id: string) => {
+export const banStatus = createAsyncThunk('users/banUser', async (id: string, thunkAPI) => {
   try {
     const { data } = await axios.put(`${baseURl}users/banStatus/${id}`)
     const { message } = data
 
     return { id, message }
   } catch (error) {
-    console.error("Error: Can't fetch users.", error)
+    return thunkAPI.rejectWithValue(error)
   }
 })
 
 // register user
-export const registerUser = createAsyncThunk('users/register', async (formData : FormData, thunkAPI) => {
-  try {
-    const { data } = await axios.post(`${baseURl}users/register`, formData)
-console.log(data)
-    return data
-  } catch (error) {
-    thunkAPI.rejectWithValue(error)
-    return error
+export const registerUser = createAsyncThunk(
+  'users/register',
+  async (formData: FormData, thunkAPI) => {
+    try {
+      const { data } = await axios.post(`${baseURl}users/register`, formData)
+      console.log(data)
+      return data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
   }
-})
+)
 
 //activate user
 export const activateUser = createAsyncThunk('users/activate', async (token: string, thunkAPI) => {
@@ -114,8 +115,7 @@ export const activateUser = createAsyncThunk('users/activate', async (token: str
     const { data } = await axios.post(`${baseURl}users/activate`, { token })
     return data
   } catch (error) {
-    thunkAPI.rejectWithValue(error)
-    return error
+    return thunkAPI.rejectWithValue(error)
   }
 })
 
@@ -127,8 +127,7 @@ export const forgotPassword = createAsyncThunk(
       const { data } = await axios.post(`${baseURl}users/forgot-password`, { email })
       return data
     } catch (error) {
-      thunkAPI.rejectWithValue(error)
-      return error
+      return thunkAPI.rejectWithValue(error)
     }
   }
 )
@@ -136,17 +135,15 @@ export const forgotPassword = createAsyncThunk(
 //reset password
 export const resetPassword = createAsyncThunk(
   'users/resetPassword',
-  async ({ token, newPassword }: { token: string, newPassword: string }, thunkAPI) => {
+  async ({ token, newPassword }: { token: string; newPassword: string }, thunkAPI) => {
     try {
       const { data } = await axios.post(`${baseURl}users/reset-password`, { token, newPassword })
       return data
     } catch (error) {
-      thunkAPI.rejectWithValue(error)
-      return error
+      return thunkAPI.rejectWithValue(error)
     }
   }
 )
-
 
 export const userSlice = createSlice({
   name: 'users',
@@ -274,6 +271,7 @@ export const userSlice = createSlice({
           state.error = null
         }
       )
+
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
@@ -285,6 +283,5 @@ export const userSlice = createSlice({
   }
 })
 
-export const { sortUsers, searchUsers, logout, login, editInfo, editInfoAdmin } =
-  userSlice.actions
+export const { sortUsers, searchUsers, logout, login, editInfo, editInfoAdmin } = userSlice.actions
 export default userSlice.reducer

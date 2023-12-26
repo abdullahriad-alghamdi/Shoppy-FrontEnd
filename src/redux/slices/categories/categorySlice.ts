@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice, current, isRejectedWithValue } from '@reduxjs/toolkit'
 
-import api from '../../../api'
-import axios, { AxiosError } from 'axios'
-import { baseURl } from '../usersList/userSlice'
+import axios from 'axios'
 import { toast } from 'react-toastify'
+import { baseURl } from '../usersList/userSlice'
 
 export type Category = {
   _id: string
@@ -23,25 +22,25 @@ const initialState: CategoryState = {
   isLoading: false
 }
 
-export const fetchCategories = createAsyncThunk('Categories/fetchData', async () => {
+export const fetchCategories = createAsyncThunk('Categories/fetchData', async (_, thunkAPI) => {
   try {
     const { data } = await axios.get(`${baseURl}categories`)
     return data
   } catch (error) {
-    console.error("Error: Can't fetch categories.", error)
+    return thunkAPI.rejectWithValue(error)
   }
 })
 
 //remove category
 export const removeCategory = createAsyncThunk(
   'Categories/removeCategoryBySlug',
-  async (slug: string) => {
+  async (slug: string, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete(`${baseURl}categories/${slug}`)
       const { message } = data
       return { message, slug }
     } catch (error) {
-      console.error("Error: Can't remove category.", error)
+      return rejectWithValue(error)
     }
   }
 )
@@ -54,7 +53,7 @@ export const addCategory = createAsyncThunk(
       const { data } = await axios.post(`${baseURl}categories`, category)
       return data
     } catch (error) {
-      return error
+      return rejectWithValue(error)
     }
   }
 )
@@ -68,7 +67,7 @@ export const updateCategory = createAsyncThunk(
 
       return data
     } catch (error) {
-      return error
+      return thunkAPI.rejectWithValue(error)
     }
   }
 )
@@ -76,18 +75,7 @@ export const updateCategory = createAsyncThunk(
 export const categorySlice = createSlice({
   name: 'categories',
   initialState,
-  reducers: {
-    // updateCategory: (state, action) => {
-    // const { id, name } = action.payload
-    // const updatedCategories = state.categories.map((category) => {
-    //   if (category.id === id) {
-    //     return { ...category, name }
-    //   }
-    //   return category
-    // })
-    // state.categories = updatedCategories
-    // }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
 
@@ -95,6 +83,7 @@ export const categorySlice = createSlice({
         state.isLoading = false
         state.categories = action.payload.payload
       })
+
       .addCase(removeCategory.fulfilled, (state, action) => {
         state.isLoading = false
         state.categories = state.categories.filter(
@@ -108,6 +97,7 @@ export const categorySlice = createSlice({
           draggable: true
         })
       })
+
       .addCase(addCategory.fulfilled, (state, action) => {
         state.isLoading = false
         state.categories.push(action.payload.payload)
@@ -119,6 +109,7 @@ export const categorySlice = createSlice({
           draggable: true
         })
       })
+
       .addCase(updateCategory.fulfilled, (state, action) => {
         state.isLoading = false
 
@@ -152,6 +143,7 @@ export const categorySlice = createSlice({
           state.error = null
         }
       )
+
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
@@ -162,5 +154,4 @@ export const categorySlice = createSlice({
   }
 })
 
-export const {} = categorySlice.actions
 export default categorySlice.reducer

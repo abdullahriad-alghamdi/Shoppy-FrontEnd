@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../redux/store'
 
 import {
-  Product,
   addProduct,
   fetchProducts,
   removeProduct,
@@ -11,34 +10,34 @@ import {
 } from '../../../../redux/slices/products/productSlice'
 import AdminSideBar from './AdminSideBar'
 
-import { FaDropbox, FaPlusCircle, FaTimes } from 'react-icons/fa'
+import { Pagination, Stack } from '@mui/material'
+import { FaPlusCircle, FaTimes } from 'react-icons/fa'
 import { Category } from '../../../../redux/slices/categories/categorySlice'
 import { baseURl } from '../../../../redux/slices/usersList/userSlice'
-import { Pagination, Stack } from '@mui/material'
 
-const initialProductState = {
-  title: '',
-  description: '',
-  price: 0,
-  quantity: 0,
-  image: '',
-  category: ''
-}
 function Products() {
-  const dispatch: AppDispatch = useDispatch()
-  const { products, isLoading, error, searchBy, pagination } = useSelector(
-    (state: RootState) => state.products
-  )
+  const { products, searchBy, pagination } = useSelector((state: RootState) => state.products)
   const { categories } = useSelector((state: RootState) => state.categories)
+
+  const initialProductState = {
+    title: '',
+    description: '',
+    price: 0,
+    quantity: 0,
+    image: '',
+    category: ''
+  }
 
   const [MycurrentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
   const [sort, setSort] = useState('')
+  const [seletedSlug, setSeletedSlug] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [isOpenForm, setIsOpenForm] = useState(false)
   const [isEdit, setisEdit] = useState(false)
   const [product, setProduct] = useState(initialProductState)
-  const [seletedSlug, setSeletedSlug] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
+
+  const dispatch: AppDispatch = useDispatch()
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -65,16 +64,6 @@ function Products() {
     }
   }
 
-  // handleing default category
-  useEffect(() => {
-    if (categories.length > 0) {
-      setProduct((prev) => ({
-        ...prev,
-        category: categories.find((c) => c.title === 'Uncategorized')?._id || ''
-      }))
-    }
-  }, [categories])
-
   const handleEditAction = (e: MouseEvent<HTMLButtonElement>, slug: string) => {
     e.preventDefault()
     // find the product by slug
@@ -93,21 +82,6 @@ function Products() {
     // set the edit state
     setisEdit(true)
   }
-
-  const QeuerParams = {
-    page: MycurrentPage,
-    limit: itemsPerPage,
-    sortValue: sort,
-    searchTerm: searchTerm,
-    categoryID: ''
-  }
-
-  useEffect(() => {
-    if (searchTerm !== searchBy) {
-      setCurrentPage(1)
-    }
-    dispatch(fetchProducts(QeuerParams))
-  }, [dispatch, MycurrentPage, itemsPerPage, sort, searchTerm, searchBy])
 
   const handleFormSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -138,6 +112,30 @@ function Products() {
       })
     }
   }
+  const QeuerParams = {
+    page: MycurrentPage,
+    limit: itemsPerPage,
+    sortValue: sort,
+    searchTerm: searchTerm,
+    categoryID: ''
+  }
+
+  // handleing default category
+  useEffect(() => {
+    if (categories.length > 0) {
+      setProduct((prev) => ({
+        ...prev,
+        category: categories.find((c) => c.title === 'Uncategorized')?._id || ''
+      }))
+    }
+  }, [categories])
+
+  useEffect(() => {
+    if (searchTerm !== searchBy) {
+      setCurrentPage(1)
+    }
+    dispatch(fetchProducts(QeuerParams))
+  }, [dispatch, MycurrentPage, itemsPerPage, sort, searchTerm, searchBy])
 
   // if the form close reset the product state
   useEffect(() => {

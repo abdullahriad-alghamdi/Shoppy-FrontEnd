@@ -1,10 +1,10 @@
+import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppDispatch } from '../../redux/store'
-import { useDispatch } from 'react-redux'
-
-import jwtDecode from 'jwt-decode'
 
 import { activateUser } from '../../redux/slices/usersList/userSlice'
+
+import jwtDecode from 'jwt-decode'
 
 const Activation = () => {
   const { token } = useParams<{ token: string }>()

@@ -1,29 +1,28 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../../src/redux/store'
 import { Link } from 'react-router-dom'
+import { AppDispatch, RootState } from '../../../../src/redux/store'
 
-// import { Product, searchProducts, sortProducts } from '../../../redux/slices/products/productSlice'
-import * as productSlice from '../../../redux/slices/products/productSlice'
-import Hero from './Hero'
-import FilterBar from './FilterBar'
 import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
+import * as productSlice from '../../../redux/slices/products/productSlice'
+import FilterBar from './FilterBar'
+import Hero from './Hero'
 
-import { FaSearch } from 'react-icons/fa'
-import { Stack, Pagination } from '@mui/material'
+import { Pagination, Stack } from '@mui/material'
 import { Button, Card } from 'react-bootstrap'
+import { FaSearch } from 'react-icons/fa'
 import { baseURl } from '../../../redux/slices/usersList/userSlice'
 
 function Home() {
-  const dispatch: AppDispatch = useDispatch()
-  const { products, error, searchBy, pagination } = useSelector(
-    (state: RootState) => state.products
-  )
+  const { products, searchBy, pagination } = useSelector((state: RootState) => state.products)
+
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const [MycurrentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(4)
   const [searchTerm, setSearchTerm] = useState('')
   const [sort, setSort] = useState('')
+
+  const dispatch: AppDispatch = useDispatch()
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -40,7 +39,7 @@ function Home() {
     dispatch(addToCart(product))
   }
 
-  const sentToPagination = {
+  const QeuerParams = {
     page: MycurrentPage,
     limit: itemsPerPage,
     sortValue: sort,
@@ -52,7 +51,7 @@ function Home() {
     if (searchTerm !== searchBy) {
       setCurrentPage(1)
     }
-    dispatch(productSlice.fetchProducts(sentToPagination))
+    dispatch(productSlice.fetchProducts(QeuerParams))
   }, [dispatch, MycurrentPage, itemsPerPage, sort, searchTerm, searchBy])
 
   return (

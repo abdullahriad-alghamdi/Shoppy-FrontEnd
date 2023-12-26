@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import axios from 'axios'
-import { baseURl } from '../usersList/userSlice'
-import { Category } from '../categories/categorySlice'
 import { toast } from 'react-toastify'
+import { Category } from '../categories/categorySlice'
+import { baseURl } from '../usersList/userSlice'
 
 export type Product = {
   _id: string
@@ -31,7 +31,13 @@ export type ProductState = {
   }
 }
 
-type queries = { page: number; limit: number; sortValue: string , categoryID: string , searchTerm : string}
+type queries = {
+  page: number
+  limit: number
+  sortValue: string
+  categoryID: string
+  searchTerm: string
+}
 
 const initialState: ProductState = {
   products: [],
@@ -46,6 +52,7 @@ const initialState: ProductState = {
   }
 }
 
+// fetch all products
 export const fetchAllProducts = createAsyncThunk(
   'Products/fetchAllData',
   async (_, { rejectWithValue }) => {
@@ -59,6 +66,7 @@ export const fetchAllProducts = createAsyncThunk(
   }
 )
 
+// fetch products with queries
 export const fetchProducts = createAsyncThunk(
   'Products/fetchData',
   async (pagination: Partial<queries>, { rejectWithValue }) => {
@@ -66,7 +74,6 @@ export const fetchProducts = createAsyncThunk(
       const { data } = await axios.get(
         `${baseURl}products/?page=${pagination.page}&limit=${pagination.limit}&categoryId=${pagination.categoryID}&search=${pagination.searchTerm}&sort=${pagination.sortValue}`
       )
-        // http://localhost:8080/products/?page=1&limit=1&categoryId=656a54ea69e619196c502073&search=the choice&sort=asc
 
       return data
     } catch (error) {
@@ -143,30 +150,13 @@ export const removeProduct = createAsyncThunk(
   }
 )
 
-// //sortProducts
-// export const sortProducts = createAsyncThunk(
-//   'Products/sortProducts',
-//   async (sortValue: string, { rejectWithValue }) => {
-//     try {
-//       const { data } = await axios.get(`${baseURl}products/?sort=${sortValue}`)
-//       return data
-//     } catch (error) {
-//       return rejectWithValue(error)
-//     }
-//   }
-// )
-
 export const productSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {
-    // searchProducts: (state, action) => {
-    //   state.searchBy = action.payload
-    // }
-  },
-
+  reducers: {},
   extraReducers: (builder) => {
     builder
+
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isLoading = false
         state.products = action.payload.payload
@@ -178,7 +168,6 @@ export const productSlice = createSlice({
         state.isLoading = false
         state.products = action.payload.payload
       })
-
 
       .addCase(findProductById.fulfilled, (state, action) => {
         state.isLoading = false
@@ -197,7 +186,6 @@ export const productSlice = createSlice({
           (product) => product._id === action.payload.payload._id
         )
         state.products[index] = action.payload.payload
-
         toast.success(action.payload.message)
       })
 
@@ -207,11 +195,6 @@ export const productSlice = createSlice({
         toast.success(action.payload.data.message)
       })
 
-      // .addCase(sortProducts.fulfilled, (state, action) => {
-      //   state.isLoading = false
-      //   state.products = action.payload.payload
-      // })
-
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
@@ -219,6 +202,7 @@ export const productSlice = createSlice({
           state.error = null
         }
       )
+
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
@@ -230,5 +214,4 @@ export const productSlice = createSlice({
   }
 })
 
-export const {  } = productSlice.actions
 export default productSlice.reducer

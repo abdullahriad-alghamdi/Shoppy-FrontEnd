@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppDispatch } from '../../redux/store'
-import { useDispatch } from 'react-redux'
+
 import { resetPassword } from '../../redux/slices/usersList/userSlice'
 
 const ResetPassword = () => {
   const { token } = useParams()
+
   const dispatch: AppDispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -20,11 +22,6 @@ const ResetPassword = () => {
     dispatch(resetPassword({ token: token!, newPassword: password }))
     navigate('/login')
   }
-
-  // Example useEffect to log the retrieved token
-  useEffect(() => {
-    console.log('Token:', token)
-  }, [token])
 
   return (
     <div

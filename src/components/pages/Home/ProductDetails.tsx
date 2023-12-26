@@ -1,17 +1,13 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AppDispatch, RootState } from '../../../../src/redux/store'
 
-import {
-  Product,
-  fetchProducts,
-  findProductById
-} from '../../../redux/slices/products/productSlice'
 import { addToCart } from '../../../../src/redux/slices/Cart/cartSlice'
+import { Product, findProductById } from '../../../redux/slices/products/productSlice'
 
-import { Card, Container, Row, Spinner } from 'react-bootstrap'
 import { ButtonGroup } from '@mui/material'
+import { Card, Row } from 'react-bootstrap'
 import { baseURl } from '../../../redux/slices/usersList/userSlice'
 
 const ProductDetails = () => {
@@ -19,16 +15,11 @@ const ProductDetails = () => {
   const navigate = useNavigate()
 
   const dispatch = useDispatch<AppDispatch>()
-  const { singleProduct, isLoading, error } = useSelector((state: RootState) => state.products)
-  const { categories } = useSelector((state: RootState) => state.categories)
+  const { singleProduct } = useSelector((state: RootState) => state.products)
 
   useEffect(() => {
     dispatch(findProductById(String(id)))
   }, [dispatch, id])
-
-  if (error) {
-    return <h2 className="loading">{error}</h2>
-  }
 
   const handelAddToCart = (product: Product) => {
     dispatch(addToCart(product))

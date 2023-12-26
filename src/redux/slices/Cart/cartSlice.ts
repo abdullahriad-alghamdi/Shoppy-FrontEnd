@@ -19,13 +19,13 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const newProduct: Product = action.payload
-      const isExist = state.inCart.find((cart) => cart.id === newProduct.id)
+      const isExist = state.inCart.find((cart) => cart._id === newProduct._id)
 
       if (!isExist) {
         state.inCart = [...state.inCart, { ...newProduct, quantity: 1 }]
       } else {
         state.inCart = state.inCart.map((product) =>
-          product.id === newProduct.id ? { ...product, quantity: product.quantity + 1 } : product
+          product._id === newProduct._id ? { ...product, quantity: product.quantity + 1 } : product
         )
       }
 
@@ -38,8 +38,8 @@ export const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state.inCart))
     },
     removeFromCart: (state, action) => {
-      const id: number = action.payload
-      state.inCart = state.inCart.filter((product) => product.id !== id)
+      const id: string = action.payload
+      state.inCart = state.inCart.filter((product) => product._id !== id)
       state.totalQuantity = state.inCart.reduce((total, product) => total + product.quantity, 0)
       state.totalPrice = state.inCart.reduce(
         (total, product) => total + product.quantity * product.price,
@@ -49,7 +49,7 @@ export const cartSlice = createSlice({
     increaseQuantity: (state, action) => {
       const productIncrease: Product = action.payload
       state.inCart.map((product) => {
-        if (product.id == productIncrease.id) {
+        if (product._id == productIncrease._id) {
           product.quantity += 1
         }
       })
@@ -62,12 +62,12 @@ export const cartSlice = createSlice({
     DecreaseQuantity: (state, action) => {
       const productIncrease: Product = action.payload
       state.inCart.map((product) => {
-        if (product.id == productIncrease.id) {
+        if (product._id == productIncrease._id) {
           if (product.quantity > 0) {
             product.quantity -= 1
           }
           if (product.quantity == 0) {
-            state.inCart = state.inCart.filter((product) => product.id !== productIncrease.id)
+            state.inCart = state.inCart.filter((product) => product._id !== productIncrease._id)
           }
         }
       })

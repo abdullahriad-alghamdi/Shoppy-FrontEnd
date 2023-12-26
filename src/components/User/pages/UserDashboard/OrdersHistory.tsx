@@ -1,53 +1,71 @@
-import { useSelector } from "react-redux"
-import { RootState } from "../../../../redux/store"
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
 
-import UserDashboard from "./UserDashboard"
+import UserDashboard from './UserDashboard'
+import { baseURl } from '../../../../redux/slices/usersList/userSlice'
 
 const OrdersHistory = () => {
-    const { userData } = useSelector((state: RootState) => state.users)
-    const { orders } = useSelector((state: RootState) => state.orders)
-    const { products } = useSelector((state: RootState) => state.products)
-    return <>
-        <UserDashboard />
-        <div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <h1 className="text-center mt-5">Orders History</h1>
-                        <table className="table table-bordered table-hover border text-center my-5 table-responsive align-middle">
-                            <thead className="table-dark">
-                                <tr>
+  const { userData } = useSelector((state: RootState) => state.users)
+  const { orders } = useSelector((state: RootState) => state.orders)
+  const { products } = useSelector((state: RootState) => state.products)
 
-                                    <th scope="col">Product</th>
-                                    <th scope="col">purchased At</th>
+  return (
+    <>
+      <UserDashboard />
+      <div>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <h1 className="text-center mt-5">Orders History</h1>
+              <table className="table table-bordered table-hover border text-center my-5 table-responsive align-middle">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">purchased At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders &&
+                    orders.map((order) => {
+                      return (
+                        userData &&
+                        userData._id === order._id && (
+                          <tr key={order._id}>
+                            {products &&
+                              products.map((product) => {
+                                return (
+                                  order.products
+                                    .map((product) => product.product._id)
+                                    .includes(product._id) && (
+                                    <td
+                                      key={product._id}
+                                      className="d-flex flex-column justify-content-center align-items-center">
+                                      <img
+                                        src={baseURl + product.image}
+                                        alt={product.title}
+                                        className="img-fluid"
+                                        width="100px"
+                                        height="100px"
+                                      />
+                                      <p>{product.title}</p>
+                                    </td>
+                                  )
+                                )
+                              })}
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orders && orders.map((order) => {
-                                    return userData && userData.id === order.userId &&
-                                        <tr key={order.id}>
-                                            {products && products.map((product) => {
-                                                return product.id === order.productId &&
-                                                    <td key={product.id} className="d-flex flex-column justify-content-center align-items-center">
-                                                        <img src={product.image} alt={product.name} className="img-fluid" width="100px" height="100px" />
-                                                        <p>{product.name}</p>
-                                                    </td>
-                                            })}
-
-
-
-                                            <td>{order.purchasedAt}</td>
-                                        </tr>
-                                }
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            <td>{order.status}</td>
+                          </tr>
+                        )
+                      )
+                    })}
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
+      </div>
     </>
+  )
 }
 
 export default OrdersHistory

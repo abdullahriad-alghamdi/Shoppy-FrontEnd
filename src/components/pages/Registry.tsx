@@ -1,18 +1,15 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { registerUser } from '../../redux/slices/usersList/userSlice'
-import { toast } from 'react-toastify'
 
 const Registry = () => {
-  const navigate = useNavigate()
+  const { users } = useSelector((state: RootState) => state.users)
   const dispatch: AppDispatch = useDispatch()
 
-  const { users } = useSelector((state: RootState) => state.users)
   type User = {
     name: string
     username: string
@@ -53,31 +50,24 @@ const Registry = () => {
     for (const key in user) {
       formData.append(key, user[key as keyof User])
     }
-    // const foundUser = users.find(
-    //   (userData) => userData.email.toLocaleLowerCase() === user.email.toLocaleLowerCase()
-    // )
-    // if (foundUser) {
-    //   setErrorMessage('User already exists')
-    // } else if (user.password.length < 8) {
-    //   alert('Password must be at least 8 characters long')
-    //   return
-    // } else if (!user.email || !user.password) {
-    //   alert('Both fields are required')
-    //   return
-    // } else {
-    //   dispatch(register(user))
-    //   navigate('/login')
-    //   toast.promise(Promise.resolve(), {
-    //     pending: 'Logging in...',
-    //     success: 'Logged in successfully',
-    //     error: 'Error logging in'
-    //   })
-    // }
+    const foundUser = users.find(
+      (userData) => userData.email === user.email || userData.username === user.username
+    )
     try {
-      const response = dispatch(registerUser(formData))
-      console.log(response)
+      if (foundUser) {
+        setErrorMessage('User already exists')
+      } else if (user.password.length < 8) {
+        alert('Password must be at least 8 characters long')
+        return
+      } else if (!user.email || !user.password) {
+        alert('Both fields are required')
+        return
+      } else {
+        const response = dispatch(registerUser(formData))
+        console.log(response)
+      }
     } catch (error) {
-      console.log('hereee', error)
+      console.log(error)
     }
   }
 
@@ -162,6 +152,7 @@ const Registry = () => {
           <Button className="w-100" variant="dark" type="submit">
             Sign Up
           </Button>
+
           <p className="text-danger m-5 ">{errorMessage}</p>
         </Form>
       </section>

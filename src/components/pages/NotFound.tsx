@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 
 const NotFound = () => {
   const navigate = useNavigate()
+
   // counter function counts 10 s and print the number of seconds left
   const counter = () => {
     let seconds = 10
@@ -24,22 +25,29 @@ const NotFound = () => {
       draggable: true
     })
   }
-  counter()
 
+  counter()
 
   return (
     <>
       <section className="overlay bg-light">
-        <div className='error-container'>
+        <div className="error-container">
           <img src="/assets/error.png" alt="404" className="img-fluid error-img" />
           <div className="d-flex flex-column align-items-center">
-            <h1 className='font-brandon' > AWWW...DON’T CRY. 🥺</h1>
+            <h1 className="font-brandon"> AWWW...DON’T CRY. 🥺</h1>
 
-            <p className='font-dosis'> <center>It's just a 404 Error! </center><br />What you’re looking for may have been misplaced in Long Term Memory.</p>
-            <Button variant='outline-secondary border-dark btn-lg;' className="m-4" onClick={() => navigate(-1)}>
-              <FaArrowLeft className='mx-2' /> Go Back
+            <p className="font-dosis">
+              {' '}
+              <center>It's just a 404 Error! </center>
+              <br />
+              What you’re looking for may have been misplaced in Long Term Memory.
+            </p>
+            <Button
+              variant="outline-secondary border-dark btn-lg;"
+              className="m-4"
+              onClick={() => navigate(-1)}>
+              <FaArrowLeft className="mx-2" /> Go Back
             </Button>
-
           </div>
         </div>
       </section>

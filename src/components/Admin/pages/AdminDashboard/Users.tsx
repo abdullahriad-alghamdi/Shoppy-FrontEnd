@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../../../redux/store'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 import {
   User,
   banStatus,
@@ -10,15 +10,17 @@ import {
   searchUsers,
   sortUsers
 } from '../../../../redux/slices/usersList/userSlice'
+import { AppDispatch, RootState } from '../../../../redux/store'
 
+import { Pagination, Stack } from '@mui/material'
 import AdminSideBar from './AdminSideBar'
-import { Stack, Pagination } from '@mui/material'
 
 function UsersList() {
-  const dispatch: AppDispatch = useDispatch()
-  const { users, error, searchBy } = useSelector((state: RootState) => state.users)
+  const { users, searchBy } = useSelector((state: RootState) => state.users)
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(3)
+
+  const dispatch: AppDispatch = useDispatch()
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let searchTerm = e.target.value
@@ -58,13 +60,6 @@ function UsersList() {
   const handleGrantRole = (id: string) => {
     dispatch(grantRole(id))
   }
-  // if (isLoading) {
-  //   return (
-  //     <h2 className="loading">
-  //       <Spinner animation="grow" variant="light" />
-  //     </h2>
-  //   )
-  // }
 
   const filteredUsers = filterUsers(users)
 
@@ -79,6 +74,7 @@ function UsersList() {
       <section>
         <AdminSideBar />
         <section>
+          {/* searching sorting */}
           <section>
             <label
               htmlFor="products__searching"
@@ -105,7 +101,7 @@ function UsersList() {
               </select>
             </label>
           </section>
-
+          {/* displaying items */}
           <section>
             {currentItems.length > 0 ? (
               <>
