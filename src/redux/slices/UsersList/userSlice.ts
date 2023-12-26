@@ -217,6 +217,7 @@ export const userSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.isLoading = false
         state.users = action.payload.payload
+        console.log(action.payload.payload)
       })
 
       .addCase(deleteUser.fulfilled, (state, action) => {

@@ -5,10 +5,13 @@ import { AppDispatch, RootState } from '../../../redux/store'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { registerUser } from '../../../redux/slices/usersList/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Registry = () => {
   const { users } = useSelector((state: RootState) => state.users)
+
   const dispatch: AppDispatch = useDispatch()
+  const navigate = useNavigate()
 
   type User = {
     name: string
@@ -19,6 +22,7 @@ const Registry = () => {
     phone: string
     image: string
   }
+
   const [user, setUser] = useState<User>({
     name: '',
     username: '',
@@ -50,6 +54,7 @@ const Registry = () => {
     for (const key in user) {
       formData.append(key, user[key as keyof User])
     }
+
     const foundUser = users.find(
       (userData) => userData.email === user.email || userData.username === user.username
     )
@@ -63,8 +68,19 @@ const Registry = () => {
         alert('Both fields are required')
         return
       } else {
-        const response = dispatch(registerUser(formData))
-        console.log(response)
+        dispatch(registerUser(formData))
+        setUser({
+          name: '',
+          username: '',
+          email: '',
+          password: '',
+          address: '',
+          phone: '',
+          image: ''
+        })
+
+        setErrorMessage('')
+        navigate('/login')
       }
     } catch (error) {
       console.log(error)

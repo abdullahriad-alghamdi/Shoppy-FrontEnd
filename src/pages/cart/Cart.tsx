@@ -11,6 +11,7 @@ import EmptyCart from './EmptyCart'
 
 import { Button } from 'react-bootstrap'
 import { FaRegTrashAlt, FaShoppingBag } from 'react-icons/fa'
+import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 const Cart = () => {
   const { inCart, totalPrice } = useSelector((state: RootState) => state.cart)
@@ -47,7 +48,7 @@ const Cart = () => {
               key={product._id}
               className="d-flex flex-row align-items-center border-top p-3 gap-3">
               <img
-                src={product.image}
+                src={baseURl + product.image}
                 alt={product.title}
                 className="img-fluid"
                 width="150px"
