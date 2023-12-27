@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice, current, isRejectedWithValue } from '@re
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
-export const baseURl = 'https://sda-online-mern-backend-project-three.vercel.app/'
+export const baseURl = 'http://localhost:8080/'
+// export const baseURl = 'https://sda-online-mern-backend-project-three.vercel.app/'
 
 export type User = {
   _id: string

@@ -17,5 +17,6 @@
     "jsx": "react-jsx"
   },
   "include": ["src", "src/components/pages/.tsx"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "types": ["node"] // Add this line to include the Node.js types
 }
