@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppDispatch, RootState } from '../../../redux/store'
 
-import { login } from '../../../redux/slices/usersList/userSlice'
+import { loginUser } from '../../../redux/slices/usersList/userSlice'
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { toast } from 'react-toastify'
 
 const Login = () => {
   const { users } = useSelector((state: RootState) => state.users)
@@ -16,32 +15,47 @@ const Login = () => {
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault()
-    const foundUser = users.find(
-      (userData) => userData.email.toLocaleLowerCase() === user.email.toLocaleLowerCase()
-    )
-    if (foundUser && foundUser.password === user.password) {
-      dispatch(login(foundUser))
-      // this is the line that redirects the user after login based on the role
-      if (foundUser.isAdmin) navigate('/dashboard/admin')
-      else {
-        navigate('/')
-      }
-      toast.promise(Promise.resolve(), {
-        pending: 'Logging in...',
-        success: 'Logged in successfully',
-        error: 'Error logging in'
-      })
-    } else {
-      alert('please enter valid email and password')
-    }
-  }
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setUser((prevState) => {
       return { ...prevState, [name]: value }
     })
+  }
+
+  // useEffect(() => {
+  //   navigate(pathName ? pathName : `/dashboard/${userData && userData.isAdmin ? 'admin' : 'user'}`)
+  // }, [userData, navigate, pathName])
+
+  // const handleSubmit = async (event: FormEvent) => {
+  //   event.preventDefault()
+
+  //   if (user) {
+  //     dispatch(loginUser(user))
+  //     // this is the line that redirects the user after login based on the role
+  //     const foundUser = users.find(
+  //       (userData) => userData.email.toLocaleLowerCase() === user.email.toLocaleLowerCase()
+  //     )
+  //   } else {
+  //     alert('please enter valid email and password')
+  //   }
+  // }
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault()
+
+    if (user) {
+      dispatch(loginUser(user))
+      const foundUser = users.find(
+        (userData) => userData.email.toLocaleLowerCase() === user.email.toLocaleLowerCase()
+      )
+      if (foundUser?.isAdmin) {
+        navigate('/dashboard/admin')
+      } else {
+        navigate('/')
+      }
+    } else {
+      alert('please enter valid email and password')
+    }
   }
 
   return (

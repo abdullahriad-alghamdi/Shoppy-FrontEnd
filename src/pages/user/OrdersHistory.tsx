@@ -41,7 +41,7 @@ const OrdersHistory = () => {
                                       key={product._id}
                                       className="d-flex flex-column justify-content-center align-items-center">
                                       <img
-                                        src={baseURl + product.image}
+                                        src={product.image}
                                         alt={product.title}
                                         className="img-fluid"
                                         width="100px"

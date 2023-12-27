@@ -12,8 +12,7 @@ const UserDashboard = () => {
   const userName = () => {
     if (isLogin && !userData?.isAdmin) {
       const user = users.find((user) => !user.isAdmin && user._id === userData?._id)
-      const visitorName = user?.name
-      return visitorName
+      return user?.name
     }
   }
 
@@ -22,7 +21,11 @@ const UserDashboard = () => {
       <section>
         <section className="d-flex flex-column align-items-center bg-dark">
           <img
-            src={`https://avatars.githubusercontent.com/u/${random}?v=4`}
+            src={
+              userData?.image
+                ? userData?.image
+                : `https://avatars.githubusercontent.com/u/${random}?v=4`
+            }
             alt=""
             style={{
               margin: '1rem',
@@ -33,7 +36,9 @@ const UserDashboard = () => {
             }}
             className="img-fluid"
           />
-          <h1 className="text-white fw-bold p-5">{`Welcome ${userName()}!`}</h1>
+          <h1 className="text-white fw-bold p-5">{`Welcome ${
+            userName() ? userName() : userData?.name
+          }!`}</h1>
         </section>
         <UserSideBar />
       </section>

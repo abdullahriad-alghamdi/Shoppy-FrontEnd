@@ -2,11 +2,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { AppDispatch, RootState } from '../../redux/store'
 
-import { logout } from '../../redux/slices/usersList/userSlice'
-
 import { Badge } from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
-import { toast } from 'react-toastify'
+import { logoutUser } from '../../redux/slices/usersList/userSlice'
 
 export function NavBar() {
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
@@ -15,12 +13,7 @@ export function NavBar() {
   const dispatch: AppDispatch = useDispatch()
 
   const handleLogout = () => {
-    dispatch(logout())
-    toast.promise(Promise.resolve(), {
-      pending: 'Logging out...',
-      success: 'Logged out successfully',
-      error: 'Error logging out'
-    })
+    dispatch(logoutUser())
   }
 
   return (

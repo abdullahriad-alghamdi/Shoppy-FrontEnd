@@ -71,10 +71,10 @@ function Products() {
     // set the product state
     if (product) {
       // THIS is optional wether i want show the initial values for my case i don't want to show them because backend will take them as repeated values
-      // setProduct({
-      //   ...product,
-      //   category: product.category._id // Assuming the category object has an _id property
-      // })
+      setProduct({
+        ...product,
+        category: product.category._id // Assuming the category object has an _id property
+      })
       setSeletedSlug(slug)
     }
     // open the form
@@ -98,6 +98,7 @@ function Products() {
         dispatch(addProduct(formData)).then(() => {
           dispatch(fetchProducts(QeuerParams))
         })
+        setIsOpenForm(false)
       } catch (error) {
         return
       }
@@ -110,6 +111,7 @@ function Products() {
       dispatch(updateProduct(theFormData)).then(() => {
         dispatch(fetchProducts(QeuerParams))
       })
+      setIsOpenForm(false)
     }
   }
   const QeuerParams = {
@@ -242,6 +244,7 @@ function Products() {
                   accept="image/*"
                   name="image"
                   onChange={handleInputChange}
+                  required
                 />
               </div>
               <div className="mb-3">
@@ -254,6 +257,9 @@ function Products() {
                   name="category"
                   value={product.category}
                   onChange={handleInputChange}>
+                  <option value="default" defaultValue={'default'} hidden>
+                    Select a category
+                  </option>
                   {categories.map((category: Category) => (
                     <option key={category._id} value={category._id}>
                       {category.title}
@@ -335,7 +341,7 @@ function Products() {
                 style={{
                   minHeight: '500px'
                 }}
-                className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center Products-table table-responsive">
+                className="table table-hover table-bordered border-dark mx-auto w-75 align-middle text-center Products-table table-responsive">
                 <thead className="table-dark text-center">
                   <tr>
                     <th>Slug</th>
@@ -354,7 +360,7 @@ function Products() {
                     <tr key={Product._id}>
                       <td>{Product.slug}</td>
                       <td>
-                        <img src={baseURl + Product.image} alt="" width="50" />
+                        <img src={Product.image} alt="" width="50" />
                       </td>
 
                       <td>{Product.title}</td>
@@ -363,17 +369,40 @@ function Products() {
                       <td>{Product.countInStock}</td>
                       <td>{Product.sold}</td>
                       <td>{Product.category.title}</td>
-                      <td className="d-grid gap-2">
-                        <button
-                          className="btn btn-warning"
-                          onClick={(e) => handleEditAction(e, Product.slug)}>
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => dispatch(removeProduct(Product.slug))}>
-                          Delete
-                        </button>
+                      <td
+                        className="d-flex justify-content-center"
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          width: '100%',
+                          height: '200px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          gap: '1rem'
+                        }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: '100em',
+                            gap: '1rem'
+                          }}>
+                          <button
+                            className="btn btn-warning"
+                            onClick={(e) => handleEditAction(e, Product.slug)}>
+                            Edit
+                          </button>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => dispatch(removeProduct(Product.slug))}>
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}

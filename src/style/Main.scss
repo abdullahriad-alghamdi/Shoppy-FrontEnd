@@ -79,6 +79,29 @@ body {
   }
 }
 
+@media screen and (max-width: 1187px) {
+  .admin-sidebar {
+    max-width: 90vw;
+    display: flex;
+    ul {
+      flex-flow: column wrap;
+      a {
+        li {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .Products-table,
+  .users-table,
+  .orders-table {
+    display: block;
+    overflow: auto;
+    max-width: 95vw;
+  }
+}
+
 .overlay {
   overscroll-behavior: quick;
   overflow-y: scroll;

@@ -16,6 +16,7 @@ const ProductDetails = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const { singleProduct } = useSelector((state: RootState) => state.products)
+  const { isLogin, userData } = useSelector((state: RootState) => state.users)
 
   useEffect(() => {
     dispatch(findProductById(String(id)))
@@ -44,7 +45,7 @@ const ProductDetails = () => {
             marginBottom: '30px'
           }}>
           <img
-            src={(singleProduct.image && baseURl + singleProduct.image) || ''}
+            src={(singleProduct.image && singleProduct.image) || ''}
             alt={singleProduct.title}
             className="img-fluid col-12"
             style={{
@@ -76,19 +77,21 @@ const ProductDetails = () => {
             {singleProduct.quantity ? singleProduct.quantity : 'Quantity not found'}
           </Card.Text>
           <Card.Text>
-            <button
-              className="btn"
-              onClick={() => {
-                handelAddToCart(singleProduct)
-              }}
-              style={{
-                marginLeft: '0px',
-                backgroundColor: '#F5C419',
-                fontWeight: 'bold',
-                borderRadius: '0px'
-              }}>
-              Add to cart
-            </button>
+            {!userData?.isAdmin && (
+              <button
+                className="btn"
+                onClick={() => {
+                  handelAddToCart(singleProduct)
+                }}
+                style={{
+                  marginLeft: '0px',
+                  backgroundColor: '#F5C419',
+                  fontWeight: 'bold',
+                  borderRadius: '0px'
+                }}>
+                Add to cart
+              </button>
+            )}
           </Card.Text>
         </Card.Body>
       </Row>

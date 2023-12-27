@@ -125,7 +125,7 @@ function UsersList() {
                         <td>{user.slug}</td>
                         <td>
                           <img
-                            src={baseURl + user.image}
+                            src={user.image}
                             alt=""
                             width="50"
                             style={{ borderRadius: '50%', height: '50px' }}

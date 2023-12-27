@@ -100,13 +100,14 @@ function Home() {
                       style={{ height: '300px', overflow: 'hidden' }}>
                       <Card.Img
                         variant="top"
-                        src={baseURl + product.image}
+                        src={product.image}
                         className="product-card__image shadow-sm p-3 mb-5 bg-body rounded img-fluid"
+                        style={{ objectFit: 'contain', height: '100%' }}
                       />
                     </div>
                   </Link>
                   <Card.Body className="d-flex flex-column justify-content-between">
-                    <Card.Title>{product.title}</Card.Title>
+                    <Card.Title className='fw-bold'>{product.title}</Card.Title>
                     <Card.Text>{product.description}</Card.Text>
                     <Card.Text>
                       <span className="fw-bold">Category:</span> {product.category.title}

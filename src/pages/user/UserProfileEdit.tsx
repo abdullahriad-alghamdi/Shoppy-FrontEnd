@@ -6,41 +6,47 @@ import UserDashboard from './UserDashboard'
 
 import { Button, Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
-import { editInfo } from '../../redux/slices/usersList/userSlice'
+import { editInfo, fetchUsers } from '../../redux/slices/usersList/userSlice'
 
 const UserProfileEdit = () => {
   const { userData } = useSelector((state: RootState) => state.users)
 
   const [user, setUser] = useState({
-    name: '',
-    email: '',
-    password: '',
-    id: userData?._id
+    name: userData?.name || '',
+    email: userData?.email || '',
+    password: ''
   })
 
   const dispatch: AppDispatch = useDispatch()
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-    setUser((prevState) => {
-      return { ...prevState, [name]: value }
-    })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target
+    if (type === 'file') {
+      const fileInput = e.target as HTMLInputElement
+      const file = fileInput.files?.[0]
+      setUser((prev) => ({ ...prev, [name]: file }))
+    } else {
+      setUser((prev) => ({ ...prev, [name]: value }))
+    }
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    dispatch(editInfo(user))
-    toast.success('Profile updated successfully', {
-      position: 'top-center',
-      autoClose: 2000
-    })
+    const formData = new FormData()
 
-    setUser({
-      name: '',
-      email: '',
-      password: '',
-      id: userData?._id
-    })
+    formData.append('name', user.name)
+    formData.append('email', user.email)
+    formData.append('password', user.password)
+
+    if (userData) {
+      const { _id } = userData
+      const data = { _id, formData }
+      dispatch(editInfo(data)).then(() => {
+        dispatch(fetchUsers())
+      })
+    }
+
+    setUser(user)
   }
 
   return (

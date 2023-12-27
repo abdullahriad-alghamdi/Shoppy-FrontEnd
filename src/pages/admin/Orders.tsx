@@ -15,7 +15,7 @@ function Orders() {
           {orders.length > 0 ? (
             <table
               border={1}
-              className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center">
+              className="table table-striped table-hover table-bordered border-dark mx-auto w-75 align-middle text-center orders-table">
               <thead className="table-dark text-center">
                 <tr className="text-center align-middle">
                   <th>Order ID</th>

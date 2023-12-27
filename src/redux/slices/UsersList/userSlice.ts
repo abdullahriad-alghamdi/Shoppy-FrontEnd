@@ -37,11 +37,11 @@ const data =
 
 // This is get data from local storage
 
-const usersList =
-  localStorage.getItem('users') !== null ? JSON.parse(String(localStorage.getItem('users'))) : []
+// const usersList =
+//   localStorage.getItem('users') !== null ? JSON.parse(String(localStorage.getItem('users'))) : []
 
 const initialState: UserState = {
-  users: usersList.users || [],
+  users: [],
   error: null,
   isLoading: false,
   searchBy: 0 || '',
@@ -90,6 +90,30 @@ export const banStatus = createAsyncThunk('users/banUser', async (id: string, th
     const { message } = data
 
     return { id, message }
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error)
+  }
+})
+
+// Login user
+export const loginUser = createAsyncThunk(
+  'users/login',
+  async ({ email, password }: { email: string; password: string }, thunkAPI) => {
+    try {
+      const { data } = await axios.post(`${baseURl}auth/login`, { email, password })
+      console.log(data)
+      return data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+//Logout user
+export const logoutUser = createAsyncThunk('users/logout', async (_, thunkAPI) => {
+  try {
+    const { data } = await axios.post(`${baseURl}auth/logout`)
+    return data
   } catch (error) {
     return thunkAPI.rejectWithValue(error)
   }
@@ -145,6 +169,21 @@ export const resetPassword = createAsyncThunk(
   }
 )
 
+export const editInfo = createAsyncThunk(
+  'users/editInfo',
+  async (info: { _id: string; formData: FormData }, thunkAPI) => {
+    try {
+      console.log(info)
+      const { data } = await axios.put(`${baseURl}users/updateMe/${info._id}`, info.formData)
+      return data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+// update user profile
+
 export const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -159,56 +198,6 @@ export const userSlice = createSlice({
       if (sortValue === 'name') {
         state.users.sort((a, b) => a.name.localeCompare(b.name))
       }
-    },
-
-    login: (state, action) => {
-      state.isLogin = true
-      state.userData = action.payload
-
-      // Setting login data to local storage
-      localStorage.setItem(
-        'loginData',
-        JSON.stringify({
-          isLogin: state.isLogin,
-          userData: state.userData
-        })
-      )
-    },
-
-    logout: (state) => {
-      state.isLogin = false
-      state.userData = null
-
-      // Resting login data in the local storage
-      localStorage.setItem(
-        'loginData',
-        JSON.stringify({
-          isLogin: state.isLogin,
-          userData: state.userData
-        })
-      )
-    },
-
-    editInfo: (state, action) => {
-      const { _id, name, email, password } = action.payload
-      const userIndex = state.users.findIndex((user) => user._id === _id)
-
-      // Updating user
-      state.users[userIndex].name = `${name}`
-      state.users[userIndex].email = email
-      state.users[userIndex].password = password
-
-      localStorage.setItem('users', JSON.stringify({ users: state.users }))
-    },
-
-    editInfoAdmin: (state, action) => {
-      const { name } = action.payload
-      const userIndex = state.users.findIndex((user) => user._id === action.payload._id)
-
-      // Updating user
-      state.users[userIndex].name = `${name}`
-
-      localStorage.setItem('users', JSON.stringify({ users: state.users }))
     }
   },
   extraReducers: (builder) => {
@@ -217,7 +206,6 @@ export const userSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.isLoading = false
         state.users = action.payload.payload
-        console.log(action.payload.payload)
       })
 
       .addCase(deleteUser.fulfilled, (state, action) => {
@@ -248,6 +236,37 @@ export const userSlice = createSlice({
         toast.success(action.payload?.message)
       })
 
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLogin = true
+        state.userData = action.payload?.payload
+        console.log(action.payload)
+
+        // Setting login data to local storage
+        localStorage.setItem(
+          'loginData',
+          JSON.stringify({
+            isLogin: state.isLogin,
+            userData: state.userData
+          })
+        )
+        toast.success(action.payload?.message)
+      })
+
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.isLogin = false
+        state.userData = null
+
+        // Resting login data in the local storage
+        localStorage.setItem(
+          'loginData',
+          JSON.stringify({
+            isLogin: state.isLogin,
+            userData: state.userData
+          })
+        )
+        toast.success(action.payload?.message)
+      })
+
       .addCase(registerUser.fulfilled, (state, action) => {
         toast.success(action.payload?.message)
       })
@@ -265,6 +284,26 @@ export const userSlice = createSlice({
         toast.success(action.payload?.message)
       })
 
+      .addCase(editInfo.fulfilled, (state, action) => {
+        state.userData = action.payload?.payload
+        // Updating local storage
+        localStorage.setItem(
+          'loginData',
+          JSON.stringify({
+            isLogin: state.isLogin,
+            userData: state.userData
+          })
+        )
+
+        state.users = state.users.map((user) => {
+          if (user._id === action.payload?.payload._id) {
+            user = action.payload?.payload
+          }
+          return user
+        })
+        toast.success(action.payload?.message)
+      })
+
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
@@ -277,12 +316,12 @@ export const userSlice = createSlice({
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.isLoading = false
-          state.error = action.patload.error.response.data.errors
+          state.error = action.payload.error.response.data.errors || action.payload.error
           toast.error(state.error)
         }
       )
   }
 })
 
-export const { sortUsers, searchUsers, logout, login, editInfo, editInfoAdmin } = userSlice.actions
+export const { sortUsers, searchUsers } = userSlice.actions
 export default userSlice.reducer

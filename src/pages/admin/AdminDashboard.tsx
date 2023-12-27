@@ -17,12 +17,17 @@ const AdminDashboard = () => {
       return admin?.name
     }
   }
+
   return (
     <>
       <section>
         <section className="d-flex flex-column align-items-center bg-dark">
           <img
-            src={`https://avatars.githubusercontent.com/u/${random}?v=4`}
+            src={
+              userData?.image
+                ? userData?.image
+                : `https://avatars.githubusercontent.com/u/${random}?v=4`
+            }
             alt=""
             style={{
               margin: '1rem',
@@ -33,7 +38,9 @@ const AdminDashboard = () => {
             }}
             className="img-fluid"
           />
-          <h1 className="text-white p-5">{`Welcome ${adminName()}!`}</h1>
+          <h1 className="text-white p-5">{`Welcome ${
+            adminName() ? adminName() : userData?.name
+          }`}</h1>
         </section>
         <AdminSideBar />
       </section>

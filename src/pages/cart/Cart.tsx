@@ -48,7 +48,7 @@ const Cart = () => {
               key={product._id}
               className="d-flex flex-row align-items-center border-top p-3 gap-3">
               <img
-                src={baseURl + product.image}
+                src={product.image}
                 alt={product.title}
                 className="img-fluid"
                 width="150px"
