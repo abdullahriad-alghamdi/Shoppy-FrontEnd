@@ -1,9 +1,9 @@
 /**============================================
  *               user Styles
  *=============================================**/
-@forward 'user/HomePage/navBar';
-@forward 'user/HomePage/heroSection';
-@forward 'user/HomePage/footerSection';
+@forward 'src/style/user/homePage/_navBar.scss';
+@forward 'src/style/user/homePage/_heroSection.scss';
+@forward 'src/style/user/homePage/_footerSection.scss';
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Dosis&display=swap');
 /**============================================
   *               Global Styles
