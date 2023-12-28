@@ -14,6 +14,7 @@ import { Pagination, Stack } from '@mui/material'
 import { FaPlusCircle, FaTimes } from 'react-icons/fa'
 import { Category } from '../../redux/slices/categories/categorySlice'
 import { baseURl } from '../../redux/slices/usersList/userSlice'
+import { Link } from 'react-router-dom'
 
 function Products() {
   const { products, searchBy, pagination } = useSelector((state: RootState) => state.products)
@@ -355,12 +356,22 @@ function Products() {
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="table-light text-center">
                   {products.map((Product) => (
                     <tr key={Product._id}>
                       <td>{Product.slug}</td>
                       <td>
-                        <img src={Product.image} alt="" width="50" />
+                        <Link to={`/product/details/${Product.slug}`}>
+                          <img
+                            src={Product.image}
+                            alt="product image"
+                            style={{
+                              width: '100px',
+                              height: '100px',
+                              objectFit: 'contain'
+                            }}
+                          />
+                        </Link>
                       </td>
 
                       <td>{Product.title}</td>
@@ -370,7 +381,7 @@ function Products() {
                       <td>{Product.sold}</td>
                       <td>{Product.category.title}</td>
                       <td
-                        className="d-flex justify-content-center"
+                        className="d-flex"
                         style={{
                           display: 'flex',
                           flexDirection: 'column',
@@ -386,8 +397,7 @@ function Products() {
                           style={{
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
+                            justifyContent: 'space-around',
                             width: '100%',
                             height: '100em',
                             gap: '1rem'

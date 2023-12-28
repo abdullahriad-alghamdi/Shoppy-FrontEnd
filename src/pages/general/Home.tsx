@@ -11,7 +11,6 @@ import Hero from '../../components/general/Hero'
 import { Pagination, Stack } from '@mui/material'
 import { Button, Card } from 'react-bootstrap'
 import { FaSearch } from 'react-icons/fa'
-import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 function Home() {
   const { products, searchBy, pagination } = useSelector((state: RootState) => state.products)
@@ -107,7 +106,7 @@ function Home() {
                     </div>
                   </Link>
                   <Card.Body className="d-flex flex-column justify-content-between">
-                    <Card.Title className='fw-bold'>{product.title}</Card.Title>
+                    <Card.Title className="fw-bold">{product.title}</Card.Title>
                     <Card.Text>{product.description}</Card.Text>
                     <Card.Text>
                       <span className="fw-bold">Category:</span> {product.category.title}

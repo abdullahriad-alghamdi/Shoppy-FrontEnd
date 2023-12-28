@@ -16,7 +16,7 @@ const ProductDetails = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const { singleProduct } = useSelector((state: RootState) => state.products)
-  const { isLogin, userData } = useSelector((state: RootState) => state.users)
+  const { userData } = useSelector((state: RootState) => state.users)
 
   useEffect(() => {
     dispatch(findProductById(String(id)))
@@ -72,10 +72,19 @@ const ProductDetails = () => {
             <span className="fw-bold">Category: </span>
             {singleProduct.category ? singleProduct.category.title : 'Category not found'}
           </Card.Text>
-          <Card.Text>
-            <span className="fw-bold">Quantity: </span>
-            {singleProduct.quantity ? singleProduct.quantity : 'Quantity not found'}
-          </Card.Text>
+          {userData?.isAdmin && (
+            <>
+              <Card.Text>
+                <span className="fw-bold">Quantity: </span>
+                {singleProduct.quantity ? singleProduct.quantity : 'Quantity not found'}
+              </Card.Text>
+
+              <Card.Text>
+                <span className="fw-bold">Sold: </span>
+                {singleProduct.sold}
+              </Card.Text>
+            </>
+          )}
           <Card.Text>
             {!userData?.isAdmin && (
               <button
