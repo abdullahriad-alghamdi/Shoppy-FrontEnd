@@ -82,6 +82,9 @@ function Products() {
     setIsOpenForm(true)
     // set the edit state
     setisEdit(true)
+
+    // scroll to top
+    window.scrollTo(0, 0)
   }
 
   const handleFormSubmit = (e: MouseEvent<HTMLButtonElement>) => {
