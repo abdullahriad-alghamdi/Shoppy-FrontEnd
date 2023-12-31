@@ -19,7 +19,6 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.3",
     "@popperjs/core": "^2.11.8",
     "@reduxjs/toolkit": "^1.9.3",
-    "@tsconfig/vite-react": "^3.0.0",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
     "jwt-decode": "^3.1.2",
