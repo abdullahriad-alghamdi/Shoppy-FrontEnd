@@ -17,7 +17,7 @@ function Home() {
 
   const { isLogin, userData } = useSelector((state: RootState) => state.users)
   const [MycurrentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [itemsPerPage] = useState(4)
   const [searchTerm, setSearchTerm] = useState('')
   const [sort, setSort] = useState('')
 
@@ -139,6 +139,7 @@ function Home() {
               count={pagination.totalPages}
               page={MycurrentPage}
               onChange={(e, page) => {
+                e.preventDefault()
                 setCurrentPage(page)
               }}
               variant="outlined"

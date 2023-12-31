@@ -7,7 +7,6 @@ import { Button } from 'react-bootstrap'
 
 function Orders() {
   const { orders } = useSelector((state: RootState) => state.orders)
-  const { products } = useSelector((state: RootState) => state.products)
 
   return (
     <>

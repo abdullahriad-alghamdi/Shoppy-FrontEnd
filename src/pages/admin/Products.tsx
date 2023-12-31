@@ -13,7 +13,6 @@ import AdminSideBar from '../../components/admin/AdminSideBar'
 import { Pagination, Stack } from '@mui/material'
 import { FaPlusCircle, FaTimes } from 'react-icons/fa'
 import { Category } from '../../redux/slices/categories/categorySlice'
-import { baseURl } from '../../redux/slices/usersList/userSlice'
 import { Link } from 'react-router-dom'
 
 function Products() {
@@ -30,7 +29,7 @@ function Products() {
   }
 
   const [MycurrentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(4)
+  const [itemsPerPage] = useState(4)
   const [sort, setSort] = useState('')
   const [seletedSlug, setSeletedSlug] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
@@ -427,6 +426,7 @@ function Products() {
             count={pagination.totalPages}
             page={MycurrentPage}
             onChange={(e, page) => {
+              e.preventDefault()
               setCurrentPage(page)
             }}
             variant="outlined"

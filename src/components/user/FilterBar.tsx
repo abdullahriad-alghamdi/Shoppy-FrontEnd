@@ -12,7 +12,7 @@ const FilterBar = () => {
 
   const dispatch: AppDispatch = useDispatch()
 
-  const filterHandle = (e: React.MouseEvent, categoryID: string) => {
+  const filterHandle = (categoryID: string) => {
     if (categoryID === 'all') {
       dispatch(fetchAllProducts())
       setActiveCategory('all')
@@ -37,7 +37,7 @@ const FilterBar = () => {
           <Button
             variant="outline-dark  "
             className={` ${activeCategory === 'all' ? 'active' : ''}`}
-            onClick={(e) => filterHandle(e, 'all')}>
+            onClick={() => filterHandle('all')}>
             All
           </Button>
 
@@ -47,7 +47,7 @@ const FilterBar = () => {
               key={category._id}
               variant="outline-dark"
               value={category._id}
-              onClick={(e) => filterHandle(e, category._id)}
+              onClick={() => filterHandle(category._id)}
               className={` ${activeCategory === category._id ? 'active' : ''}`}>
               {category.title}
             </Button>

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current, isRejectedWithValue } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -258,7 +258,7 @@ export const userSlice = createSlice({
         toast.success(action.payload?.message)
       })
 
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (_, action) => {
         toast.success(action.payload?.message)
       })
 
@@ -267,11 +267,11 @@ export const userSlice = createSlice({
         toast.success(action.payload?.message)
       })
 
-      .addCase(forgotPassword.fulfilled, (state, action) => {
+      .addCase(forgotPassword.fulfilled, (_, action) => {
         toast.success(action.payload?.message)
       })
 
-      .addCase(resetPassword.fulfilled, (state, action) => {
+      .addCase(resetPassword.fulfilled, (_, action) => {
         toast.success(action.payload?.message)
       })
 

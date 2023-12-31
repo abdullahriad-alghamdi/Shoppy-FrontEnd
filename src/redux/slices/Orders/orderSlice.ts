@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { Product } from '../products/productSlice'
 import { baseURl } from '../usersList/userSlice'
-import OrderDetails from '../../../pages/general/OrderDetails'
 
 type OrderProduct = {
   product: Product

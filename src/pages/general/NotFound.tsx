@@ -26,7 +26,7 @@ const NotFound = () => {
     })
   }
 
-  // counter()
+  counter()
 
   return (
     <>

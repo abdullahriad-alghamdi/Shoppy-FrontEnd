@@ -11,7 +11,6 @@ import EmptyCart from './EmptyCart'
 
 import { Button } from 'react-bootstrap'
 import { FaRegTrashAlt, FaShoppingBag } from 'react-icons/fa'
-import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 const Cart = () => {
   const { inCart, totalPrice } = useSelector((state: RootState) => state.cart)

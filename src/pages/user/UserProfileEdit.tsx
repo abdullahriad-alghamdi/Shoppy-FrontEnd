@@ -5,7 +5,6 @@ import { AppDispatch, RootState } from '../../redux/store'
 import UserDashboard from './UserDashboard'
 
 import { Button, Form } from 'react-bootstrap'
-import { toast } from 'react-toastify'
 import { editInfo, fetchUsers } from '../../redux/slices/usersList/userSlice'
 
 const UserProfileEdit = () => {

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   User,
   banStatus,
-  baseURl,
   deleteUser,
   grantRole,
   searchUsers,
@@ -18,7 +17,7 @@ import AdminSideBar from '../../components/admin/AdminSideBar'
 function UsersList() {
   const { users, searchBy } = useSelector((state: RootState) => state.users)
   const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(3)
+  const [itemsPerPage] = useState(3)
 
   const dispatch: AppDispatch = useDispatch()
 
@@ -176,7 +175,10 @@ function UsersList() {
                   <Pagination
                     count={totalPages}
                     page={currentPage}
-                    onChange={(e, page) => setCurrentPage(page)}
+                    onChange={(e, page) => {
+                      e.preventDefault()
+                      setCurrentPage(page)
+                    }}
                     variant="outlined"
                     shape="rounded"
                     color="primary"

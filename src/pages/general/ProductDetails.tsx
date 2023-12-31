@@ -8,7 +8,6 @@ import { Product, findProductById } from '../../redux/slices/products/productSli
 
 import { ButtonGroup } from '@mui/material'
 import { Card, Row } from 'react-bootstrap'
-import { baseURl } from '../../redux/slices/usersList/userSlice'
 
 const ProductDetails = () => {
   const { id } = useParams()
