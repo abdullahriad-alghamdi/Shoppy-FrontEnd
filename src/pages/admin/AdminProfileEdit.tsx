@@ -63,6 +63,7 @@ const AdminProfileEdit = () => {
             value={user?.name}
             name="name"
             onChange={handleChange}
+            autoComplete="off"
           />
         </Form.Group>
 
@@ -74,6 +75,7 @@ const AdminProfileEdit = () => {
             value={user?.email}
             name="email"
             onChange={handleChange}
+            autoComplete="off"
           />
         </Form.Group>
 
@@ -85,6 +87,7 @@ const AdminProfileEdit = () => {
             value={user?.password}
             name="password"
             onChange={handleChange}
+            autoComplete="off"
           />
         </Form.Group>
 

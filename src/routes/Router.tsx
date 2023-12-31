@@ -23,6 +23,7 @@ import UsersList from '../pages/admin/Users'
 import Activation from '../pages/user/loginRegistration/Activation'
 import ForgotPassword from '../pages/user/loginRegistration/ForgotPassword'
 import ResetPassword from '../pages/user/loginRegistration/RestPassword'
+import OrderDetails from '../pages/general/OrderDetails'
 
 const Router = () => {
   return (
@@ -44,6 +45,7 @@ const Router = () => {
           <Route path="admin/products" element={<Products />} />
           <Route path="admin/users" element={<UsersList />} />
           <Route path="admin/orders" element={<Orders />} />
+          <Route path="admin/order/details/:id" element={<OrderDetails />} />
         </Route>
 
         <Route path="/dashboard" element={<UserProtectedRouter />}>

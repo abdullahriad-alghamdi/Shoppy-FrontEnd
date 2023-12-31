@@ -14,12 +14,8 @@ const Activation = () => {
   const navigate = useNavigate()
 
   const handleActivation = (token: string) => {
-    try {
-      dispatch(activateUser(token))
-      navigate('/login')
-    } catch (error: any) {
-      console.log(error.response.data.errors)
-    }
+    dispatch(activateUser(token))
+    navigate('/login')
   }
 
   return (

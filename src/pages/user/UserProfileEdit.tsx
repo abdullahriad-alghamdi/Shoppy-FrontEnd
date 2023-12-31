@@ -55,14 +55,26 @@ const UserProfileEdit = () => {
       <Form
         onSubmit={handleSubmit}
         className="d-flex flex-column align-items-center bg-dark text-white p-3">
-        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" value={user.name} name="name" onChange={handleChange} />
+          <Form.Control
+            type="text"
+            value={user.name}
+            name="name"
+            onChange={handleChange}
+            autoComplete="off"
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" value={user.email} name="email" onChange={handleChange} />
+          <Form.Control
+            type="email"
+            value={user.email}
+            name="email"
+            onChange={handleChange}
+            autoComplete="off"
+          />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -72,6 +84,7 @@ const UserProfileEdit = () => {
             value={user.password}
             name="password"
             onChange={handleChange}
+            autoComplete="off"
           />
         </Form.Group>
         <Button type="submit" variant="outline-light">

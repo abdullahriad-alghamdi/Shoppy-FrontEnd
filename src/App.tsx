@@ -23,12 +23,14 @@ function App() {
   }, [dispatch])
 
   return (
-    <div className="app">
-      <NavBar />
-      <Router />
-      <Footer />
-      <ToastContainer />
-    </div>
+    <>
+      <div className="app">
+        <NavBar />
+        <Router />
+        <Footer />
+        <ToastContainer />
+      </div>
+    </>
   )
 }
 

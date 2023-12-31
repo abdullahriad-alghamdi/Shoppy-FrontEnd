@@ -58,32 +58,29 @@ const Registry = () => {
     const foundUser = users.find(
       (userData) => userData.email === user.email || userData.username === user.username
     )
-    try {
-      if (foundUser) {
-        setErrorMessage('User already exists')
-      } else if (user.password.length < 8) {
-        alert('Password must be at least 8 characters long')
-        return
-      } else if (!user.email || !user.password) {
-        alert('Both fields are required')
-        return
-      } else {
-        dispatch(registerUser(formData))
-        setUser({
-          name: '',
-          username: '',
-          email: '',
-          password: '',
-          address: '',
-          phone: '',
-          image: ''
-        })
 
-        setErrorMessage('')
-        navigate('/login')
-      }
-    } catch (error) {
-      console.log(error)
+    if (foundUser) {
+      setErrorMessage('User already exists')
+    } else if (user.password.length < 8) {
+      alert('Password must be at least 8 characters long')
+      return
+    } else if (!user.email || !user.password) {
+      alert('Both fields are required')
+      return
+    } else {
+      dispatch(registerUser(formData))
+      setUser({
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        address: '',
+        phone: '',
+        image: ''
+      })
+
+      setErrorMessage('')
+      navigate('/login')
     }
   }
 
@@ -100,6 +97,7 @@ const Registry = () => {
               value={user.name}
               required
               onChange={handleChange}
+              autoComplete="off"
             />
           </Form.Group>
 
@@ -112,6 +110,7 @@ const Registry = () => {
               value={user.username}
               required
               onChange={handleChange}
+              autoComplete="off"
             />
           </Form.Group>
 
@@ -124,6 +123,7 @@ const Registry = () => {
               value={user.email}
               required
               onChange={handleChange}
+              autoComplete="On"
             />
           </Form.Group>
 
@@ -136,6 +136,7 @@ const Registry = () => {
               value={user.password}
               required
               onChange={handleChange}
+              autoComplete="off"
             />
           </Form.Group>
 
@@ -146,6 +147,7 @@ const Registry = () => {
               placeholder="Enter address"
               name="address"
               onChange={handleChange}
+              autoComplete="off"
             />
           </Form.Group>
 
@@ -157,12 +159,19 @@ const Registry = () => {
               name="phone"
               value={user.phone}
               onChange={handleChange}
+              autoComplete="off"
             />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formImage">
             <Form.Label>Image</Form.Label>
-            <Form.Control type="file" name="image" accept="image/*" onChange={handleChange} />
+            <Form.Control
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleChange}
+              autoComplete="off"
+            />
           </Form.Group>
 
           <Button className="w-100" variant="dark" type="submit">

@@ -26,20 +26,14 @@ export type UserState = {
   isLoading: boolean
   searchBy: string
   isLogin: boolean
-  userData: null | User
+  userData: User | null
   userExist: boolean
 }
 
-// This is get data from local storage
 const data =
   localStorage.getItem('loginData') !== null
     ? JSON.parse(String(localStorage.getItem('loginData')))
     : []
-
-// This is get data from local storage
-
-// const usersList =
-//   localStorage.getItem('users') !== null ? JSON.parse(String(localStorage.getItem('users'))) : []
 
 const initialState: UserState = {
   users: [],
@@ -102,7 +96,6 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }: { email: string; password: string }, thunkAPI) => {
     try {
       const { data } = await axios.post(`${baseURl}auth/login`, { email, password })
-      console.log(data)
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -126,7 +119,6 @@ export const registerUser = createAsyncThunk(
   async (formData: FormData, thunkAPI) => {
     try {
       const { data } = await axios.post(`${baseURl}users/register`, formData)
-      console.log(data)
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -174,7 +166,6 @@ export const editInfo = createAsyncThunk(
   'users/editInfo',
   async (info: { _id: string; formData: FormData }, thunkAPI) => {
     try {
-      console.log(info)
       const { data } = await axios.put(`${baseURl}users/updateMe/${info._id}`, info.formData)
       return data
     } catch (error) {
@@ -240,7 +231,6 @@ export const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLogin = true
         state.userData = action.payload?.payload
-        console.log(action.payload)
 
         // Setting login data to local storage
         localStorage.setItem(
@@ -317,7 +307,7 @@ export const userSlice = createSlice({
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.isLoading = false
-          state.error = action.payload.error.response.data.errors || action.payload.error
+          state.error = action.payload.response.data.errors
           toast.error(state.error)
         }
       )

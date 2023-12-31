@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 
 import AdminSideBar from '../../components/admin/AdminSideBar'
+import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 function Orders() {
   const { orders } = useSelector((state: RootState) => state.orders)
@@ -19,34 +21,24 @@ function Orders() {
               <thead className="table-dark text-center">
                 <tr className="text-center align-middle">
                   <th>Order ID</th>
-                  <th colSpan={2} style={{ width: '20%' }}>
-                    Products
-                  </th>
+                  <th>Products</th>
+                  <th>Buyer</th>
                   <th>Amount</th>
-                  <th>Shipping Address</th>
-                  <th>City</th>
-                  <th>Postal Code</th>
-                  <th>Country</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
                   <tr key={order._id}>
                     <td>{order._id}</td>
-                    <td colSpan={2}>
-                      {order.products.map((product, id) => (
-                        <p key={id} className="text-middle  border border-dark">
-                          {products.map((product) => (
-                            <p key={product._id}>{product.title + ' '}</p>
-                          ))}
-                        </p>
-                      ))}
+                    <td>
+                      <Link to={`/dashboard/admin/order/details/${order._id}`}>
+                        <Button variant="dark">View</Button>
+                      </Link>
                     </td>
+                    <td>{order.buyer.name}</td>
                     <td>{order.payment.amount}</td>
-                    <td>{order.shipping.address}</td>
-                    <td>{order.shipping.city}</td>
-                    <td>{order.shipping.postalCode}</td>
-                    <td>{order.shipping.country}</td>
+                    <td>{order.status}</td>
                   </tr>
                 ))}
               </tbody>

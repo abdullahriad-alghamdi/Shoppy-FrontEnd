@@ -70,6 +70,7 @@ const Login = () => {
             name="email"
             onChange={handleChange}
             required
+            autoComplete="off"
           />
         </Form.Group>
 
@@ -82,6 +83,7 @@ const Login = () => {
             name="password"
             onChange={handleChange}
             required
+            autoComplete="on"
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicCheckbox">

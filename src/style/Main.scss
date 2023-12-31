@@ -94,11 +94,24 @@ body {
   }
 
   .Products-table,
-  .users-table,
-  .orders-table {
+  .users-table {
     display: block;
     overflow: auto;
     max-width: 95vw;
+  }
+
+  @media screen and (max-width: 750px) {
+    .orders-table {
+      display: block;
+      overflow: auto;
+      max-width: 95vw;
+    }
+  }
+
+  .orders-Detail {
+    display: block;
+    overflow: auto;
+    max-width: 80vw;
   }
 }
 

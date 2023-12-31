@@ -98,14 +98,10 @@ function Products() {
     formData.append('image', product.image)
     formData.append('category', product.category)
     if (!isEdit) {
-      try {
-        dispatch(addProduct(formData)).then(() => {
-          dispatch(fetchProducts(QeuerParams))
-        })
-        setIsOpenForm(false)
-      } catch (error) {
-        return
-      }
+      dispatch(addProduct(formData)).then(() => {
+        dispatch(fetchProducts(QeuerParams))
+      })
+      setIsOpenForm(false)
     } else {
       // object has the form data and the slug
       const theFormData = {

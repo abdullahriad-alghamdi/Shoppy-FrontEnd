@@ -26,7 +26,7 @@ const NotFound = () => {
     })
   }
 
-  counter()
+  // counter()
 
   return (
     <>
@@ -36,15 +36,16 @@ const NotFound = () => {
           <div className="d-flex flex-column align-items-center">
             <h1 className="font-brandon"> AWWW...DON’T CRY. 🥺</h1>
 
-            <p className="font-dosis">
-              {' '}
-              <center>It's just a 404 Error! </center>
-              <br />
-              What you’re looking for may have been misplaced in Long Term Memory.
-            </p>
+            <div className="text-center">
+              <p className="font-dosis">
+                It's just a 404 Error!
+                <br />
+                What you’re looking for may have been misplaced in Long Term Memory.
+              </p>
+            </div>
             <Button
               variant="outline-secondary border-dark btn-lg;"
-              className="m-4"
+              className="m-5"
               onClick={() => navigate(-1)}>
               <FaArrowLeft className="mx-2" /> Go Back
             </Button>

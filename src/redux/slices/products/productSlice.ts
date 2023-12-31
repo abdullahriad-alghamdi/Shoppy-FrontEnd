@@ -43,7 +43,7 @@ const initialState: ProductState = {
   products: [],
   error: null,
   isLoading: false,
-  searchBy: 0 || '',
+  searchBy: '',
   singleProduct: {} as Product,
   pagination: {
     totalPages: 0,
@@ -206,9 +206,9 @@ export const productSlice = createSlice({
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state, action) => {
-          toast.error(action.payload.response.data.errors)
           state.isLoading = false
           state.error = action.payload.response.data.errors
+          toast.error(state.error)
         }
       )
   }
