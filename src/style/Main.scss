@@ -1,0 +1,195 @@
+/**============================================
+ *               user Styles
+ *=============================================**/
+@forward 'src/style/user/homePage/_navBar.scss';
+@forward 'src/style/user/homePage/_heroSection.scss';
+@forward 'src/style/user/homePage/_footerSection.scss';
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500&family=Dosis&display=swap');
+/**============================================
+  *               Global Styles
+  *=============================================**/
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 0rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.app {
+  display: flex;
+  flex-flow: column wrap;
+  min-height: 100vh;
+}
+
+.login-registry-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid #000000;
+  width: 50%;
+}
+
+.admin-sidebar {
+  ul {
+    gap: 1rem;
+    a {
+      flex-grow: 1;
+      text-decoration: none;
+      color: #000000;
+      font-weight: bold;
+      font-size: 1.2rem;
+      border: 3px solid #8585851d;
+      border-radius: 0.5rem;
+
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: #000000;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1187px) {
+  .admin-sidebar {
+    max-width: 90vw;
+    display: flex;
+    ul {
+      flex-flow: column wrap;
+      a {
+        li {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .Products-table,
+  .users-table {
+    display: block;
+    overflow: auto;
+    max-width: 95vw;
+  }
+
+  @media screen and (max-width: 750px) {
+    .orders-table {
+      display: block;
+      overflow: auto;
+      max-width: 95vw;
+    }
+  }
+
+  .orders-Detail {
+    display: block;
+    overflow: auto;
+    max-width: 80vw;
+  }
+}
+
+.overlay {
+  overscroll-behavior: quick;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.trash-icon {
+  color: #dc3545;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    // animation at 90deg left and right
+    animation: trash-icon 1s ease-in-out;
+
+    @keyframes trash-icon {
+      0% {
+        transform: rotate(0deg);
+      }
+      25% {
+        transform: rotate(20deg);
+      }
+      50% {
+        transform: rotate(-20deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+  }
+}
+
+.error-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: auto auto;
+}
+.error-img {
+  max-height: 40rem;
+  max-width: 40rem;
+
+  @media screen and (max-width: 1187px) {
+    max-height: 20rem;
+    max-width: 20rem;
+  }
+}
+.font-brandon {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 6rem);
+  font-weight: 700;
+  line-height: 3.188rem;
+  color: #1d1d1d;
+  margin: 3rem;
+}
+
+.font-dosis {
+  font-family: 'Dosis';
+  font-size: clamp(1.5rem, 1vw, 2rem);
+  line-height: 1.875rem;
+  color: rgba(29, 29, 29, 0.7);
+  margin: 0 3rem;
+}
+
+@media screen and (max-width: 500px) {
+  .users-table {
+    display: block;
+    overflow: auto;
+    width: 100%;
+  }
+}
