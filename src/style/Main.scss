@@ -78,6 +78,37 @@ body {
     }
   }
 }
+.loginPage {
+  height: 0vh;
+}
+.userInfo {
+  //language arabic
+  direction: rtl;
+  position: absolute;
+  top: 10rem;
+  right: 2.5rem;
+  width: 15rem;
+  height: 18rem;
+  border: 1px solid #000000;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  gap: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  animation: fadeIn 0.5s;
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @media screen and (max-width: 1187px) {
   .admin-sidebar {
