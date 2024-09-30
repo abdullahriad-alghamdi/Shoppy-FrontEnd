@@ -63,7 +63,7 @@ const Login = () => {
     <section className="loginPage">
       <section className="userInfo">
         <h4>للتسجيل الدخول </h4> <strong>اسم المستخدم:</strong> <br />
-        <span className="user-name">admin1@gmail.com</span> <br /> <strong>كلمة المرور:</strong>{' '}
+        <span className="user-name">admin@gmail.com</span> <br /> <strong>كلمة المرور:</strong>{' '}
         <br />
         <span className="user-name">asdf4321</span> <br /> <br />
         <strong> اسم المستخدم: </strong>
