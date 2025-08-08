@@ -1,69 +1,87 @@
-# Project: Frontend for E-commerce Website or Library Management System
+# Shoppy FrontEnd
 
-The frontend interacts with mock data stored locally in the project. In the full-stack project, this data will be connected to the backend.
+Shoppy is a modern e-commerce frontend built with React, TypeScript, and Redux Toolkit. It features user and admin dashboards, authentication, product management, and more. The app is designed to work with mock data (for local development) or a backend API (for production).
 
-Please, do not spend time on creating your own server. use the files that are in the `./public/mock/*` We have the data ready for you. all you need is send an HTTP request to the resource. we also have an example on how to fetch all products and how to add one product. use them as a reference.
+## Features
 
-## E-commerce Website
+- Browse products, filter by category/price, and search by name
+- Add/remove products from cart
+- User authentication (register, login, protected routes)
+- Admin dashboard for managing products, categories, users, and orders
+- Form validation and user profile editing
+- Loading, success, and error messages
+- Pagination (bonus)
 
-### Level 1: Basic Requirements
+## Demo
 
-Tech Stack: React, TypeScript, and Redux/Redux Toolkit. Styling: CSS/SASS or MUI.
+The app uses mock data from `public/mock/e-commerce/` for local development. In production, it connects to a backend API (see `.env.example`).
 
-**Data Sources:**
+## Getting Started
 
-- Products: id, name, description, categories, variants, sizes
-- Categories: id, name
-- Orders: id, productId, userId, purchasedAt
-- Users: id, firstName, lastName, email, password, role (visitor or admin)
+### Prerequisites
 
-**Pages to Create:**
+- Node.js (v18 or newer recommended)
+- npm or yarn
 
-1. Home page (list all the products)
-2. Product page (contain the details of a product)
-3. Admin page
+### Installation
 
-**Functionalities for a Visitor:**
+1. **Clone the repository:**
 
-- Get list of products
-- Filter products by categories or price
-- Search products by name
-- Add products to a cart
-- Remove products from a cart
+   ```bash
+   git clone https://github.com/abdullahriad-alghamdi/Shoppy-FrontEnd.git
+   cd Shoppy-FrontEnd
+   ```
 
-**Functionalities for an Admin:**
+2. **Install dependencies:**
 
-- Add a new product, update info of a product, remove a product
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-### Level 2: Additional Requirements
+3. **Set up environment variables:**
 
-**Authentication:**
+   - Copy `.env.example` to `.env` and fill in your backend URL and other variables as needed.
 
-- Implement register and login functionality via email and password
-- Protect the routes based on login and admin status
+   ```bash
+   cp .env.example .env
+   # Edit .env to set VITE_BACKEND_URL, etc.
+   ```
 
-**Functionalities for an Admin:**
+4. **Run the development server:**
 
-- list all users, delete or block a user.
-- list all orders
-- Add a new category, update info of a category, remove a category
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-**Form Validation:**
+   The app will be available at `http://localhost:5173` (default Vite port).
 
-- Implement form validation.
+5. **Build for production:**
+   ```bash
+   npm run build
+   # or
+   yarn build
+   ```
 
-### Level 3: Bonus Requirement (Optional)
+## Usage Notes
 
-If you have a higher skill level and finish the previous requirements before the deadline, you can tackle the following bonus tasks:
+- Mock data is available in `public/mock/e-commerce/`. You can send HTTP requests to these resources for local development.
+- For production, configure your backend API URL in `.env` using `VITE_BACKEND_URL`.
+- Asset files in `public/assets/` are served from the root path. Use `/assets/filename.ext` in your code.
 
-- Messages, show loading, success, and error messages (e.g., when loading products list or adding new product)
-- Implement pagination feature
-- Create a Profile Page (only available if user logs in), implement editing user profile feature (user can change first name, last name)
+## Project Structure
 
-- Peer Review:
-- Review the code and implementation of 2 assignments from other participants.
-- Provide constructive feedback and suggestions for improvement.
+- `src/` — Main source code (components, pages, redux slices, routes, styles)
+- `public/` — Static assets and mock data
+- `.env.example` — Example environment variables
 
-`Please note that the bonus requirements and reviews are optional and can be completed if you have additional time and advanced skills.`
+## Contributing
 
-Happy coding!
+Pull requests and feedback are welcome! Please review code and provide constructive suggestions.
+
+## License
+
+MIT
