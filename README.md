@@ -23,7 +23,7 @@ The app uses mock data from `public/mock/e-commerce/` for local development. In 
 - Node.js (v18 or newer recommended)
 - npm or yarn
 
-### Installation
+### Installation:
 
 1. **Clone the repository:**
 
