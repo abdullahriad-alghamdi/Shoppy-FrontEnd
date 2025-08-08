@@ -24,7 +24,7 @@ const initialState: CategoryState = {
 
 export const fetchCategories = createAsyncThunk('Categories/fetchData', async (_, thunkAPI) => {
   try {
-    const { data } = await axios.get(`${baseURl}categories`)
+    const { data } = await axios.get(`${baseURl}/categories`)
     return data
   } catch (error) {
     return thunkAPI.rejectWithValue(error)
@@ -36,7 +36,7 @@ export const removeCategory = createAsyncThunk(
   'Categories/removeCategoryBySlug',
   async (slug: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`${baseURl}categories/${slug}`)
+      const { data } = await axios.delete(`${baseURl}/categories/${slug}`)
       const { message } = data
       return { message, slug }
     } catch (error) {
@@ -50,7 +50,7 @@ export const addCategory = createAsyncThunk(
   'Categories/addCategory',
   async (category: Partial<Category>, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${baseURl}categories`, category)
+      const { data } = await axios.post(`${baseURl}/categories`, category)
       return data
     } catch (error) {
       return rejectWithValue(error)
@@ -63,7 +63,7 @@ export const updateCategory = createAsyncThunk(
   'Categories/updateCategory',
   async (category: Partial<Category>, thunkAPI) => {
     try {
-      const { data } = await axios.put(`${baseURl}categories/${category.slug}`, category)
+      const { data } = await axios.put(`${baseURl}/categories/${category.slug}`, category)
 
       return data
     } catch (error) {

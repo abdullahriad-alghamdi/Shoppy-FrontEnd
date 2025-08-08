@@ -46,7 +46,7 @@ const initialState: UserState = {
 // Get users
 export const fetchUsers = createAsyncThunk('users/fetchData', async (_, thunkAPI) => {
   try {
-    const { data } = await axios.get(`${baseURl}users`)
+    const { data } = await axios.get(`${baseURl}/users`)
     return data
   } catch (error) {
     return thunkAPI.rejectWithValue(error)
@@ -56,7 +56,7 @@ export const fetchUsers = createAsyncThunk('users/fetchData', async (_, thunkAPI
 // Delete user
 export const deleteUser = createAsyncThunk('users/deleteUser', async (slug: string, thunkAPI) => {
   try {
-    const { data } = await axios.delete(`${baseURl}users/${slug}`)
+    const { data } = await axios.delete(`${baseURl}/users/${slug}`)
     const { message } = data
     return { slug, message }
   } catch (error) {
@@ -67,7 +67,7 @@ export const deleteUser = createAsyncThunk('users/deleteUser', async (slug: stri
 // Grant a Role
 export const grantRole = createAsyncThunk('users/grantRole', async (id: string, thunkAPI) => {
   try {
-    const { data } = await axios.put(`${baseURl}users/role/${id}`)
+    const { data } = await axios.put(`${baseURl}/users/role/${id}`)
     const { message } = data
 
     return { id, message }
@@ -79,7 +79,7 @@ export const grantRole = createAsyncThunk('users/grantRole', async (id: string, 
 // Ban unban user
 export const banStatus = createAsyncThunk('users/banUser', async (id: string, thunkAPI) => {
   try {
-    const { data } = await axios.put(`${baseURl}users/banStatus/${id}`)
+    const { data } = await axios.put(`${baseURl}/users/banStatus/${id}`)
     const { message } = data
 
     return { id, message }
@@ -93,7 +93,7 @@ export const loginUser = createAsyncThunk(
   'users/login',
   async ({ email, password }: { email: string; password: string }, thunkAPI) => {
     try {
-      const { data } = await axios.post(`${baseURl}auth/login`, { email, password })
+      const { data } = await axios.post(`${baseURl}/auth/login`, { email, password })
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -104,7 +104,7 @@ export const loginUser = createAsyncThunk(
 //Logout user
 export const logoutUser = createAsyncThunk('users/logout', async (_, thunkAPI) => {
   try {
-    const { data } = await axios.post(`${baseURl}auth/logout`)
+    const { data } = await axios.post(`${baseURl}/auth/logout`)
     return data
   } catch (error) {
     return thunkAPI.rejectWithValue(error)
@@ -116,7 +116,7 @@ export const registerUser = createAsyncThunk(
   'users/register',
   async (formData: FormData, thunkAPI) => {
     try {
-      const { data } = await axios.post(`${baseURl}users/register`, formData)
+      const { data } = await axios.post(`${baseURl}/users/register`, formData)
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -127,7 +127,7 @@ export const registerUser = createAsyncThunk(
 //activate user
 export const activateUser = createAsyncThunk('users/activate', async (token: string, thunkAPI) => {
   try {
-    const { data } = await axios.post(`${baseURl}users/activate`, { token })
+    const { data } = await axios.post(`${baseURl}/users/activate`, { token })
     return data
   } catch (error) {
     return thunkAPI.rejectWithValue(error)
@@ -139,7 +139,7 @@ export const forgotPassword = createAsyncThunk(
   'users/forgotPassword',
   async (email: string, thunkAPI) => {
     try {
-      const { data } = await axios.post(`${baseURl}users/forgot-password`, { email })
+      const { data } = await axios.post(`${baseURl}/users/forgot-password`, { email })
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -152,7 +152,7 @@ export const resetPassword = createAsyncThunk(
   'users/resetPassword',
   async ({ token, newPassword }: { token: string; newPassword: string }, thunkAPI) => {
     try {
-      const { data } = await axios.post(`${baseURl}users/reset-password`, { token, newPassword })
+      const { data } = await axios.post(`${baseURl}/users/reset-password`, { token, newPassword })
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -164,7 +164,7 @@ export const editInfo = createAsyncThunk(
   'users/editInfo',
   async (info: { _id: string; formData: FormData }, thunkAPI) => {
     try {
-      const { data } = await axios.put(`${baseURl}users/updateMe/${info._id}`, info.formData)
+      const { data } = await axios.put(`${baseURl}/users/updateMe/${info._id}`, info.formData)
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)

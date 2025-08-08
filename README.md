@@ -57,7 +57,7 @@ The app uses mock data from `public/mock/e-commerce/` for local development. In 
    yarn dev
    ```
 
-   The app will be available at `http://localhost:5173` (default Vite port).
+   The app will be available at `http://localhost:3003`.
 
 5. **Build for production:**
    ```bash

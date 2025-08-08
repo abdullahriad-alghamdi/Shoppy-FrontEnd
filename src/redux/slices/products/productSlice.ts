@@ -57,7 +57,7 @@ export const fetchAllProducts = createAsyncThunk(
   'Products/fetchAllData',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${baseURl}products/?page=1&limit=4`)
+      const { data } = await axios.get(`${baseURl}/products/?page=1&limit=4`)
 
       return data
     } catch (error) {
@@ -72,7 +72,7 @@ export const fetchProducts = createAsyncThunk(
   async (pagination: Partial<queries>, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `${baseURl}products/?page=${pagination.page}&limit=${pagination.limit}&categoryId=${pagination.categoryID}&search=${pagination.searchTerm}&sort=${pagination.sortValue}`
+        `${baseURl}/products/?page=${pagination.page}&limit=${pagination.limit}&categoryId=${pagination.categoryID}&search=${pagination.searchTerm}&sort=${pagination.sortValue}`
       )
 
       return data
@@ -87,7 +87,7 @@ export const findProductById = createAsyncThunk(
   'Products/fetchSingleProduct',
   async (slug: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${baseURl}products/${slug}`)
+      const { data } = await axios.get(`${baseURl}/products/${slug}`)
       return data
     } catch (error) {
       return rejectWithValue(error)
@@ -100,7 +100,7 @@ export const fetchProductsByCategory = createAsyncThunk(
   'Products/fetchDataByCategory',
   async (categoryId: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${baseURl}products/?categoryId=${categoryId}`)
+      const { data } = await axios.get(`${baseURl}/products/?categoryId=${categoryId}`)
       return data
     } catch (error) {
       return rejectWithValue(error)
@@ -113,7 +113,7 @@ export const addProduct = createAsyncThunk(
   'Products/addProduct',
   async (FormData: FormData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`${baseURl}products`, FormData)
+      const { data } = await axios.post(`${baseURl}/products`, FormData)
       return data
     } catch (error) {
       return rejectWithValue(error)
@@ -127,7 +127,7 @@ export const updateProduct = createAsyncThunk(
   async (updatedProduct: { formData: FormData; slug: string }, thunkAPI) => {
     try {
       const { data } = await axios.put(
-        `${baseURl}products/${updatedProduct.slug}`,
+        `${baseURl}/products/${updatedProduct.slug}`,
         updatedProduct.formData
       )
       return data
@@ -142,7 +142,7 @@ export const removeProduct = createAsyncThunk(
   'Products/deleteProduct',
   async (slug: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`${baseURl}products/${slug}`)
+      const { data } = await axios.delete(`${baseURl}/products/${slug}`)
       return { data, slug }
     } catch (error) {
       return rejectWithValue(error)

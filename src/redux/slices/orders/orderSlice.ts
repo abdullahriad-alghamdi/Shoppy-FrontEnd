@@ -65,7 +65,7 @@ export const fetchOrders = createAsyncThunk(
   'orders/fetchOrders',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${baseURl}orders/all-orders`)
+      const { data } = await axios.get(`${baseURl}/orders/all-orders`)
       return data
     } catch (error) {
       return rejectWithValue(error)
@@ -77,7 +77,7 @@ export const singleOrder = createAsyncThunk(
   'orders/singleOrder',
   async (id: string, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${baseURl}orders/user-order/${id}`)
+      const { data } = await axios.get(`${baseURl}/orders/user-order/${id}`)
       return data
     } catch (error) {
       return rejectWithValue(error)
